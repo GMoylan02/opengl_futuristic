@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include <skybox.h>
 
 // GLTF model loader
 #define TINYGLTF_IMPLEMENTATION
@@ -651,6 +652,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 
 void processInput(GLFWwindow* window, float deltaTime) {
 	float velocity = cameraSpeed * deltaTime;
+	//std::cout << glm::to_string(cameraPos) << std::endl;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		cameraPos += velocity * cameraFront;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -707,6 +709,11 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
+	// Skybox setup
+	SkyBox skybox;
+	skybox.initialize(glm::vec3(0,0,0), glm::vec3(200,200,200));
+
+
 	// Our 3D character
 	MyBot bot;
 	bot.initialize();
@@ -747,6 +754,7 @@ int main(void)
 		// Rendering
 		viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		glm::mat4 vp = projectionMatrix * viewMatrix;
+		skybox.render(vp);	//render skybox
 		bot.render(vp);
 
 		// FPS tracking 
@@ -772,6 +780,7 @@ int main(void)
 
 	// Clean up
 	bot.cleanup();
+	skybox.cleanup();
 
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
