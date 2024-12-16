@@ -25,7 +25,6 @@ static GLFWwindow *window;
 static int windowWidth = 1024;
 static int windowHeight = 768;
 
-static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mode);
 
 // Camera
 static glm::vec3 eye_center(0.0f, 100.0f, 300.0f);
@@ -40,6 +39,7 @@ float pitch = 0.0f; // Vertical angle
 float lastX = 400.0f; // Initial mouse X position (center of the screen)
 float lastY = 300.0f; // Initial mouse Y position
 float sensitivity = 0.1f; // Mouse sensitivity
+float cameraSpeed = 150.0f;
 bool firstMouse = true; // To ignore the large delta on first input
 
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -649,6 +649,23 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 }
 
 
+void processInput(GLFWwindow* window, float deltaTime) {
+	float velocity = cameraSpeed * deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		cameraPos += velocity * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		cameraPos -= velocity * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * velocity;
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * velocity;
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		cameraPos += velocity * cameraUp;
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		cameraPos -= velocity * cameraUp;
+
+}
+
 int main(void)
 {
 	// Initialise GLFW
@@ -673,9 +690,6 @@ int main(void)
 	}
 	glfwMakeContextCurrent(window);
 
-	// Ensure we can capture the escape key being pressed below
-	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-	glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -707,6 +721,7 @@ int main(void)
 	float fTime = 0.0f;			// Time for measuring fps
 	unsigned long frames = 0;
 
+
 	// Main loop
 	do
 	{
@@ -716,11 +731,18 @@ int main(void)
         double currentTime = glfwGetTime();
         float deltaTime = float(currentTime - lastTime);
 		lastTime = currentTime;
+		if (deltaTime <= 0.0f) {
+			deltaTime = 0.01f;
+		}
 
 		if (playAnimation) {
 			time += deltaTime * playbackSpeed;
 			bot.update(time);
 		}
+
+		processInput(window, deltaTime);
+
+		//std::cout << "Camera Position: " << glm::to_string(cameraPos) << std::endl;
 
 		// Rendering
 		viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
@@ -757,29 +779,9 @@ int main(void)
 	return 0;
 }
 
-static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mode)
-{
-	if (key == GLFW_KEY_UP && action == GLFW_PRESS)
-	{
-		playbackSpeed += 1.0f;
-		if (playbackSpeed > 10.0f) 
-			playbackSpeed = 10.0f;
-	}
 
-	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
-	{
-		playbackSpeed -= 1.0f;
-		if (playbackSpeed < 1.0f) {
-			playbackSpeed = 1.0f;
-		}
-	}
 
-	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-		playAnimation = !playAnimation;
-	}
 
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
-}
+
 
 
