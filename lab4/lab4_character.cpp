@@ -47,6 +47,12 @@ glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 
+//tmp
+// View control
+static float viewAzimuth = 0.f;
+static float viewPolar = 0.f;
+static float viewDistance = 300.0f;
+
 // Lighting  
 static glm::vec3 lightIntensity(5e6f, 5e6f, 5e6f);
 static glm::vec3 lightPosition(-275.0f, 500.0f, 800.0f);
@@ -407,7 +413,7 @@ struct MyBot {
 
 	void initialize() {
 		// Modify your path if needed
-		if (!loadModel(model, "../lab4/model/bot/bot.gltf")) {
+		if (!loadModel(model, "../lab4/assets/tree_small_02_1k.gltf")) {
 			return;
 		}
 
@@ -694,6 +700,7 @@ int main(void)
 
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	// Load OpenGL functions, gladLoadGL returns the loaded version, 0 on error.
 	int version = gladLoadGL(glfwGetProcAddress);
@@ -709,22 +716,34 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	// Skybox setup
-	SkyBox skybox;
-	skybox.initialize(glm::vec3(0,0,0), glm::vec3(200,200,200));
+	// Skybox setu
 
 
 	// Our 3D character
-	MyBot bot;
-	bot.initialize();
+	//MyBot bot;
+	//bot.initialize();
+
+	SkyBox skybox;
+	skybox.initialize(glm::vec3(0,0,0), glm::vec3(200,200,200));
+
+	//tmp
+	eye_center.y = viewDistance * cos(viewPolar);
+	eye_center.x = viewDistance * cos(viewAzimuth);
+	eye_center.z = viewDistance * sin(viewAzimuth);
+
+	glm::mat4 viewMatrix, projectionMatrix;
+	glm::float32 FoV = 45;
+	glm::float32 zNear = 0.1f;
+	glm::float32 zFar = 1000.0f;
+	projectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, zNear, zFar);
 
 	// Camera setup
-    glm::mat4 viewMatrix, projectionMatrix;
-	projectionMatrix = glm::perspective(glm::radians(FoV), (float)windowWidth / windowHeight, zNear, zFar);
+    //glm::mat4 viewMatrix, projectionMatrix;
+	//projectionMatrix = glm::perspective(glm::radians(FoV), (float)windowWidth / windowHeight, zNear, zFar);
 
 	// Time and frame rate tracking
 	static double lastTime = glfwGetTime();
-	float time = 0.0f;			// Animation time 
+	float time = 0.0f;			// Animation time
 	float fTime = 0.0f;			// Time for measuring fps
 	unsigned long frames = 0;
 
@@ -733,6 +752,7 @@ int main(void)
 	do
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 		// Update states for animation
         double currentTime = glfwGetTime();
@@ -744,28 +764,36 @@ int main(void)
 
 		if (playAnimation) {
 			time += deltaTime * playbackSpeed;
-			bot.update(time);
+			//bot.update(time);
 		}
 
 		processInput(window, deltaTime);
+
 
 		//std::cout << "Camera Position: " << glm::to_string(cameraPos) << std::endl;
 
 		// Rendering
 		viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		glm::mat4 vp = projectionMatrix * viewMatrix;
-		skybox.render(vp);	//render skybox
-		bot.render(vp);
+		//bot.render(vp);
+		glDisable(GL_CULL_FACE); // Temporarily disable face culling
+		glDepthFunc(GL_LEQUAL); // Change depth function to pass when values are <= current depth
+		skybox.render(vp);
+		glEnable(GL_CULL_FACE);  // Re-enable face culling
+		glDepthFunc(GL_LESS); // Reset depth function back to default
+		//skybox.render(vp);	//render skybox
 
-		// FPS tracking 
+		// FPS tracking
 		// Count number of frames over a few seconds and take average
+
+
 		frames++;
 		fTime += deltaTime;
-		if (fTime > 2.0f) {		
+		if (fTime > 2.0f) {
 			float fps = frames / fTime;
 			frames = 0;
 			fTime = 0;
-			
+
 			std::stringstream stream;
 			stream << std::fixed << std::setprecision(2) << "Lab 4 | Frames per second (FPS): " << fps;
 			glfwSetWindowTitle(window, stream.str().c_str());
@@ -779,7 +807,7 @@ int main(void)
 	while (!glfwWindowShouldClose(window));
 
 	// Clean up
-	bot.cleanup();
+	//bot.cleanup();
 	skybox.cleanup();
 
 	// Close OpenGL window and terminate GLFW

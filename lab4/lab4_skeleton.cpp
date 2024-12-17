@@ -498,7 +498,7 @@ struct MyBot {
         skeleton.initialize();
 	}
 
-	void render(glm::mat4 cameraMatrix) {
+	void render(const glm::mat4 &cameraMatrix) {
 
         const tinygltf::Skin &skin = model.skins[0];
         skeleton.renderSkeleton(model, skin, globalTransforms, cameraMatrix);

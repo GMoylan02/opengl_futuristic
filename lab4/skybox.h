@@ -150,7 +150,7 @@ struct SkyBox {
     GLuint textureID;
     GLuint mvpMatrixID;
     GLuint textureSamplerID;
-    GLuint programID;
+    GLuint skybox_program_id;
     void initialize(glm::vec3 position, glm::vec3 scale);
     void render(glm::mat4 cameraMatrix);
     void cleanup();

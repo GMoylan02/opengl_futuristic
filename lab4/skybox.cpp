@@ -42,8 +42,6 @@ GLuint LoadTextureTileBox(const char *texture_file_path) {
 	return texture;
 }
 
-
-
 void SkyBox::initialize(glm::vec3 position, glm::vec3 scale) {
 	// Define scale of the building geometry
 	this->position = position;
@@ -83,14 +81,14 @@ GL_STATIC_DRAW);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index_buffer_data), index_buffer_data, GL_STATIC_DRAW);
 
 	// Create and compile our GLSL program from the shaders
-	programID = LoadShadersFromFile("../lab4/skybox.vert", "../lab4/skybox.frag");
-	if (programID == 0)
+	skybox_program_id = LoadShadersFromFile("../lab4/skybox.vert", "../lab4/skybox.frag");
+	if (skybox_program_id == 0)
 	{
 		std::cerr << "Failed to load shaders." << std::endl;
 	}
 
 	// Get a handle for our "MVP" uniform
-	mvpMatrixID = glGetUniformLocation(programID, "MVP");
+	mvpMatrixID = glGetUniformLocation(skybox_program_id, "MVP");
 
     // TODO: Load a texture
     // --------------------
@@ -100,11 +98,11 @@ GL_STATIC_DRAW);
     // TODO: Get a handle to texture sampler
     // -------------------------------------
     // -------------------------------------
-	textureSamplerID = glGetUniformLocation(programID,"textureSampler");
+	textureSamplerID = glGetUniformLocation(skybox_program_id,"textureSampler");
 }
 
 void SkyBox::render(glm::mat4 cameraMatrix) {
-	glUseProgram(programID);
+	glUseProgram(skybox_program_id);
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
@@ -162,5 +160,5 @@ void SkyBox::cleanup() {
 	glDeleteVertexArrays(1, &vertexArrayID);
 	//glDeleteBuffers(1, &uvBufferID);
 	//glDeleteTextures(1, &textureID);
-	glDeleteProgram(programID);
+	glDeleteProgram(skybox_program_id);
 }
