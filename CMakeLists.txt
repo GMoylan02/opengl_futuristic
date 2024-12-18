@@ -19,8 +19,7 @@ include_directories(
 )
 
 add_executable(lab4_skeleton
-	lab4/lab4_skeleton.cpp
-	lab4/render/shader.cpp
+		lab4/render/shader.cpp
 )
 target_link_libraries(lab4_skeleton
 	${OPENGL_LIBRARY}
@@ -35,6 +34,8 @@ add_executable(lab4_character
 		lab4/skybox.h
 		lab4/asset.cpp
 		lab4/asset.h
+		lab4/cube.cpp
+		lab4/cube.h
 )
 target_link_libraries(lab4_character
 	${OPENGL_LIBRARY}
