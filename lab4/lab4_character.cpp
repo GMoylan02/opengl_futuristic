@@ -159,7 +159,7 @@ int main(void)
 	glEnable(GL_CULL_FACE);
 
 	SkyBox skybox;
-	skybox.initialize(glm::vec3(0,0,0), glm::vec3(500,500,500));
+	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
 
 	//SkyBox test;
 	//test.initialize(glm::vec3(0,0,0), glm::vec3(10,10,10));
@@ -185,7 +185,8 @@ int main(void)
 	unsigned long frames = 0;
 
 	//test light source
-	lights.emplace_back(glm::vec3(5e6f, 5e6f, 5e6f), glm::vec3(-275.0f, 500.0f, 800.0f));
+	lights.emplace_back(glm::vec3(0.5, 0.5, 0.5), glm::vec3(-275.0f, 200.0f, 200.0f));
+	Cube lightSource(glm::vec3(-275.0f, 200.0f, 200.0f), glm::vec3(5, 5, 5), "../lab4/assets/debug.png");
 
 
 	// Main loop
@@ -216,17 +217,22 @@ int main(void)
 		viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		glm::mat4 vp = projectionMatrix * viewMatrix;
 		skybox.position = cameraPos;
-
+		// FPS tracking
+		// Count number of frames over a few seconds and take average
+		//test.render(vp);
+		glDepthMask(GL_FALSE); // Disable depth writes
+		skybox.render(vp);     // Render the skybox
+		glDepthMask(GL_TRUE);  // Re-enable depth writes
+		c1.render(vp);
+		ground.render(vp);
+		lightSource.render(vp);
+		/*
 		glDisable(GL_CULL_FACE); // Temporarily disable face culling
 		glDepthFunc(GL_LEQUAL); // Change depth function to pass when values are <= current depth
 		skybox.render(vp);
 		glEnable(GL_CULL_FACE);  // Re-enable face culling
 		glDepthFunc(GL_LESS); // Reset depth function back to default
-		// FPS tracking
-		// Count number of frames over a few seconds and take average
-		//test.render(vp);
-		c1.render(vp);
-		ground.render(vp);
+		*/
 
 		frames++;
 		fTime += deltaTime;

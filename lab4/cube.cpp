@@ -88,21 +88,26 @@ void Cube::render(glm::mat4 cameraMatrix) {
     glm::mat4 mvp = cameraMatrix * modelMatrix;
     glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &mvp[0][0]);
 
-    //this may not be super efficient to do on each frame
-    //todo fix later
-    std::vector<glm::vec3> positions;
-    std::vector<glm::vec3> intensities;
 
-    for (const auto& light : lights) {
-        positions.push_back(light.lightPosition);
-        intensities.push_back(light.lightIntensity);
+    int numLights = lights.size();
+
+    if (numLights == 0) {
+        glm::vec3 ambientColor = glm::vec3(0.2f, 0.2f, 0.2f); // Dim gray light
+        glUniform3fv(glGetUniformLocation(programID, "ambientColor"), 1, &ambientColor[0]);
     }
 
-    // Set light data
-    const int lightSize = static_cast<int>(lights.size());
-    glUniform1i(numLights, lightSize);
-    glUniform3fv(lightPositionID, positions.size(), glm::value_ptr(positions[0]));
-    glUniform3fv(lightIntensityID, intensities.size(), glm::value_ptr(intensities[0]));
+    glUniform1i(glGetUniformLocation(programID, "numLights"), numLights);
+
+    // Upload light positions and intensities only if numLights > 0
+    if (numLights > 0) {
+        std::vector<glm::vec3> lightPositions, lightIntensities;
+        for (const auto& light : lights) {
+            lightPositions.push_back(light.lightPosition);
+            lightIntensities.push_back(light.lightIntensity);
+        }
+        glUniform3fv(glGetUniformLocation(programID, "lightPositions"), numLights, &lightPositions[0][0]);
+        glUniform3fv(glGetUniformLocation(programID, "lightIntensities"), numLights, &lightIntensities[0][0]);
+    }
 
     // TODO: Enable UV buffer and texture sampler
     // ------------------------------------------

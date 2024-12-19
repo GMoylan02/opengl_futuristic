@@ -81,7 +81,7 @@ GL_STATIC_DRAW);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index_buffer_data), index_buffer_data, GL_STATIC_DRAW);
 
 	// Create and compile our GLSL program from the shaders
-	skybox_program_id = LoadShadersFromFile("../lab4/shader/cube.vert", "../lab4/shader/cube.frag");
+	skybox_program_id = LoadShadersFromFile("../lab4/shader/skybox.vert", "../lab4/shader/skybox.frag");
 	if (skybox_program_id == 0)
 	{
 		std::cerr << "Failed to load shaders." << std::endl;
