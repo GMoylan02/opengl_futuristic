@@ -36,6 +36,7 @@ add_executable(lab4_character
 		lab4/asset.h
 		lab4/cube.cpp
 		lab4/cube.h
+		lab4/light.h
 )
 target_link_libraries(lab4_character
 	${OPENGL_LIBRARY}

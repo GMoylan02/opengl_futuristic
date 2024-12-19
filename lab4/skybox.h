@@ -110,38 +110,43 @@ struct SkyBox {
 		20, 23,22
 	};
 
-	GLfloat uv_buffer_data[48] = {
-		// Front neg z
-		1.0f, 0.667f,		//bottom right
-		0.75f, 0.667f,		//bottom left
-		0.75f, 0.334f,		//top left
-		1.0f, 0.334f,		//top right
-		// Back pos z
-		0.5f, 0.667f,		//bottom right
-		0.25f, 0.667f,		//bottom left
-		 0.25f, 0.334f,		//top left
-		0.5f, 0.335f,		//top right
-		 // Left neg x
-		 0.75f, 0.667f,		//bottom right
-		 0.5f, 0.667f,		//bottom left
-		 0.5f, 0.334f,		//top left
-		 0.75f, 0.334f,		//top right
-		 // Right pos x
-		 0.25f, 0.667f,		//bottom right
-		 0.0f, 0.667f,		//bottom left
-		 0.0f, 0.334f,		//top left
-		 0.25f, 0.334f,		//top right
-		 // Top - pos y
-		 0.5f, 0.334f,		//bottom right
-		 0.25f, 0.334f,		//bottom left
-		 0.25f, 0.0f,		//top left
-		 0.5f, 0.0f,		//top right
-		 // Bottom - neg y
-		 0.5f, 1.0f,		//bottom right
-		 0.25f, 1.0f,		//bottom left
-		 0.25f, 0.665f,		//top left
-		 0.5f, 0.665f,		//top right
-		 };
+		GLfloat uv_buffer_data[48] = {
+			// Front (+Z)
+			0.5f, 0.666f,
+			0.25f, 0.666f,
+			0.25f, 0.333f,
+			0.5f, 0.333f,
+
+			// Back (-Z)
+			1.0f, 0.665f,
+			0.75f, 0.665f,
+			0.75f, 0.334f,
+			1.0f, 0.334f,
+
+			// Left (+X)
+			0.75f, 0.665f,
+			0.5f, 0.665f,
+			0.5f, 0.334f,
+			0.75f, 0.334f,
+
+			// Right (-X)
+			0.25f, 0.665f,
+			0.0f, 0.665f,
+			0.0f, 0.334f,
+			0.25f, 0.334f,
+
+			// Top (+Y)
+			0.499f, 0.333f,
+			0.251f, 0.333f,
+			0.251f, 0.0f,
+			0.499f, 0.0f,
+
+			// Bottom (-Y)
+			0.499f, 1.0,
+			0.251f, 1.0f,
+			0.251f, 0.666f,
+			0.499f, 0.666f
+		};
     GLuint vertexArrayID;
     GLuint vertexBufferID;
     GLuint indexBufferID;

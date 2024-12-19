@@ -3,15 +3,17 @@
 // Input
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec3 vertexColor;
+layout(location = 2) in vec3 vertexNormal;
 
 // Output data, to be interpolated for each fragment
 out vec3 color;
+out vec3 worldPosition;
+out vec3 worldNormal;
+out vec4 FragPosLightSpace;
 
 layout(location = 2) in vec2 vertexUV;
 out vec2 uv;
-
 // TODO: To add UV to this vertex shader
-
 
 // Matrix for vertex transformation
 uniform mat4 MVP;
@@ -25,4 +27,9 @@ void main() {
 
     // TODO: Pass UV to the fragment shader
     uv = vertexUV;
+
+    worldPosition = vertexPosition;
+    worldNormal = vertexNormal;
+    FragPosLightSpace = vec4(vertexPosition, 1.0);
 }
+

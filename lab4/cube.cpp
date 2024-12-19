@@ -14,8 +14,12 @@
 #define _USE_MATH_DEFINES
 #include <cube.h>
 
+
 #include <math.h>
 #include <skybox.h>
+#include <glm/gtc/type_ptr.inl>
+
+#include <light.h>
 
 Cube::Cube(glm::vec3 position, glm::vec3 scale, const char *texture_file_path) {
     this->position = position;
@@ -34,6 +38,11 @@ Cube::Cube(glm::vec3 position, glm::vec3 scale, const char *texture_file_path) {
     glBindBuffer(GL_ARRAY_BUFFER, colorBufferID);
     glBufferData(GL_ARRAY_BUFFER, sizeof(color_buffer_data), color_buffer_data, GL_STATIC_DRAW);
 
+    // Create a vertex buffer object to store the vertex normals
+    glGenBuffers(1, &normalBufferID);
+    glBindBuffer(GL_ARRAY_BUFFER, normalBufferID);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(normal_buffer_data), normal_buffer_data, GL_STATIC_DRAW);
+
     glGenBuffers(1, &uvBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, uvBufferID);
     glBufferData(GL_ARRAY_BUFFER, sizeof(uv_buffer_data), uv_buffer_data,
@@ -50,8 +59,11 @@ GL_STATIC_DRAW);
         std::cerr << "Failed to load shaders." << std::endl;
     }
     mvpMatrixID = glGetUniformLocation(programID, "MVP");
+    lightPositionID = glGetUniformLocation(programID, "lightPosition");
+    lightIntensityID = glGetUniformLocation(programID, "lightIntensity");
     textureID = LoadTextureTileBox(texture_file_path);
     textureSamplerID = glGetUniformLocation(programID,"textureSampler");
+    numLights = glGetUniformLocation(programID, "numLights");
 }
 
 void Cube::render(glm::mat4 cameraMatrix) {
@@ -65,6 +77,10 @@ void Cube::render(glm::mat4 cameraMatrix) {
     glBindBuffer(GL_ARRAY_BUFFER, colorBufferID);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+    glEnableVertexAttribArray(2);
+    glBindBuffer(GL_ARRAY_BUFFER, normalBufferID);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
     glm::mat4 modelMatrix = glm::mat4();
     modelMatrix = glm::translate(modelMatrix, position);
@@ -72,12 +88,28 @@ void Cube::render(glm::mat4 cameraMatrix) {
     glm::mat4 mvp = cameraMatrix * modelMatrix;
     glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &mvp[0][0]);
 
+    //this may not be super efficient to do on each frame
+    //todo fix later
+    std::vector<glm::vec3> positions;
+    std::vector<glm::vec3> intensities;
+
+    for (const auto& light : lights) {
+        positions.push_back(light.lightPosition);
+        intensities.push_back(light.lightIntensity);
+    }
+
+    // Set light data
+    const int lightSize = static_cast<int>(lights.size());
+    glUniform1i(numLights, lightSize);
+    glUniform3fv(lightPositionID, positions.size(), glm::value_ptr(positions[0]));
+    glUniform3fv(lightIntensityID, intensities.size(), glm::value_ptr(intensities[0]));
+
     // TODO: Enable UV buffer and texture sampler
     // ------------------------------------------
     // ------------------------------------------
-    glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(3);
     glBindBuffer(GL_ARRAY_BUFFER, uvBufferID);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Set textureSampler to use texture unit 0
     glActiveTexture(GL_TEXTURE0);

@@ -141,6 +141,43 @@ class Cube {
          1.0f, 0.0f,
          0.0f, 0.0f,
          };
+
+    GLfloat normal_buffer_data[72] = {
+        0.0f, 0.0f, 1.0f, // Normal for the first vertex
+0.0f, 0.0f, 1.0f, // Normal for the second vertex
+0.0f, 0.0f, 1.0f, // Normal for the third vertex
+0.0f, 0.0f, 1.0f, // Normal for the fourth vertex
+
+        // Back face (z = -1)
+0.0f, 0.0f, -1.0f, // Normal for the first vertex
+0.0f, 0.0f, -1.0f, // Normal for the second vertex
+0.0f, 0.0f, -1.0f, // Normal for the third vertex
+0.0f, 0.0f, -1.0f, // Normal for the fourth vertex
+
+        // Left face (x = -1)
+        -1.0f, 0.0f, 0.0f, // Normal for the first vertex
+        -1.0f, 0.0f, 0.0f, // Normal for the second vertex
+        -1.0f, 0.0f, 0.0f, // Normal for the third vertex
+        -1.0f, 0.0f, 0.0f, // Normal for the fourth vertex
+
+        // Right face (x = 1)
+        1.0f, 0.0f, 0.0f, // Normal for the first vertex
+        1.0f, 0.0f, 0.0f, // Normal for the second vertex
+        1.0f, 0.0f, 0.0f, // Normal for the third vertex
+        1.0f, 0.0f, 0.0f, // Normal for the fourth vertex
+
+        // Top face (y = 1)
+        0.0f, 1.0f, 0.0f, // Normal for the first vertex
+        0.0f, 1.0f, 0.0f, // Normal for the second vertex
+        0.0f, 1.0f, 0.0f, // Normal for the third vertex
+        0.0f, 1.0f, 0.0f, // Normal for the fourth vertex
+
+        // Bottom face (y = -1)
+        0.0f, -1.0f, 0.0f, // Normal for the first vertex
+        0.0f, -1.0f, 0.0f, // Normal for the second vertex
+        0.0f, -1.0f, 0.0f, // Normal for the third vertex
+        0.0f, -1.0f, 0.0f  // Normal for the fourth vertex
+    };
         GLuint vertexArrayID;
         GLuint vertexBufferID;
         GLuint indexBufferID;
@@ -150,6 +187,13 @@ class Cube {
         GLuint mvpMatrixID;
         GLuint textureSamplerID;
         GLuint programID;
+
+    GLuint normalBufferID;
+    GLuint numLights;
+
+    GLuint lightPositionID;
+    GLuint lightIntensityID;
+    glm::mat4 lightSpaceMatrix;
     Cube(glm::vec3 position, glm::vec3 scale, const char *texture_file_path);
     void render(glm::mat4 cameraMatrix);
     void cleanup();

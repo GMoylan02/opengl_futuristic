@@ -19,8 +19,9 @@
 #define _USE_MATH_DEFINES
 #include <iomanip>
 #include <math.h>
+#include <light.h>
 
-#include "cube.h"
+#include <cube.h>
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -55,10 +56,7 @@ static float viewAzimuth = 0.f;
 static float viewPolar = 0.f;
 static float viewDistance = 300.0f;
 
-// Lighting  
-static glm::vec3 lightIntensity(5e6f, 5e6f, 5e6f);
-static glm::vec3 lightPosition(-275.0f, 500.0f, 800.0f);
-
+std::vector<Light> lights;
 
 // Animation 
 static bool playAnimation = true;
@@ -185,6 +183,9 @@ int main(void)
 	float time = 0.0f;			// Animation time
 	float fTime = 0.0f;			// Time for measuring fps
 	unsigned long frames = 0;
+
+	//test light source
+	lights.emplace_back(glm::vec3(5e6f, 5e6f, 5e6f), glm::vec3(-275.0f, 500.0f, 800.0f));
 
 
 	// Main loop
