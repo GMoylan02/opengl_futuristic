@@ -6,13 +6,46 @@
 #define ASSET_H
 //GLuint LoadTextureTileBox(const char *texture_file_path);
 
-/*
-struct Asset {
-    glm::vec3 position;
-    glm::vec3 scale;
-    GLfloat vertex_buffer_data[108];
-    GLfloat color_buffer_data[108];
+
+#include "tiny_gltf.h"
+
+struct MyBot {
+    // Shader variable IDs
+    GLuint mvpMatrixID;
+    GLuint lightPositionID;
+    GLuint lightIntensityID;
+    GLuint programID;
+
+    tinygltf::Model model;
+
+    struct PrimitiveObject {
+        GLuint vao{};
+        std::map<int, GLuint> vbos;
+        GLsizei indexCount{};
+        GLenum indexType{};
+        GLuint materialIndex{}; // Optional, for material handling later
+        GLuint textureID{};
+    };
+    std::vector<PrimitiveObject> primitiveObjects;
+
+    glm::mat4 getNodeTransform(const tinygltf::Node &node);
+
+    void computeGlobalNodeTransform(const tinygltf::Model &model,
+                                    int nodeIndex,
+                                    const glm::mat4 &parentTransform,
+                                    std::vector<glm::mat4> &globalTransforms);
+
+    bool loadModel(tinygltf::Model &model, const char *filename);
+
+    void initialize();
+
+    void bindMesh(std::vector<PrimitiveObject> &primitiveObjects,
+                  tinygltf::Model &model,
+                  tinygltf::Mesh &mesh);
+
+    std::vector<PrimitiveObject> bindModel(tinygltf::Model &model);
+
+    void render(const glm::mat4& mvpMatrix/*, const glm::vec3& lightPosition, const glm::vec3& lightIntensity*/);
 };
-*/
 
 #endif //ASSET_H

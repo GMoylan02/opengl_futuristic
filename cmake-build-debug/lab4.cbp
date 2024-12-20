@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="lab4"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\external\;CMake Files\external\glfw-3.1.2\;CMake Files\external\glfw-3.1.2\src\;CMake Files\external\glad-3.3\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="lab4_skeleton">
+				<Option output="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/lab4_skeleton.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/include"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glm-0.9.7.1"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-opengl-3.3/include"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/tinygltf-2.9.3"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/lab4"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 lab4_skeleton"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="lab4_skeleton/fast">
+				<Option output="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/lab4_skeleton.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/include"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glm-0.9.7.1"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-opengl-3.3/include"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/tinygltf-2.9.3"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/lab4"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 lab4_skeleton/fast"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="lab4_character">
+				<Option output="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/lab4_character.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/include"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glm-0.9.7.1"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-opengl-3.3/include"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/tinygltf-2.9.3"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/lab4"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 lab4_character"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="lab4_character/fast">
+				<Option output="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/lab4_character.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/include"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glm-0.9.7.1"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-opengl-3.3/include"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/tinygltf-2.9.3"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/lab4"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 lab4_character/fast"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glad">
+				<Option output="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/libglad.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glad-3.3"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glad-3.3/Makefile&quot;  VERBOSE=1 glad"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glad-3.3/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glad-3.3/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glad-3.3/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glad/fast">
+				<Option output="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/libglad.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glad-3.3"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glad-3.3/Makefile&quot;  VERBOSE=1 glad/fast"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glad-3.3/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glad-3.3/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glad-3.3/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw">
+				<Option output="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/glfw3.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUNICODE"/>
+					<Add option="-DWINVER=0x0501"/>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/include"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src/Makefile&quot;  VERBOSE=1 glfw"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw/fast">
+				<Option output="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/glfw3.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUNICODE"/>
+					<Add option="-DWINVER=0x0501"/>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/include"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src"/>
+					<Add directory="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src/Makefile&quot;  VERBOSE=1 glfw/fast"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/cmake-build-debug/external/glfw-3.1.2/src/glfw_config.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/include/glad/gl.h">
+			<Option target="glad"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/src/gl.c">
+			<Option target="glad"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/include/GLFW/glfw3.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/include/GLFW/glfw3native.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/input.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/internal.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/wgl_context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/wgl_context.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/win32_init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/win32_monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/win32_platform.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/win32_time.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/win32_tls.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/win32_tls.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/win32_window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/winmm_joystick.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/winmm_joystick.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/lab4/asset.cpp">
+			<Option target="lab4_character"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/lab4/asset.h">
+			<Option target="lab4_character"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/lab4/cube.cpp">
+			<Option target="lab4_character"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/lab4/cube.h">
+			<Option target="lab4_character"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/lab4/lab4_character.cpp">
+			<Option target="lab4_character"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/lab4/light.h">
+			<Option target="lab4_character"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/lab4/render/shader.cpp">
+			<Option target="lab4_skeleton"/>
+			<Option target="lab4_character"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/lab4/render/shader.h">
+			<Option target="lab4_skeleton"/>
+			<Option target="lab4_character"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/lab4/skybox.cpp">
+			<Option target="lab4_character"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/lab4/skybox.h">
+			<Option target="lab4_character"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\glfw-3.1.2\"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\glfw-3.1.2\src\"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\external\glfw-3.1.2\src\"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\external\glfw-3.1.2\src\"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glfw-3.1.2/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\external\glfw-3.1.2\src\"/>
+		</Unit>
+		<Unit filename="C:/Users/eyeba/repos/opengl_futuristic/external/glad-3.3/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\external\glad-3.3\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

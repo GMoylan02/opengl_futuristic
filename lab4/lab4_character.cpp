@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <skybox.h>
+#include <asset.h>
 
 // GLTF model loader
 #define TINYGLTF_IMPLEMENTATION
@@ -158,6 +159,9 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
+    MyBot tree;
+    tree.initialize();
+
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
 
@@ -226,6 +230,7 @@ int main(void)
 		c1.render(vp);
 		ground.render(vp);
 		lightSource.render(vp);
+        tree.render(vp);
 		/*
 		glDisable(GL_CULL_FACE); // Temporarily disable face culling
 		glDepthFunc(GL_LEQUAL); // Change depth function to pass when values are <= current depth

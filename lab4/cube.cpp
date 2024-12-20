@@ -93,7 +93,7 @@ void Cube::render(glm::mat4 cameraMatrix) {
 
     if (numLights == 0) {
         glm::vec3 ambientColor = glm::vec3(0.2f, 0.2f, 0.2f); // Dim gray light
-        glUniform3fv(glGetUniformLocation(programID, "ambientColor"), 1, &ambientColor[0]);
+        //glUniform3fv(glGetUniformLocation(programID, "ambientColor"), 1, &ambientColor[0]);
     }
 
     glUniform1i(glGetUniformLocation(programID, "numLights"), numLights);
