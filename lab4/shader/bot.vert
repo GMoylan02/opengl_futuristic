@@ -7,8 +7,8 @@ layout(location = 1) in vec3 vertexColor;
 // Output data, to be interpolated for each fragment
 out vec3 color;
 
-layout(location = 2) in vec2 vertexUV;
-out vec2 uv;
+//layout(location = 2) in vec2 vertexUV;
+//out vec2 uv;
 
 // TODO: To add UV to this vertex shader
 
@@ -24,5 +24,5 @@ void main() {
     color = vertexColor;
 
     // TODO: Pass UV to the fragment shader
-    uv = vertexUV;
+   // uv = vertexUV;
 }
