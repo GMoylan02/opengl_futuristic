@@ -165,7 +165,7 @@ int main(void)
 	//test.initialize(glm::vec3(0,0,0), glm::vec3(10,10,10));
 
 	Cube c1(glm::vec3(0,20,0), glm::vec3(10,10,10), "../lab4/assets/debug.png");
-	Cube ground(glm::vec3(0,0,0), glm::vec3(600, 0, 600), "../lab4/assets/ground.png");
+	Cube ground(glm::vec3(0,0,0), glm::vec3(900, 0, 600), "../lab4/assets/ground.png");
 
 	//tmp
 	eye_center.y = viewDistance * cos(viewPolar);
