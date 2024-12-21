@@ -21,6 +21,8 @@
 
 #include <light.h>
 
+#include "asset.h"
+
 Cube::Cube(glm::vec3 position, glm::vec3 scale, const char *texture_file_path) {
     this->position = position;
     this->scale = scale;
@@ -34,9 +36,6 @@ Cube::Cube(glm::vec3 position, glm::vec3 scale, const char *texture_file_path) {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_buffer_data), vertex_buffer_data, GL_STATIC_DRAW);
 
     // Create a vertex buffer object to store the color data
-    glGenBuffers(1, &colorBufferID);
-    glBindBuffer(GL_ARRAY_BUFFER, colorBufferID);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(color_buffer_data), color_buffer_data, GL_STATIC_DRAW);
 
     // Create a vertex buffer object to store the vertex normals
     glGenBuffers(1, &normalBufferID);
@@ -58,7 +57,10 @@ GL_STATIC_DRAW);
     {
         std::cerr << "Failed to load shaders." << std::endl;
     }
-    mvpMatrixID = glGetUniformLocation(programID, "MVP");
+    //mvpMatrixID = glGetUniformLocation(programID, "MVP");
+    modelMatrixID = glGetUniformLocation(programID, "model");
+    viewMatrixID = glGetUniformLocation(programID, "view");
+    projectionMatrixID = glGetUniformLocation(programID, "projection");
     lightPositionID = glGetUniformLocation(programID, "lightPosition");
     lightIntensityID = glGetUniformLocation(programID, "lightIntensity");
     textureID = LoadTextureTileBox(texture_file_path);
@@ -70,32 +72,41 @@ void Cube::render(glm::mat4 cameraMatrix) {
     glUseProgram(programID);
     glBindVertexArray(vertexArrayID);
 
+    // Position
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+    // Normal
     glEnableVertexAttribArray(1);
-    glBindBuffer(GL_ARRAY_BUFFER, colorBufferID);
+    glBindBuffer(GL_ARRAY_BUFFER, normalBufferID);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+    // UV
     glEnableVertexAttribArray(2);
-    glBindBuffer(GL_ARRAY_BUFFER, normalBufferID);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, uvBufferID);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
+
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    modelMatrix = glm::translate(modelMatrix, position);
+    modelMatrix = glm::scale(modelMatrix, scale);
+
+    glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, glm::value_ptr(cameraMatrix)); // Assume cameraMatrix is view
+    glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix)); // Pass the projection matrix
+
+    /*
     glm::mat4 modelMatrix = glm::mat4();
     modelMatrix = glm::translate(modelMatrix, position);
     modelMatrix = glm::scale(modelMatrix, scale);
     glm::mat4 mvp = cameraMatrix * modelMatrix;
     glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &mvp[0][0]);
+    */
 
 
     int numLights = lights.size();
-
-    if (numLights == 0) {
-        glm::vec3 ambientColor = glm::vec3(0.2f, 0.2f, 0.2f); // Dim gray light
-        //glUniform3fv(glGetUniformLocation(programID, "ambientColor"), 1, &ambientColor[0]);
-    }
 
     glUniform1i(glGetUniformLocation(programID, "numLights"), numLights);
 
@@ -109,13 +120,7 @@ void Cube::render(glm::mat4 cameraMatrix) {
         glUniform3fv(glGetUniformLocation(programID, "lightPositions"), numLights, &lightPositions[0][0]);
         glUniform3fv(glGetUniformLocation(programID, "lightIntensities"), numLights, &lightIntensities[0][0]);
     }
-
-    // TODO: Enable UV buffer and texture sampler
-    // ------------------------------------------
-    // ------------------------------------------
-    glEnableVertexAttribArray(3);
-    glBindBuffer(GL_ARRAY_BUFFER, uvBufferID);
-    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glUniform3fv(glGetUniformLocation(programID, "viewPos"), 1, glm::value_ptr(cameraPos));
 
     // Set textureSampler to use texture unit 0
     glActiveTexture(GL_TEXTURE0);

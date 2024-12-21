@@ -30,6 +30,8 @@ static GLFWwindow *window;
 static int windowWidth = 1024;
 static int windowHeight = 768;
 
+glm::mat4 projectionMatrix;
+
 
 // Camera
 static glm::vec3 eye_center(0.0f, 100.0f, 300.0f);
@@ -169,14 +171,14 @@ int main(void)
 	//test.initialize(glm::vec3(0,0,0), glm::vec3(10,10,10));
 
 	Cube c1(glm::vec3(0,20,0), glm::vec3(10,10,10), "../lab4/assets/debug.png");
-	Cube ground(glm::vec3(0,0,0), glm::vec3(900, 0, 600), "../lab4/assets/ground.png");
+	Cube ground(glm::vec3(0,0,0), glm::vec3(900, 1, 600), "../lab4/assets/ground.png");
 
 	//tmp
 	eye_center.y = viewDistance * cos(viewPolar);
 	eye_center.x = viewDistance * cos(viewAzimuth);
 	eye_center.z = viewDistance * sin(viewAzimuth);
 
-	glm::mat4 viewMatrix, projectionMatrix;
+	glm::mat4 viewMatrix;
 	glm::float32 FoV = 45;
 	glm::float32 zNear = 0.1f;
 	glm::float32 zFar = 1000.0f;
@@ -189,8 +191,8 @@ int main(void)
 	unsigned long frames = 0;
 
 	//test light source
-	lights.emplace_back(glm::vec3(0.5, 0.5, 0.5), glm::vec3(-275.0f, 200.0f, 200.0f));
-	Cube lightSource(glm::vec3(-275.0f, 200.0f, 200.0f), glm::vec3(5, 5, 5), "../lab4/assets/debug.png");
+	lights.emplace_back(glm::vec3(0.2, 0.2, 0.2), glm::vec3(-200.0f, 50.0f, 200.0f));
+	Cube lightSource(glm::vec3(-200.0f, 50.0f, 200.0f), glm::vec3(5, 5, 5), "../lab4/assets/debug.png");
 
 
 	// Main loop
@@ -232,6 +234,9 @@ int main(void)
 		lightSource.render(vp);
         tree.render(vp);
 
+		//lights[0].lightPosition.x += 0.001;
+		//lightSource.position.x += 0.001;
+
 
 		frames++;
 		fTime += deltaTime;
@@ -262,7 +267,6 @@ int main(void)
 
 	return 0;
 }
-
 
 
 

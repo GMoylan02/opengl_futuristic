@@ -5,7 +5,8 @@
 #ifndef ASSET_H
 #define ASSET_H
 //GLuint LoadTextureTileBox(const char *texture_file_path);
-
+extern glm::vec3 cameraPos;
+extern glm::mat4 projectionMatrix;
 
 #include "tiny_gltf.h"
 

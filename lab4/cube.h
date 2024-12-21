@@ -184,7 +184,10 @@ class Cube {
         GLuint colorBufferID;
     GLuint uvBufferID;
         GLuint textureID;
-        GLuint mvpMatrixID;
+        //GLuint mvpMatrixID;
+    GLuint modelMatrixID;
+    GLuint viewMatrixID;
+    GLuint projectionMatrixID;
         GLuint textureSamplerID;
         GLuint programID;
 

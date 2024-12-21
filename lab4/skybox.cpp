@@ -150,6 +150,7 @@ void SkyBox::render(glm::mat4 cameraMatrix) {
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+	glBindVertexArray(0);
     //glDisableVertexAttribArray(2);
 	//glDepthMask(GL_FALSE);
 }
