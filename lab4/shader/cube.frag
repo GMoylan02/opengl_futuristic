@@ -29,7 +29,7 @@ void main()
 
 vec3 calculateLighting(vec3 normal) {
     vec4 sampledTexture = texture(textureSampler, uv);
-    vec3 ambientColor = vec3(0.2, 0.2, 0.2);
+    vec3 ambientColor = vec3(0.2, 0.2, 0.2) * sampledTexture.rgb;
     vec3 result = ambientColor;
     for (int i = 0; i < min(numLights, MAXLIGHTS); ++i) {
         vec3 lightDir = normalize(lightPositions[i] - worldPosition);
