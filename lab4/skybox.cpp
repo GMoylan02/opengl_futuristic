@@ -103,6 +103,7 @@ GL_STATIC_DRAW);
 
 void SkyBox::render(glm::mat4 cameraMatrix) {
 	glUseProgram(skybox_program_id);
+	glBindVertexArray(vertexArrayID);
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);

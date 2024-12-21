@@ -231,13 +231,7 @@ int main(void)
 		ground.render(vp);
 		lightSource.render(vp);
         tree.render(vp);
-		/*
-		glDisable(GL_CULL_FACE); // Temporarily disable face culling
-		glDepthFunc(GL_LEQUAL); // Change depth function to pass when values are <= current depth
-		skybox.render(vp);
-		glEnable(GL_CULL_FACE);  // Re-enable face culling
-		glDepthFunc(GL_LESS); // Reset depth function back to default
-		*/
+
 
 		frames++;
 		fTime += deltaTime;

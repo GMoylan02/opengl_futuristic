@@ -68,6 +68,7 @@ GL_STATIC_DRAW);
 
 void Cube::render(glm::mat4 cameraMatrix) {
     glUseProgram(programID);
+    glBindVertexArray(vertexArrayID);
 
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
@@ -134,5 +135,7 @@ void Cube::render(glm::mat4 cameraMatrix) {
     glDisableVertexAttribArray(1);
     //glDisableVertexAttribArray(2);
     //glDepthMask(GL_FALSE);
+    //glUseProgram(0);
+    //glBindVertexArray(0);
 
 }

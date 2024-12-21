@@ -133,7 +133,7 @@ void MyBot::bindMesh(std::vector<PrimitiveObject>& primitiveObjects,
             int vaa = -1;
             if (attrib.first == "POSITION") vaa = 0;
             if (attrib.first == "NORMAL") vaa = 1;
-            if (attrib.first == "TEXCOORD_0") vaa = 2;
+            //if (attrib.first == "TEXCOORD_0") vaa = 2; todo
 
             if (vaa > -1) {
                 glEnableVertexAttribArray(vaa);
@@ -256,11 +256,14 @@ void MyBot::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPositi
 
     for (const auto& primitive : primitiveObjects) {
         glBindVertexArray(primitive.vao);
-        glDrawElements(GL_TRIANGLES, primitive.indexCount, primitive.indexCount, 0);
+        glDrawElements(GL_TRIANGLES, primitive.indexCount, primitive.indexType, 0);
+        //glBindVertexArray(0);
     }
 
-    glBindVertexArray(0);
     glUseProgram(0);
+    glBindVertexArray(0);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    //glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 
