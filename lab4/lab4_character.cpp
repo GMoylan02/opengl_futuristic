@@ -162,7 +162,7 @@ int main(void)
 	glEnable(GL_CULL_FACE);
 
     MyBot tree;
-    tree.initialize();
+    tree.initialize(glm::vec3(20, 0, 20), glm::vec3(15, 15, 15));
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));

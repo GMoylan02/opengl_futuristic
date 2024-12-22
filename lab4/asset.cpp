@@ -76,11 +76,14 @@ bool MyBot::loadModel(tinygltf::Model& model, const char* filename) {
     return res;
 }
 
-void MyBot::initialize() {
+void MyBot::initialize(glm::vec3 position, glm::vec3 scale) {
     // Modify your path if needed
     if (!loadModel(model, "../lab4/assets/tree_small_02_1k.gltf")) {
         return;
     }
+    // Set position and scale
+    this->position = position;
+    this->scale = scale;
 
     // Prepare buffers for rendering
     primitiveObjects = bindModel(model);
@@ -247,7 +250,12 @@ std::vector<MyBot::PrimitiveObject> MyBot::bindModel(tinygltf::Model &model) {
 void MyBot::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPosition, const glm::vec3& lightIntensity*/) {
     glUseProgram(programID);
 
-    glm::mat4 mvpMatrix = cameraMatrix;
+    // Apply global transformations
+    glm::mat4 modelMatrix(1.0f);
+    modelMatrix = glm::translate(modelMatrix, position); // Translate
+    modelMatrix = glm::scale(modelMatrix, scale);       // Scale
+
+    glm::mat4 mvpMatrix = cameraMatrix * modelMatrix; // Combine with cameraMatrix
     glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &mvpMatrix[0][0]);
     /*
     glUniform3fv(lightPositionID, 1, &lightPosition[0]);

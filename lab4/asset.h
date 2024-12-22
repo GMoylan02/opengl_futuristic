@@ -17,6 +17,9 @@ struct MyBot {
     GLuint lightIntensityID;
     GLuint programID;
 
+    glm::vec3 position;
+    glm::vec3 scale;
+
     tinygltf::Model model;
 
     struct PrimitiveObject {
@@ -38,7 +41,7 @@ struct MyBot {
 
     bool loadModel(tinygltf::Model &model, const char *filename);
 
-    void initialize();
+    void initialize(glm::vec3 position, glm::vec3 scale);
 
     void bindMesh(std::vector<PrimitiveObject> &primitiveObjects,
                   tinygltf::Model &model,

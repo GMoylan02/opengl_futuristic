@@ -75,3 +75,14 @@
 2302	2537	7565120024984948	lab4_character.exe	1e86d0d3fc7f0d07
 11	3089	7565773990555036	CMakeFiles/lab4_character.dir/lab4/lab4_character.cpp.obj	7d0e783e6fd8dc1d
 3090	3328	7565774021337277	lab4_character.exe	1e86d0d3fc7f0d07
+12	990	7565820574266030	CMakeFiles/lab4_character.dir/lab4/skybox.cpp.obj	1d404ea82803f232
+21	1015	7565820574356036	CMakeFiles/lab4_character.dir/lab4/cube.cpp.obj	80dcf701e2787ab1
+17	1133	7565820574316027	CMakeFiles/lab4_character.dir/lab4/asset.cpp.obj	84da9ed301a20a2a
+7	2631	7565820574226014	CMakeFiles/lab4_character.dir/lab4/lab4_character.cpp.obj	7d0e783e6fd8dc1d
+2631	2836	7565820600456752	lab4_character.exe	1e86d0d3fc7f0d07
+15	848	7565823371244900	CMakeFiles/lab4_character.dir/lab4/cube.cpp.obj	80dcf701e2787ab1
+12	946	7565823371214881	CMakeFiles/lab4_character.dir/lab4/asset.cpp.obj	84da9ed301a20a2a
+8	2503	7565823371174887	CMakeFiles/lab4_character.dir/lab4/lab4_character.cpp.obj	7d0e783e6fd8dc1d
+2503	2693	7565823396124878	lab4_character.exe	1e86d0d3fc7f0d07
+6	2293	7565823657864724	CMakeFiles/lab4_character.dir/lab4/lab4_character.cpp.obj	7d0e783e6fd8dc1d
+2294	2527	7565823680744718	lab4_character.exe	1e86d0d3fc7f0d07
