@@ -21,7 +21,7 @@
 
 #include <light.h>
 
-#include "asset.h"
+#include "model.h"
 
 Cube::Cube(glm::vec3 position, glm::vec3 scale, const char *texture_file_path) {
     this->position = position;

@@ -5,7 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <skybox.h>
-#include <asset.h>
+#include <model.h>
 
 // GLTF model loader
 #define TINYGLTF_IMPLEMENTATION
@@ -161,8 +161,8 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-    MyBot tree;
-    tree.initialize(glm::vec3(20, 0, 20), glm::vec3(15, 15, 15));
+    Model tree;
+    tree.initialize(glm::vec3(20, 0, 20), glm::vec3(15, 15, 15), "../lab4/assets/tree_small_02_1k.gltf");
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
