@@ -19,6 +19,8 @@ uniform vec3 viewPos;                  // Camera position (for specular calculat
 // Output color
 out vec4 finalColor;
 
+
+
 // Function to calculate lighting
 vec3 calculateLighting(vec3 normal);
 
@@ -31,8 +33,8 @@ void main()
     vec3 lighting = calculateLighting(normal);
 
     // Output the final color
-    //finalColor = vec4(lighting, 1.0);
-    finalColor = vec4(1,0,0,1);
+    finalColor = vec4(lighting, 1.0);
+    //finalColor = vec4(1,0,0,1);
 }
 
 vec3 calculateLighting(vec3 normal) {
@@ -75,3 +77,11 @@ vec3 calculateLighting(vec3 normal) {
 
     return result;
 }
+
+
+/*
+void main() {
+    finalColor = vec4(1,0,0,1);
+}
+
+*/

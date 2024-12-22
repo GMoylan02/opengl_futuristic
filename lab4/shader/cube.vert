@@ -16,11 +16,10 @@ uniform mat4 view;
 uniform mat4 projection;
 
 
-
 void main() {
     // Transform vertex
     //gl_Position =  MVP * vec4(vertexPosition, 1);
-    gl_Position = projection * view * model * vec4(vertexPosition, 1.0);
+    gl_Position = /*projection * */view * model * vec4(vertexPosition, 1.0);
 
     // Pass vertex color to the fragment shader
     //color = vertexColor;
@@ -32,3 +31,11 @@ void main() {
     FragPosLightSpace = model * vec4(vertexPosition, 1.0);
 }
 
+
+
+/*
+void main() {
+    gl_Position =  view * model * vec4(vertexPosition, 1);
+}
+
+*/
