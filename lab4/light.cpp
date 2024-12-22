@@ -1,9 +1,12 @@
 #include "glad/gl.h"
 #include <light.h>
 #include <vector>
+#include <glm/detail/type_mat.hpp>
 #include <glm/detail/type_vec3.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 void passLightsToShader(GLuint programID) {
+
     int numLights = lights.size();
 
     glUniform1i(glGetUniformLocation(programID, "numLights"), numLights);

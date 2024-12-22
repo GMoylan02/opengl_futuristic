@@ -264,7 +264,7 @@ void Asset::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPositi
     glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));
     glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, glm::value_ptr(cameraMatrix)); // Assume cameraMatrix is view
     glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix)); // Pass the projection matrix
-    
+
     // Definition in light.cpp
     passLightsToShader(programID);
 

@@ -33,3 +33,9 @@
 8	954	7565846368250435	CMakeFiles/lab4_character.dir/lab4/asset.cpp.obj	84da9ed301a20a2a
 4	2463	7565846368210443	CMakeFiles/lab4_character.dir/lab4/lab4_character.cpp.obj	7d0e783e6fd8dc1d
 2463	2680	7565846392800427	lab4_character.exe	e344375415b2374c
+4	1109	7565855352746446	CMakeFiles/lab4_character.dir/lab4/asset.cpp.obj	84da9ed301a20a2a
+1110	1256	7565855363796432	lab4_character.exe	e344375415b2374c
+4	675	7565855725360004	CMakeFiles/lab4_character.dir/lab4/cube.cpp.obj	80dcf701e2787ab1
+675	810	7565855732069998	lab4_character.exe	e344375415b2374c
+4	264	7565856643160673	CMakeFiles/lab4_character.dir/lab4/light.cpp.obj	bc335850e0af6893
+264	386	7565856645762349	lab4_character.exe	e344375415b2374c
