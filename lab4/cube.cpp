@@ -20,8 +20,9 @@
 #include <glm/gtc/type_ptr.inl>
 
 #include <light.h>
+#include <texture.h>
 
-#include "model.h"
+#include "asset.h"
 
 Cube::Cube(glm::vec3 position, glm::vec3 scale, const char *texture_file_path) {
     this->position = position;

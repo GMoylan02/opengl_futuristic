@@ -8,8 +8,8 @@ layout(location = 1) in vec3 vertexNormal;
 out vec3 worldPosition;
 out vec3 worldNormal;
 
-//layout(location = 2) in vec2 vertexUV;
-//out vec2 uv;
+layout(location = 2) in vec2 vertexUV;
+out vec2 uv;
 
 // TODO: To add UV to this vertex shader
 
@@ -26,5 +26,5 @@ void main() {
     //color = vertexColor;
 
     // TODO: Pass UV to the fragment shader
-   // uv = vertexUV;
+    uv = vertexUV;
 }

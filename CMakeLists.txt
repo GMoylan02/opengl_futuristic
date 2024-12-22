@@ -32,11 +32,13 @@ add_executable(lab4_character
 	lab4/render/shader.cpp
 		lab4/skybox.cpp
 		lab4/skybox.h
-		lab4/model.cpp
-		lab4/model.h
+		lab4/asset.cpp
+		lab4/asset.h
 		lab4/cube.cpp
 		lab4/cube.h
 		lab4/light.h
+		lab4/texture.cpp
+		lab4/texture.h
 )
 target_link_libraries(lab4_character
 	${OPENGL_LIBRARY}
