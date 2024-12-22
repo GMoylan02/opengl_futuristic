@@ -106,21 +106,8 @@ void Cube::render(glm::mat4 cameraMatrix) {
     glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &mvp[0][0]);
     */
 
-
-    int numLights = lights.size();
-
-    glUniform1i(glGetUniformLocation(programID, "numLights"), numLights);
-
-    // Upload light positions and intensities only if numLights > 0
-    if (numLights > 0) {
-        std::vector<glm::vec3> lightPositions, lightIntensities;
-        for (const auto& light : lights) {
-            lightPositions.push_back(light.lightPosition);
-            lightIntensities.push_back(light.lightIntensity);
-        }
-        glUniform3fv(glGetUniformLocation(programID, "lightPositions"), numLights, &lightPositions[0][0]);
-        glUniform3fv(glGetUniformLocation(programID, "lightIntensities"), numLights, &lightIntensities[0][0]);
-    }
+    // Definition in light.cpp
+    passLightsToShader(programID); //todo this might be buggy
     glUniform3fv(glGetUniformLocation(programID, "viewPos"), 1, glm::value_ptr(cameraPos));
 
     // Set textureSampler to use texture unit 0

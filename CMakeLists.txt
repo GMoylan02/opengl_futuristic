@@ -39,6 +39,7 @@ add_executable(lab4_character
 		lab4/light.h
 		lab4/texture.cpp
 		lab4/texture.h
+		lab4/light.cpp
 )
 target_link_libraries(lab4_character
 	${OPENGL_LIBRARY}

@@ -18,6 +18,9 @@ struct Asset {
     GLuint lightPositionID;
     GLuint lightIntensityID;
     GLuint programID;
+    GLuint modelMatrixID;
+    GLuint viewMatrixID;
+    GLuint projectionMatrixID;
 
     glm::vec3 position;
     glm::vec3 scale;

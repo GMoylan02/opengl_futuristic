@@ -91,16 +91,20 @@ void Asset::initialize(glm::vec3 position, glm::vec3 scale, const char* filename
     // Prepare buffers for rendering
     primitiveObjects = bindModel(model);
 
-    // Create and compile our GLSL program from the shaders todo
-    programID = LoadShadersFromFile("../lab4/shader/bot.vert", "../lab4/shader/bot.frag");
+    // Create and compile our GLSL program from the shaders
+    programID = LoadShadersFromFile("../lab4/shader/asset.vert", "../lab4/shader/asset.frag");
     if (programID == 0) {
         std::cerr << "Failed to load shaders." << std::endl;
     }
 
     // Get a handle for GLSL variables
-    mvpMatrixID = glGetUniformLocation(programID, "MVP");
+    //mvpMatrixID = glGetUniformLocation(programID, "MVP");
     lightPositionID = glGetUniformLocation(programID, "lightPosition");
     lightIntensityID = glGetUniformLocation(programID, "lightIntensity");
+    modelMatrixID = glGetUniformLocation(programID, "model");
+    viewMatrixID = glGetUniformLocation(programID, "view");
+    projectionMatrixID = glGetUniformLocation(programID, "projection");
+
 }
 
 void Asset::bindMesh(std::vector<PrimitiveObject>& primitiveObjects,
@@ -253,17 +257,16 @@ std::vector<Asset::PrimitiveObject> Asset::bindModel(tinygltf::Model &model) {
 void Asset::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPosition, const glm::vec3& lightIntensity*/) {
     glUseProgram(programID);
 
-    // Apply global transformations
-    glm::mat4 modelMatrix(1.0f);
-    modelMatrix = glm::translate(modelMatrix, position); // Translate
-    modelMatrix = glm::scale(modelMatrix, scale);       // Scale
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    modelMatrix = glm::translate(modelMatrix, position);
+    modelMatrix = glm::scale(modelMatrix, scale);
 
-    glm::mat4 mvpMatrix = cameraMatrix * modelMatrix; // Combine with cameraMatrix
-    glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &mvpMatrix[0][0]);
-    /*
-    glUniform3fv(lightPositionID, 1, &lightPosition[0]);
-    glUniform3fv(lightIntensityID, 1, &lightIntensity[0]);
-     */
+    glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, glm::value_ptr(cameraMatrix)); // Assume cameraMatrix is view
+    glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix)); // Pass the projection matrix
+    
+    // Definition in light.cpp
+    passLightsToShader(programID);
 
     for (const auto& primitive : primitiveObjects) {
         glActiveTexture(GL_TEXTURE0);
