@@ -11,9 +11,11 @@ const float exposure = 1.0;    // Exposure for tone mapping
 
 // Texture and lighting uniforms
 uniform sampler2D textureSampler;      // Object texture
+uniform vec4 baseColorFactor;
+uniform int isLight;
 uniform int numLights;                 // Number of active lights
-uniform vec3 lightPositions[MAXLIGHTS];// Positions of all lights
-uniform vec3 lightIntensities[MAXLIGHTS];// Intensities of all lights
+//uniform vec3 lightPositions[MAXLIGHTS];// Positions of all lights
+//uniform vec3 lightIntensities[MAXLIGHTS];// Intensities of all lights
 uniform vec3 viewPos;                  // Camera position (for specular calculation)
 
 // Output color

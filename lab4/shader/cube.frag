@@ -48,6 +48,8 @@ vec3 calculateLighting(vec3 normal) {
     for (int i = 0; i < min(numLights, MAXLIGHTS); ++i) {
         vec3 lightDir = normalize(lightPositions[i] - worldPosition);
         float diff = max(dot(normal, lightDir), 0.0);
+        //if (diff <= 0.0)
+        //    return vec3(1.0); // No shadow on back-facing sides
         vec3 diffuse = diff * lightIntensities[i] * objectColor;
 
         float specularStrength = 0.5;
@@ -57,7 +59,7 @@ vec3 calculateLighting(vec3 normal) {
         vec3 specular = specularStrength * spec * lightIntensities[i];
 
         // Calculate shadow factor
-        float bias = max(0.005 * tan(acos(dot(normal, lightDir))), 0.001);
+        float bias = max(0.005 * (1.0 - dot(normalize(worldNormal), normalize(lightPositions[i] - worldPosition))), 0.005);
         float shadow = calculateShadow(i, FragPosLightSpaces[i], bias);
         vec3 lightContribution = (diffuse + specular) * shadow;
 
@@ -73,7 +75,7 @@ float calculateShadow(int lightIndex, vec4 fragPosLightSpace, float bias) {
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
     projCoords = projCoords * 0.5 + 0.5; // Transform to [0, 1]
 
-    if (projCoords.x < 0.0 || projCoords.x > 1.0 || projCoords.y < 0.0 || projCoords.y > 1.0)
+    if (projCoords.x < 0.0 || projCoords.x > 1.0 || projCoords.y < 0.0 || projCoords.y > 1.0 || fragPosLightSpace.w <= 0.0)
         return 1.0; // Outside the shadow map; assume no shadow
 
 
@@ -81,9 +83,7 @@ float calculateShadow(int lightIndex, vec4 fragPosLightSpace, float bias) {
     float closestDepth = texture(shadowMaps[lightIndex], projCoords.xy).r;
     float currentDepth = projCoords.z;
 
-    float angleBias = max(0.005 * (1.0 - dot(normalize(worldNormal), normalize(lightPositions[lightIndex] - worldPosition))), 0.001);
-
-    float shadow = (currentDepth - (bias + angleBias) > closestDepth) ? 0.0 : 1.0;
+    float shadow = (currentDepth - bias > closestDepth) ? 0.0 : 1.0;
 
     // Return shadow factor
     return shadow;

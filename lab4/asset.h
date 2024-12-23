@@ -27,9 +27,11 @@ struct Asset {
     GLuint modelMatrixID;
     GLuint viewMatrixID;
     GLuint projectionMatrixID;
+    GLuint baseColorFactorID;
+    GLuint isLightID;
+    GLuint textureSamplerID;
 
-    glm::vec3 position;
-    glm::vec3 scale;
+    glm::mat4 modelMatrix;
 
     tinygltf::Model model;
 
@@ -40,6 +42,8 @@ struct Asset {
         GLenum indexType{};
         GLuint materialIndex{}; // Optional, for material handling later
         GLuint textureID{};
+        glm::vec4 baseColorFactor;
+        bool isLight;
     };
     std::vector<PrimitiveObject> primitiveObjects;
 
@@ -61,6 +65,7 @@ struct Asset {
     std::vector<PrimitiveObject> bindModel(tinygltf::Model &model);
 
     void render(const glm::mat4& mvpMatrix/*, const glm::vec3& lightPosition, const glm::vec3& lightIntensity*/);
+    void renderDepth(GLuint programID, GLuint mvpMatrixID, const glm::mat4& lightSpaceMatrix);
 };
 
 #endif //ASSET_H

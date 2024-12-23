@@ -1,9 +1,11 @@
 #version 330 core
-layout(location = 0) in vec3 aPos;
 
-uniform mat4 lightSpaceMatrix;
-uniform mat4 model;
+layout(location = 0) in vec3 position;
 
-void main() {
-    gl_Position = lightSpaceMatrix * model * vec4(aPos, 1.0);
+uniform mat4 MVP;
+
+void main()
+{
+    // Transform the vertex position to light space
+    gl_Position = MVP * vec4(position, 1.0);
 }

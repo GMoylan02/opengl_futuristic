@@ -173,6 +173,8 @@ int main(void)
 	//test.initialize(glm::vec3(0,0,0), glm::vec3(10,10,10));
 
 	Cube c1(glm::vec3(0,10,0), glm::vec3(10,10,10), "../lab4/assets/debug.png");
+	Cube c2(glm::vec3(40,10,60), glm::vec3(10,10,10), "../lab4/assets/debug.png");
+	Cube c3(glm::vec3(20,10,30), glm::vec3(10,10,10), "../lab4/assets/debug.png");
 	Cube ground(glm::vec3(0,0,0), glm::vec3(900, 1, 600), "../lab4/assets/ground.png");
 
 	//tmp
@@ -232,6 +234,8 @@ int main(void)
 		skybox.render(vp);     // Render the skybox
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
 		c1.render(vp);
+		c2.render(vp);
+		c3.render(vp);
 		ground.render(vp);
 		//lightSource.render(vp);	//cube to represent light location
         tree.render(vp);
