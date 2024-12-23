@@ -1,5 +1,8 @@
+#include <iostream>
+
 #include "glad/gl.h"
 #include <light.h>
+#include <ostream>
 #include <vector>
 #include <glm/detail/type_mat.hpp>
 #include <glm/detail/type_vec3.hpp>

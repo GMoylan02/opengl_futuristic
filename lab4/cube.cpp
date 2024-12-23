@@ -98,14 +98,6 @@ void Cube::render(glm::mat4 cameraMatrix) {
     glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, glm::value_ptr(cameraMatrix)); // Assume cameraMatrix is view
     glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix)); // Pass the projection matrix
 
-    /*
-    glm::mat4 modelMatrix = glm::mat4();
-    modelMatrix = glm::translate(modelMatrix, position);
-    modelMatrix = glm::scale(modelMatrix, scale);
-    glm::mat4 mvp = cameraMatrix * modelMatrix;
-    glUniformMatrix4fv(mvpMatrixID, 1, GL_FALSE, &mvp[0][0]);
-    */
-
     // Definition in light.cpp
     passLightsToShader(programID); //todo this might be buggy
     glUniform3fv(glGetUniformLocation(programID, "viewPos"), 1, glm::value_ptr(cameraPos));

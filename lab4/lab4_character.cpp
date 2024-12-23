@@ -23,7 +23,7 @@
 #include <light.h>
 
 #include <cube.h>
-
+#include <ground.h>
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 static GLFWwindow *window;
@@ -121,6 +121,7 @@ void processInput(GLFWwindow* window, float deltaTime) {
 
 int main(void)
 {
+	lights.emplace_back(glm::vec3(0.2, 0.2, 0.2), glm::vec3(-100.0f, 30.0f, 100.0f));
 	// Initialise GLFW
 	if (!glfwInit())
 	{
@@ -161,6 +162,8 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
+	Plane test(glm::vec3(0,0,0), glm::vec3(1024, 10, 1024));
+
     Asset tree;
     tree.initialize(glm::vec3(20, 0, 20), glm::vec3(15, 15, 15), "../lab4/assets/tree_small_02_1k.gltf");
 
@@ -171,7 +174,7 @@ int main(void)
 	//test.initialize(glm::vec3(0,0,0), glm::vec3(10,10,10));
 
 	Cube c1(glm::vec3(0,20,0), glm::vec3(10,10,10), "../lab4/assets/debug.png");
-	Cube ground(glm::vec3(0,0,0), glm::vec3(900, 1, 600), "../lab4/assets/ground.png");
+	//Cube ground(glm::vec3(0,0,0), glm::vec3(900, 1, 600), "../lab4/assets/ground.png");
 
 	//tmp
 	eye_center.y = viewDistance * cos(viewPolar);
@@ -191,7 +194,6 @@ int main(void)
 	unsigned long frames = 0;
 
 	//test light source
-	lights.emplace_back(glm::vec3(0.2, 0.2, 0.2), glm::vec3(-200.0f, 50.0f, 200.0f));
 	Cube lightSource(glm::vec3(-200.0f, 50.0f, 200.0f), glm::vec3(5, 5, 5), "../lab4/assets/debug.png");
 
 
@@ -230,7 +232,8 @@ int main(void)
 		skybox.render(vp);     // Render the skybox
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
 		c1.render(vp);
-		ground.render(vp);
+		//ground.render(vp);
+		test.render(vp);
 		lightSource.render(vp);
         tree.render(vp);
 

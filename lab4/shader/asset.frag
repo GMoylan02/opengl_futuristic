@@ -38,6 +38,7 @@ void main()
 vec3 calculateLighting(vec3 normal) {
 	// Sample the texture to get the base object color
 	vec4 sampledTexture = texture(textureSampler, uv);
+	//vec4 sampledTexture = vec4(1,1,1,1);
 	vec3 objectColor = sampledTexture.rgb;
 
 	// Ambient lighting
