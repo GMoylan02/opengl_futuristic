@@ -27,11 +27,12 @@
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 static GLFWwindow *window;
-static int windowWidth = 1024;
-static int windowHeight = 768;
+int windowWidth = 1024;
+int windowHeight = 768;
 
 glm::mat4 projectionMatrix;
 
+static bool saveDepth = true;
 
 // Camera
 static glm::vec3 eye_center(0.0f, 100.0f, 300.0f);
@@ -121,6 +122,7 @@ void processInput(GLFWwindow* window, float deltaTime) {
 
 int main(void)
 {
+	lights.emplace_back(glm::vec3(0.5, 0.5, 0.5), glm::vec3(-100.0f, 50.0f, 100.0f));
 	// Initialise GLFW
 	if (!glfwInit())
 	{
@@ -162,7 +164,7 @@ int main(void)
 	glEnable(GL_CULL_FACE);
 
     Asset tree;
-    tree.initialize(glm::vec3(20, 0, 20), glm::vec3(15, 15, 15), "../lab4/assets/tree_small_02_1k.gltf");
+    tree.initialize(glm::vec3(50, 0, 50), glm::vec3(15, 15, 15), "../lab4/assets/tree_small_02_1k.gltf");
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
@@ -170,7 +172,7 @@ int main(void)
 	//SkyBox test;
 	//test.initialize(glm::vec3(0,0,0), glm::vec3(10,10,10));
 
-	Cube c1(glm::vec3(0,20,0), glm::vec3(10,10,10), "../lab4/assets/debug.png");
+	Cube c1(glm::vec3(0,10,0), glm::vec3(10,10,10), "../lab4/assets/debug.png");
 	Cube ground(glm::vec3(0,0,0), glm::vec3(900, 1, 600), "../lab4/assets/ground.png");
 
 	//tmp
@@ -191,14 +193,14 @@ int main(void)
 	unsigned long frames = 0;
 
 	//test light source
-	lights.emplace_back(glm::vec3(0.2, 0.2, 0.2), glm::vec3(-200.0f, 50.0f, 200.0f));
-	Cube lightSource(glm::vec3(-200.0f, 50.0f, 200.0f), glm::vec3(5, 5, 5), "../lab4/assets/debug.png");
+	//Cube lightSource(glm::vec3(-200.0f, 50.0f, 200.0f), glm::vec3(5, 5, 5), "../lab4/assets/debug.png");
 
 
 	// Main loop
 	do
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 
 		// Update states for animation
@@ -231,8 +233,15 @@ int main(void)
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
 		c1.render(vp);
 		ground.render(vp);
-		lightSource.render(vp);
+		//lightSource.render(vp);	//cube to represent light location
         tree.render(vp);
+
+		if (saveDepth) {
+			std::string filename = "depth_camera.png";
+			saveDepthTexture(0, filename);
+			std::cout << "Depth texture saved to " << filename << std::endl;
+			saveDepth = false;
+		}
 
 		//lights[0].lightPosition.x += 0.001;
 		//lightSource.position.x += 0.001;

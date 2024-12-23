@@ -4,9 +4,15 @@
 
 #ifndef ASSET_H
 #define ASSET_H
+#include "cube.h"
+#include <vector>
 //GLuint LoadTextureTileBox(const char *texture_file_path);
 extern glm::vec3 cameraPos;
 extern glm::mat4 projectionMatrix;
+extern int windowWidth;
+extern int windowHeight;
+//extern GLuint shadowShaderID;
+extern std::vector<Cube*> cubes; //todo tmp
 
 #include "tiny_gltf.h"
 

@@ -1,12 +1,9 @@
-//
-// Created by eyeba on 18/12/2024.
-//
 
 #ifndef CUBE_H
 #define CUBE_H
 #include <glm/detail/type_vec.hpp>
 #include <glm/detail/type_vec3.hpp>
-
+#include <vector>
 #include "glad/gl.h"
 
 class Cube {
@@ -196,10 +193,19 @@ class Cube {
 
     GLuint lightPositionID;
     GLuint lightIntensityID;
-    glm::mat4 lightSpaceMatrix;
+    std::vector<glm::mat4> lightSpaceMatrices;
+    std::vector<GLuint> shadowFBOs;
+    std::vector<GLuint> shadowMaps;
+
     Cube(glm::vec3 position, glm::vec3 scale, const char *texture_file_path);
     void render(glm::mat4 cameraMatrix);
     void cleanup();
+    GLuint shadowShaderID;
+    GLuint shadowModelMatrixID;          // Uniform location for the model matrix in the shadow shader
+    GLuint shadowLightSpaceMatrixID;
+
+    void Cube::renderShadows(const std::vector<glm::mat4>& lightSpaceMatrices);
 };
+void saveDepthTexture(GLuint fbo, std::string filename);
 
 #endif //CUBE_H
