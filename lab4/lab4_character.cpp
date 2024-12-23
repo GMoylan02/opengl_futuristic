@@ -24,6 +24,8 @@
 
 #include <cube.h>
 #include <ground.h>
+
+#include "lighting.h"
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 static GLFWwindow *window;
@@ -31,6 +33,24 @@ static int windowWidth = 1024;
 static int windowHeight = 768;
 
 glm::mat4 projectionMatrix;
+
+// Lighting control
+const glm::vec3 wave500(0.0f, 255.0f, 146.0f);
+const glm::vec3 wave600(255.0f, 190.0f, 0.0f);
+const glm::vec3 wave700(205.0f, 0.0f, 0.0f);
+//static glm::vec3 lightIntensity = 5.0f * (8.0f * wave500 + 15.6f * wave600 + 18.4f * wave700);
+static glm::vec3 lightIntensity = glm::vec3(0.2,0.2,0.2);
+static glm::vec3 lightPosition(-100.0f, 100.0f, -100.0f);
+static float exposure = 2.0f;
+
+// Shadow mapping
+static glm::vec3 lightUp(0, 0, 1);
+static int shadowMapWidth = 2048;
+static int shadowMapHeight = 2048;
+
+static float depthFoV = 120.0f;
+static float depthNear = 10.0f;
+static float depthFar = 4000.0f;
 
 
 // Camera
@@ -101,7 +121,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 }
 
 
-void processInput(GLFWwindow* window, float deltaTime) {
+static void processInput(GLFWwindow* window, float deltaTime) {
 	float velocity = cameraSpeed * deltaTime;
 	//std::cout << glm::to_string(cameraPos) << std::endl;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -121,7 +141,7 @@ void processInput(GLFWwindow* window, float deltaTime) {
 
 int main(void)
 {
-	lights.emplace_back(glm::vec3(0.2, 0.2, 0.2), glm::vec3(-100.0f, 30.0f, 100.0f));
+	//lights.emplace_back(glm::vec3(0.2, 0.2, 0.2), glm::vec3(-150.0f, 50.0f, 150.0f));
 	// Initialise GLFW
 	if (!glfwInit())
 	{
@@ -135,7 +155,7 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Open a window and create its OpenGL context
-	window = glfwCreateWindow(windowWidth, windowHeight, "Lab 4", NULL, NULL);
+	window = glfwCreateWindow(windowWidth, windowHeight, "debug", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cerr << "Failed to open a GLFW window." << std::endl;
@@ -144,9 +164,10 @@ int main(void)
 	}
 	glfwMakeContextCurrent(window);
 
-	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	//glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+	//glfwSetKeyCallback(window, processInput);
+	glfwSetCursorPosCallback(window, mouse_callback);
 
 	// Load OpenGL functions, gladLoadGL returns the loaded version, 0 on error.
 	int version = gladLoadGL(glfwGetProcAddress);
@@ -155,6 +176,9 @@ int main(void)
 		std::cerr << "Failed to initialize OpenGL context." << std::endl;
 		return -1;
 	}
+
+	// Prepare shadow map size for shadow mapping. Usually this is the size of the window itself, but on some platforms like Mac this can be 2x the size of the window. Use glfwGetFramebufferSize to get the shadow map size properly.
+	glfwGetFramebufferSize(window, &shadowMapWidth, &shadowMapHeight);
 
 	// Background
 	glClearColor(0.2f, 0.2f, 0.25f, 0.0f);
@@ -165,7 +189,7 @@ int main(void)
 	Plane test(glm::vec3(0,0,0), glm::vec3(1024, 10, 1024));
 
     Asset tree;
-    tree.initialize(glm::vec3(20, 0, 20), glm::vec3(15, 15, 15), "../lab4/assets/tree_small_02_1k.gltf");
+    tree.initialize(test.programID, glm::vec3(20, 0, 20), glm::vec3(15, 15, 15), "../lab4/assets/tree_small_02_1k.gltf");
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
@@ -173,8 +197,16 @@ int main(void)
 	//SkyBox test;
 	//test.initialize(glm::vec3(0,0,0), glm::vec3(10,10,10));
 
-	Cube c1(glm::vec3(0,20,0), glm::vec3(10,10,10), "../lab4/assets/debug.png");
+	//Cube c1(glm::vec3(0,20,0), glm::vec3(10,10,10), "../lab4/assets/debug.png");
 	//Cube ground(glm::vec3(0,0,0), glm::vec3(900, 1, 600), "../lab4/assets/ground.png");
+
+	lighting sceneLight(test.programID, shadowMapWidth, shadowMapHeight);
+	sceneLight.setLightPosition(lightPosition, lightIntensity, 2.0f);
+
+	std::vector<Asset> assets;
+	assets.push_back(tree);
+	std::vector<Plane> planes;
+	planes.push_back(test);
 
 	//tmp
 	eye_center.y = viewDistance * cos(viewPolar);
@@ -194,14 +226,24 @@ int main(void)
 	unsigned long frames = 0;
 
 	//test light source
-	Cube lightSource(glm::vec3(-200.0f, 50.0f, 200.0f), glm::vec3(5, 5, 5), "../lab4/assets/debug.png");
+	//Cube lightSource(glm::vec3(-200.0f, 50.0f, 200.0f), glm::vec3(5, 5, 5), "../lab4/assets/debug.png");
 
-
+	glm::mat4 lightView, lightProjection;
+	lightProjection = glm::perspective(glm::radians(depthFoV), (float)shadowMapWidth / shadowMapHeight, depthNear, depthFar);
 	// Main loop
+
+	viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	glm::mat4 vp = projectionMatrix * viewMatrix;
+
+	lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
+	glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+	sceneLight.shadowPass(lightSpaceMatrix, assets, planes);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	sceneLight.prepareLighting();
+
 	do
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
 		// Update states for animation
         double currentTime = glfwGetTime();
@@ -215,31 +257,27 @@ int main(void)
 			time += deltaTime * playbackSpeed;
 		}
 
-
 		processInput(window, deltaTime);
-
-
-		//std::cout << "Camera Position: " << glm::to_string(cameraPos) << std::endl;
 
 		// Rendering
 		viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		glm::mat4 vp = projectionMatrix * viewMatrix;
+
+
 		skybox.position = cameraPos;
-		// FPS tracking
-		// Count number of frames over a few seconds and take average
-		//test.render(vp);
+	/*
+		sceneLight.shadowPass(lightSpaceMatrix, assets, planes);
+		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+		sceneLight.prepareLighting();
+		*/
+
 		glDepthMask(GL_FALSE); // Disable depth writes
 		skybox.render(vp);     // Render the skybox
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
-		c1.render(vp);
-		//ground.render(vp);
+		//c1.render(vp);
 		test.render(vp);
-		lightSource.render(vp);
+		//lightSource.render(vp);
         tree.render(vp);
-
-		//lights[0].lightPosition.x += 0.001;
-		//lightSource.position.x += 0.001;
-
 
 		frames++;
 		fTime += deltaTime;
@@ -249,7 +287,7 @@ int main(void)
 			fTime = 0;
 
 			std::stringstream stream;
-			stream << std::fixed << std::setprecision(2) << "Lab 4 | Frames per second (FPS): " << fps;
+			stream << std::fixed << std::setprecision(2) << "debug | Frames per second (FPS): " << fps;
 			glfwSetWindowTitle(window, stream.str().c_str());
 		}
 

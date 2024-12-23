@@ -77,3 +77,4 @@ std::vector<GLuint> loadTextures(const tinygltf::Model &model) {
 
     return textureIDs;
 }
+

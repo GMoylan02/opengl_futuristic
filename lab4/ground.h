@@ -51,23 +51,21 @@ public:
     GLuint normalBufferID;
     GLuint uvBufferID;
     GLuint textureID;
+    GLuint cameraMatrixID;
+    GLuint transformMatrixID;
     GLuint modelMatrixID;
     GLuint baseColorFactorID;
     GLuint isLightID;
 
+    GLuint shininessID;
+    GLuint cameraPosID;
+
     // Shader variable IDs
-    GLuint mvpMatrixID;
     GLuint textureSamplerID;
     GLuint programID;
-
-    //todo tmp
-    GLuint lightPositionID;
-    GLuint lightIntensityID;
-    glm::mat4 lightSpaceMatrix;
-    GLuint numLights;
     Plane(glm::vec3 position, glm::vec3 scale);
     void render(glm::mat4 cameraMatrix);
-    void renderDepth(GLuint programID, GLuint mvpMatrixID, const glm::mat4& lightSpaceMatrix);
+    void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix);
     void cleanup();
 };
 

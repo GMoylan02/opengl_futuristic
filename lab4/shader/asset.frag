@@ -1,86 +1,107 @@
 #version 330 core
 
-in vec3 worldPosition;         // World-space position of the fragment
-in vec3 worldNormal;           // World-space normal of the fragment
-in vec2 uv;                    // Texture coordinates
-in vec4 FragPosLightSpace;     // Position in light space (optional for shadows)
+in vec3 worldPosition;
+in vec3 worldNormal;
+in vec2 uv;
 
-const int MAXLIGHTS = 10;      // Maximum number of lights
-const float gamma = 2.2;       // Gamma correction factor
-const float exposure = 1.0;    // Exposure for tone mapping
+uniform sampler2D textureSampler;
+uniform vec4 baseColorFactor;
+uniform int isLight;
 
-// Texture and lighting uniforms
-uniform sampler2D textureSampler;      // Object texture
-uniform int numLights;                 // Number of active lights
-uniform vec3 lightPositions[MAXLIGHTS];// Positions of all lights
-uniform vec3 lightIntensities[MAXLIGHTS];// Intensities of all lights
-uniform vec3 viewPos;                  // Camera position (for specular calculation)
-
-// Output color
 out vec4 finalColor;
 
-// Function to calculate lighting
-vec3 calculateLighting(vec3 normal);
+uniform vec3 lightPosition;
+uniform vec3 lightIntensity;
+uniform float exposure;
+
+// Shadow-related uniforms
+uniform sampler2D shadowMap;
+uniform mat4 lightSpaceMatrix;
+uniform mat4 modelMatrix;
 
 void main()
 {
-	// Normalize the normal vector
-	vec3 normal = normalize(worldNormal);
+	if (isLight == 0) {
+		// Normalize the world normal
+		vec3 normal = normalize(worldNormal);
 
-	// Calculate the lighting contribution
-	vec3 lighting = calculateLighting(normal);
+		// Calculate the transformed light direction and normalize it
+		vec3 fragPosition = vec3(modelMatrix * vec4(worldPosition, 1.0));
+		vec3 lightDirection = normalize(lightPosition - fragPosition);
 
-	// Output the final color
-	finalColor = vec4(lighting, 1.0);
-	//finalColor = vec4(1,0,0,1);
-}
+		// Calculate the length of the light beam
+		float distance = length(lightPosition - fragPosition);
 
-vec3 calculateLighting(vec3 normal) {
-	// Sample the texture to get the base object color
-	vec4 sampledTexture = texture(textureSampler, uv);
-	//vec4 sampledTexture = vec4(1,1,1,1);
-	vec3 objectColor = sampledTexture.rgb;
+		// Calculate the attenuation of the light
 
-	// Ambient lighting
-	vec3 ambientColor = vec3(0.2, 0.2, 0.2) * objectColor;
+		float attenuation = 1.0f;
+		float threshold = 300.0f;
+		if (distance > threshold) {
+			float k1 = 0.001f;
+			float k2 = 0.0002f;
+			attenuation = 1.0f / (1.0f + k1 * (distance - threshold) + k2 * pow(distance - threshold, 2));
+		}
 
-	// Initialize the result with the ambient contribution
-	vec3 result = ambientColor;
 
-	// Iterate over active lights
-	for (int i = 0; i < min(numLights, MAXLIGHTS); ++i) {
-		// Direction from the fragment to the light
-		vec3 lightDir = normalize(lightPositions[i] - worldPosition);
+		float diff = max(dot(normal, lightDirection), 0.0);
 
-		// Diffuse lighting (Lambertian reflectance)
-		float diff = max(dot(normal, lightDir), 0.0);
-		vec3 diffuse = diff * lightIntensities[i] * objectColor;
+		vec3 diffuse = diff * lightIntensity * attenuation;
 
-		// Specular lighting (Blinn-Phong model)
-		float specularStrength = 0.5;
-		vec3 viewDir = normalize(viewPos - worldPosition);
-		vec3 reflectDir = reflect(-lightDir, normal);
-		float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32); // Shininess factor = 32
-		vec3 specular = specularStrength * spec * lightIntensities[i];
+		// Transform fragment position to light space
+		vec4 fragPosLightSpace = lightSpaceMatrix * modelMatrix * vec4(worldPosition, 1.0);
 
-		// Combine diffuse and specular components
-		vec3 lightContribution = diffuse + specular;
+		// Perspective divide to transform to normalized device coordinates (NDC)
+		vec3 lightCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
 
-		// Apply exposure and tone mapping
-		vec3 exposedColor = lightContribution * exposure;
+		// Convert to [0, 1] range for texture sampling
+		lightCoords = lightCoords * 0.5 + 0.5;
+
+		float shadow;
+
+		// Check if the fragment is outside the [0, 1] range or above the light
+		if (lightCoords.x < 0.0 || lightCoords.x > 1.0 ||
+		lightCoords.y < 0.0 || lightCoords.y > 1.0 ||
+		lightCoords.z > 1.0) {
+			shadow = 1.0; // Not in shadow
+		} else {
+			// Sample the closest depth from the shadow map
+			float closestDepth = texture(shadowMap, lightCoords.xy).r;
+
+			// Create a dynamic bias to prevent shadow acne
+			float bias = 0; //max(0.05 * (1.0 - dot(normal, lightDirection)), 0.005);
+
+			// PCF for softer shadows
+			vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+			for(int x = -1; x <= 1; ++x) {
+				for(int y = -1; y <= 1; ++y) {
+					float pcfDepth = texture(shadowMap, lightCoords.xy + vec2(x, y) * texelSize).r;
+					// Check if the fragment is in shadow
+					shadow += lightCoords.z - bias >= pcfDepth ? 0.2 : 1.0;
+				}
+			}
+			shadow /= 9.0;
+		}
+
+		// Apply the shadow factor to the diffuse color
+		diffuse *= shadow;
+
+		// Apply exposure to the lighting
+		vec3 exposedColor = diffuse * exposure;
+
+		// Apply tone mapping to the lighting
 		vec3 toneMappedColor = exposedColor / (exposedColor + vec3(1.0));
 
-		// Add the tone-mapped color contribution
-		result += pow(toneMappedColor, vec3(1.0 / gamma));
+		// Gamma correction for accurate color perception
+		finalColor = texture(textureSampler, uv).rgba * baseColorFactor * vec4(pow(toneMappedColor, vec3(1.0 / 2.2)), 1.0);
+
+		// Tint glass yellow
+		if (baseColorFactor.a < 1.0) {
+			finalColor = vec4(mix(finalColor.rgb, vec3(1.0, 1.0, 0.0), 0.5), finalColor.a);
+		}
+
+	} else {
+		// Apply solid yellow to light objects
+		finalColor = vec4(1.0, 1.0, 0.0, baseColorFactor.a);
+
 	}
-
-	return result;
 }
-
-
-/*
-void main() {
-    finalColor = vec4(1,0,0,1);
-}
-
-*/

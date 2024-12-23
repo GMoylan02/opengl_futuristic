@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <tiny_gltf.h>
 
 #include <render/shader.h>
@@ -79,31 +80,33 @@ bool Asset::loadModel(tinygltf::Model& model, const char* filename) {
     return res;
 }
 
-void Asset::initialize(glm::vec3 position, glm::vec3 scale, const char* filename) {
+void Asset::initialize(GLuint programID, glm::vec3 position, glm::vec3 scale, const char* filename) {
     // Modify your path if needed
     if (!loadModel(model, filename)) {
         return;
     }
-    // Set position and scale
-    this->position = position;
-    this->scale = scale;
+    // Scale and translate the model
+    modelMatrix = glm::mat4(1.0f);
+    modelMatrix = glm::translate(modelMatrix, position);
+    modelMatrix = glm::scale(modelMatrix, scale);
 
     // Prepare buffers for rendering
     primitiveObjects = bindModel(model);
 
-    // Create and compile our GLSL program from the shaders
-    programID = LoadShadersFromFile("../lab4/shader/asset.vert", "../lab4/shader/asset.frag");
-    if (programID == 0) {
-        std::cerr << "Failed to load shaders." << std::endl;
-    }
+    this->programID = programID;
 
     // Get a handle for GLSL variables
-    //mvpMatrixID = glGetUniformLocation(programID, "MVP");
-    lightPositionID = glGetUniformLocation(programID, "lightPosition");
-    lightIntensityID = glGetUniformLocation(programID, "lightIntensity");
-    modelMatrixID = glGetUniformLocation(programID, "model");
-    viewMatrixID = glGetUniformLocation(programID, "view");
-    projectionMatrixID = glGetUniformLocation(programID, "projection");
+    cameraMatrixID = glGetUniformLocation(programID, "camera");
+    transformMatrixID = glGetUniformLocation(programID, "transform");
+    modelMatrixID = glGetUniformLocation(programID, "modelMatrix");
+    textureSamplerID = glGetUniformLocation(programID, "textureSampler");
+    baseColorFactorID = glGetUniformLocation(programID, "baseColorFactor");
+    isLightID = glGetUniformLocation(programID, "isLight");
+    cameraPosID = glGetUniformLocation(programID, "cameraPos");
+
+    for (auto prim : primitiveObjects) {
+        prim.shininessID = glGetUniformLocation(programID, "shininess");
+    }
 
 }
 
@@ -243,9 +246,51 @@ std::vector<Asset::PrimitiveObject> Asset::bindModel(tinygltf::Model &model) {
             if (primitive.material >= 0) {
                 const tinygltf::Material &material = model.materials[primitive.material];
                 if (material.pbrMetallicRoughness.baseColorTexture.index >= 0) {
-                    primitiveObject.textureID = textureIDs[material.pbrMetallicRoughness.baseColorTexture.index];
+                    int textureIndex = material.pbrMetallicRoughness.baseColorTexture.index;
+                    primitiveObject.textureID = textureIDs[textureIndex];
                 }
+                else {
+                    primitiveObject.textureID = 0;
+                }
+                // Extract baseColorFactor
+                if (material.pbrMetallicRoughness.baseColorFactor.size() == 4) {
+                    primitiveObject.baseColorFactor = glm::vec4(
+                        material.pbrMetallicRoughness.baseColorFactor[0],
+                        material.pbrMetallicRoughness.baseColorFactor[1],
+                        material.pbrMetallicRoughness.baseColorFactor[2],
+                        material.pbrMetallicRoughness.baseColorFactor[3]
+                    );
+                }
+                else {
+                    primitiveObject.baseColorFactor = glm::vec4(1.0f); // Default to opaque white
+                }
+                // Extract roughness and calculate shininess
+                float roughness = material.pbrMetallicRoughness.roughnessFactor;
+                roughness = glm::clamp(roughness, 0.0f, 1.0f); // Ensure roughness is in [0, 1]
+
+                // Map roughness to shininess (Phong model)
+                primitiveObject.shininess = 1.0f / glm::pow(roughness + 0.01f, 2.0f);
+
+                // Optional: Handle specular-glossiness workflow if applicable
+                if (material.extensions.find("KHR_materials_pbrSpecularGlossiness") != material.extensions.end()) {
+                    const auto &extension = material.extensions.at("KHR_materials_pbrSpecularGlossiness");
+                    float glossiness = 1.0f; // Default glossiness
+                    if (extension.Has("glossinessFactor") && extension.Get("glossinessFactor").IsNumber()) {
+                        glossiness = static_cast<float>(extension.Get("glossinessFactor").Get<double>());
+                    }
+
+                    glossiness = glm::clamp(glossiness, 0.0f, 1.0f);
+
+                    // Map glossiness to shininess
+                    primitiveObject.shininess = glossiness * 256.0f; // Scale shininess for glossiness
+                }
+                primitiveObject.isLight = false;
             }
+            else {
+                primitiveObject.textureID = 0;
+                primitiveObject.baseColorFactor = glm::vec4(1.0f); // Default to opaque white
+            }
+
 
             glBindVertexArray(0);
             primitives.push_back(primitiveObject);
@@ -255,33 +300,93 @@ std::vector<Asset::PrimitiveObject> Asset::bindModel(tinygltf::Model &model) {
 }
 
 void Asset::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPosition, const glm::vec3& lightIntensity*/) {
+ glUseProgram(programID);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        // Pass in model-view-projection matrix
+        glUniformMatrix4fv(cameraMatrixID, 1, GL_FALSE, &cameraMatrix[0][0]);
+        glUniformMatrix4fv(transformMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
+        glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
+
+        // Separate opaque and transparent objects
+        std::vector<const PrimitiveObject*> opaqueObjects;
+        std::vector<const PrimitiveObject*> transparentObjects;
+
+        for (const auto& primitive : primitiveObjects) {
+            if (primitive.baseColorFactor.a < 1.0f) {
+                transparentObjects.push_back(&primitive);
+            }
+            else {
+                opaqueObjects.push_back(&primitive);
+            }
+        }
+
+        // Render opaque objects first
+        for (const auto* primitive : opaqueObjects) {
+            glBindVertexArray(primitive->vao);
+
+            if (primitive->textureID) {
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, primitive->textureID);
+                glUniform1i(textureSamplerID, 0);
+            }
+
+            glUniform1i(isLightID, primitive->isLight ? 1 : 0);
+            glUniform1i(primitive->shininessID, primitive->shininess);
+            glUniform3fv(cameraPosID, 1, &cameraPos[0]);
+            glUniform4fv(baseColorFactorID, 1, &primitive->baseColorFactor[0]);
+            glDrawElements(GL_TRIANGLES, primitive->indexCount, primitive->indexType, 0);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+
+        // Sort transparent objects by distance from the camera
+        std::sort(transparentObjects.begin(), transparentObjects.end(),
+            [&cameraMatrix](const PrimitiveObject* a, const PrimitiveObject* b) {
+                glm::vec3 aPos = glm::vec3(cameraMatrix * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Center of object A
+                glm::vec3 bPos = glm::vec3(cameraMatrix * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Center of object B
+                return glm::length(aPos) > glm::length(bPos); // Sort back-to-front
+            });
+
+        // Render transparent objects
+        for (const auto* primitive : transparentObjects) {
+            glBindVertexArray(primitive->vao);
+
+            if (primitive->textureID) {
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, primitive->textureID);
+                glUniform1i(textureSamplerID, 0);
+            }
+            glUniform1i(isLightID, primitive->isLight ? 1 : 0);
+            glUniform1i(primitive->shininessID, primitive->shininess);
+            glUniform3fv(cameraPosID, 1, glm::value_ptr(cameraPos));
+            glUniform4fv(baseColorFactorID, 1, &primitive->baseColorFactor[0]);
+            glDrawElements(GL_TRIANGLES, primitive->indexCount, primitive->indexType, 0);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+
+        // Reset state
+        glDisable(GL_BLEND);
+        glUseProgram(0);
+        glBindVertexArray(0);
+}
+
+void Asset::renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix) {
     glUseProgram(programID);
 
-    glm::mat4 modelMatrix = glm::mat4(1.0f);
-    modelMatrix = glm::translate(modelMatrix, position);
-    modelMatrix = glm::scale(modelMatrix, scale);
+    // Pass the MVP matrix to the shader
+    glUniformMatrix4fv(lightMatID, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
+    glUniformMatrix4fv(tranMatID, 1, GL_FALSE, &modelMatrix[0][0]);
 
-    glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, glm::value_ptr(modelMatrix));
-    glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, glm::value_ptr(cameraMatrix)); // Assume cameraMatrix is view
-    glUniformMatrix4fv(projectionMatrixID, 1, GL_FALSE, glm::value_ptr(projectionMatrix)); // Pass the projection matrix
-
-    // Definition in light.cpp
-    passLightsToShader(programID);
-
+    // Render each primitive
     for (const auto& primitive : primitiveObjects) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, primitive.textureID);
-        glUniform1i(glGetUniformLocation(programID, "textureSampler"), 0);
-
         glBindVertexArray(primitive.vao);
         glDrawElements(GL_TRIANGLES, primitive.indexCount, primitive.indexType, 0);
-        //glBindVertexArray(0);
     }
 
-    glUseProgram(0);
+    // Reset state
     glBindVertexArray(0);
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    //glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glUseProgram(0);
 }
 
 

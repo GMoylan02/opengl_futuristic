@@ -53,7 +53,7 @@ GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index_buffer_data), index_buffer_data, GL_STATIC_DRAW);
 
-    programID = LoadShadersFromFile("../lab4/shader/asset.vert", "../lab4/shader/asset.frag");
+    programID = LoadShadersFromFile("../lab4/shader/cube.vert", "../lab4/shader/cube.frag");
     if (programID == 0)
     {
         std::cerr << "Failed to load shaders." << std::endl;

@@ -8,22 +8,20 @@ layout(location = 2) in vec2 vertexUV;
 // Output data, to be interpolated for each fragment
 out vec3 worldPosition;
 out vec3 worldNormal;
-out vec4 FragPosLightSpace;
 out vec2 uv;
 
-// Matrix for vertex transformation
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+// Matrices for vertex transformation
+uniform mat4 camera;
+uniform mat4 transform;
 
 void main() {
     // Transform vertex
-    //gl_Position =  MVP * vec4(vertexPosition, 1);
-    gl_Position = /*projection * */view * model * vec4(vertexPosition, 1.0);
+    gl_Position = camera * transform * vec4(vertexPosition, 1);
 
+    // World-space geometry
+    worldPosition = vertexPosition;
+    worldNormal = vertexNormal;
+
+    // Pass UV to the fragment shader
     uv = vertexUV;
-
-    worldPosition = vec3(model * vec4(vertexPosition, 1.0));
-    worldNormal = mat3(transpose(inverse(model))) * vertexNormal;
-    FragPosLightSpace = model * vec4(vertexPosition, 1.0);
 }
