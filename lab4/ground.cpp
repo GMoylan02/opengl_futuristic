@@ -10,10 +10,7 @@
 #include "light.h"
 #include "texture.h"
 
-//extern std::vector<Plane*> planes;
-
 Plane::Plane(glm::vec3 position, glm::vec3 scale) {
-// Define scale of the skybox geometry
 		this->position = position;
 		this->scale = scale;
 

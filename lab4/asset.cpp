@@ -271,7 +271,7 @@ std::vector<Asset::PrimitiveObject> Asset::bindModel(tinygltf::Model &model) {
                 // Map roughness to shininess (Phong model)
                 primitiveObject.shininess = 1.0f / glm::pow(roughness + 0.01f, 2.0f);
 
-                // Optional: Handle specular-glossiness workflow if applicable
+                // glossiness currently goes unused
                 if (material.extensions.find("KHR_materials_pbrSpecularGlossiness") != material.extensions.end()) {
                     const auto &extension = material.extensions.at("KHR_materials_pbrSpecularGlossiness");
                     float glossiness = 1.0f; // Default glossiness

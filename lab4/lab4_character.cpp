@@ -40,7 +40,7 @@ const glm::vec3 wave600(255.0f, 190.0f, 0.0f);
 const glm::vec3 wave700(205.0f, 0.0f, 0.0f);
 //static glm::vec3 lightIntensity = 5.0f * (8.0f * wave500 + 15.6f * wave600 + 18.4f * wave700);
 static glm::vec3 lightIntensity = glm::vec3(0.2,0.2,0.2);
-static glm::vec3 lightPosition(-100.0f, 100.0f, -100.0f);
+static glm::vec3 lightPosition(-100.0f, 200.0f, -100.0f);
 static float exposure = 2.0f;
 
 // Shadow mapping
@@ -73,7 +73,6 @@ glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 
-//tmp
 // View control
 static float viewAzimuth = 0.f;
 static float viewPolar = 0.f;
@@ -123,7 +122,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 
 static void processInput(GLFWwindow* window, float deltaTime) {
 	float velocity = cameraSpeed * deltaTime;
-	//std::cout << glm::to_string(cameraPos) << std::endl;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		cameraPos += velocity * cameraFront;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -141,7 +139,6 @@ static void processInput(GLFWwindow* window, float deltaTime) {
 
 int main(void)
 {
-	//lights.emplace_back(glm::vec3(0.2, 0.2, 0.2), glm::vec3(-150.0f, 50.0f, 150.0f));
 	// Initialise GLFW
 	if (!glfwInit())
 	{
@@ -166,7 +163,6 @@ int main(void)
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-	//glfwSetKeyCallback(window, processInput);
 	glfwSetCursorPosCallback(window, mouse_callback);
 
 	// Load OpenGL functions, gladLoadGL returns the loaded version, 0 on error.
@@ -189,26 +185,32 @@ int main(void)
 	Plane test(glm::vec3(0,0,0), glm::vec3(1024, 10, 1024));
 
     Asset tree;
-    tree.initialize(test.programID, glm::vec3(20, 0, 20), glm::vec3(15, 15, 15), "../lab4/assets/tree_small_02_1k.gltf");
+    tree.initialize(test.programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../lab4/assets/tree_small_02/tree_small_02_1k.gltf");
+
+	Asset tree2;
+	tree2.initialize(test.programID, glm::vec3(-80, 0, 20), glm::vec3(15, 15, 15), "../lab4/assets/tree_small_02/tree_small_02_1k.gltf");
+
+	Asset tree3;
+	tree3.initialize(test.programID, glm::vec3(-90, 0, 70), glm::vec3(15, 15, 15), "../lab4/assets/tree_small_02/tree_small_02_1k.gltf");
+
+	Asset testShuttle;
+	testShuttle.initialize(test.programID, glm::vec3(10, 10, 10), glm::vec3(5, 5, 5),
+		"../lab4/assets/theta_class_shuttle/shuttle.gltf");
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
-
-	//SkyBox test;
-	//test.initialize(glm::vec3(0,0,0), glm::vec3(10,10,10));
-
-	//Cube c1(glm::vec3(0,20,0), glm::vec3(10,10,10), "../lab4/assets/debug.png");
-	//Cube ground(glm::vec3(0,0,0), glm::vec3(900, 1, 600), "../lab4/assets/ground.png");
 
 	lighting sceneLight(test.programID, shadowMapWidth, shadowMapHeight);
 	sceneLight.setLightPosition(lightPosition, lightIntensity, 2.0f);
 
 	std::vector<Asset> assets;
 	assets.push_back(tree);
+	assets.push_back(tree2);
+	assets.push_back(tree3);
+
 	std::vector<Plane> planes;
 	planes.push_back(test);
 
-	//tmp
 	eye_center.y = viewDistance * cos(viewPolar);
 	eye_center.x = viewDistance * cos(viewAzimuth);
 	eye_center.z = viewDistance * sin(viewAzimuth);
@@ -225,17 +227,10 @@ int main(void)
 	float fTime = 0.0f;			// Time for measuring fps
 	unsigned long frames = 0;
 
-	//test light source
-	//Cube lightSource(glm::vec3(-200.0f, 50.0f, 200.0f), glm::vec3(5, 5, 5), "../lab4/assets/debug.png");
-
 	glm::mat4 lightView, lightProjection;
-	lightProjection = glm::perspective(glm::radians(depthFoV), (float)shadowMapWidth / shadowMapHeight, depthNear, depthFar);
-	// Main loop
-
-	viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-	glm::mat4 vp = projectionMatrix * viewMatrix;
-
+	lightProjection = glm::perspective(glm::radians(depthFoV), static_cast<float>(shadowMapWidth) / static_cast<float>(shadowMapHeight), depthNear, depthFar);
 	lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
+
 	glm::mat4 lightSpaceMatrix = lightProjection * lightView;
 	sceneLight.shadowPass(lightSpaceMatrix, assets, planes);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
@@ -263,21 +258,16 @@ int main(void)
 		viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		glm::mat4 vp = projectionMatrix * viewMatrix;
 
-
 		skybox.position = cameraPos;
-	/*
-		sceneLight.shadowPass(lightSpaceMatrix, assets, planes);
-		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-		sceneLight.prepareLighting();
-		*/
-
 		glDepthMask(GL_FALSE); // Disable depth writes
 		skybox.render(vp);     // Render the skybox
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
-		//c1.render(vp);
 		test.render(vp);
-		//lightSource.render(vp);
         tree.render(vp);
+		tree2.render(vp);
+		tree3.render(vp);
+
+		testShuttle.render(vp);
 
 		frames++;
 		fTime += deltaTime;
@@ -299,8 +289,6 @@ int main(void)
 	while (!glfwWindowShouldClose(window));
 
 	// Clean up
-	//bot.cleanup();
-	//bot2.cleanup();
 	skybox.cleanup();
 
 	// Close OpenGL window and terminate GLFW
