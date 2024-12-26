@@ -43,6 +43,8 @@ add_executable(opengl_futuristic
 		final/ground.h
 		final/lighting.cpp
 		final/lighting.h
+		final/animatedModel.h
+		final/animatedModel.cpp
 )
 
 # Link libraries to the executable
