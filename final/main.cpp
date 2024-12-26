@@ -187,8 +187,6 @@ int main(void)
 	//MyBot bot;
 	//bot.initialize();
 
-
-
 	Plane test(glm::vec3(0,0,0), glm::vec3(512, 10, 512), "../final/assets/ground.jpg");
 
 	Cube cube(test.programID, glm::vec3(0,10,0), glm::vec3(10, 10, 10), "../final/assets/debug.png");

@@ -11,8 +11,8 @@
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 // Lighting
-static glm::vec3 lightIntensity = glm::vec3(0.2,0.2,0.2);
-static glm::vec3 lightPosition(0.0f, 50.0f, 0.0f);
+static glm::vec3 lightIntensity = glm::vec3(0.3,0.3,0.3);
+static glm::vec3 lightPosition(25.0f, 120.0f, 50.0f);
 
 struct MyBot {
 	// Shader variable IDs

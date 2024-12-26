@@ -12,6 +12,7 @@ out vec4 finalColor;
 
 uniform vec3 lightPosition;
 uniform vec3 lightIntensity;
+//uniform vec3 ambientLightIntensity; // Add ambient light uniform
 uniform float exposure;
 uniform sampler2D shadowMap;
 uniform mat4 lightSpaceMatrix;
@@ -19,7 +20,6 @@ uniform mat4 modelMatrix;
 
 void main()
 {
-
 	vec3 normal = normalize(worldNormal);
 	vec3 fragPosition = vec3(modelMatrix * vec4(worldPosition, 1.0));
 	vec3 lightDirection = normalize(lightPosition - fragPosition);
@@ -33,8 +33,17 @@ void main()
 		attenuation = 1.0f / (1.0f + k1 * (distance - threshold) + k2 * pow(distance - threshold, 2));
 	}
 
+	// Diffuse lighting
 	float diff = max(dot(normal, lightDirection), 0.0);
 	vec3 diffuse = diff * lightIntensity * attenuation;
+
+	// Ambient lighting
+	vec3 ambient = vec3(0.01);	// Ambient component
+
+	// Combine diffuse and ambient
+	vec3 lighting = diffuse + ambient;
+
+	// Shadow calculations
 	vec4 fragPosLightSpace = lightSpaceMatrix * modelMatrix * vec4(worldPosition, 1.0);
 	vec3 lightCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
 	lightCoords = lightCoords * 0.5 + 0.5;
@@ -56,9 +65,10 @@ void main()
 		}
 		shadow /= 9.0;
 	}
-	diffuse *= shadow;
-	vec3 exposedColor = diffuse * exposure;
+	lighting *= shadow;
+
+	// Tone mapping
+	vec3 exposedColor = lighting * exposure;
 	vec3 toneMappedColor = exposedColor / (exposedColor + vec3(1.0));
 	finalColor = (texture(textureSampler, uv).rgba * baseColorFactor * vec4(pow(toneMappedColor, vec3(1.0 / 2.2)), 1.0));
-
 }
