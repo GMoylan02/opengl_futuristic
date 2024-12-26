@@ -63,7 +63,7 @@ public:
     // Shader variable IDs
     GLuint textureSamplerID;
     GLuint programID;
-    Plane(glm::vec3 position, glm::vec3 scale);
+    Plane(glm::vec3 position, glm::vec3 scale, const char *texture_file_path);
     void render(glm::mat4 cameraMatrix);
     void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix);
     void cleanup();

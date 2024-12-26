@@ -10,7 +10,7 @@
 #include "light.h"
 #include "texture.h"
 
-Plane::Plane(glm::vec3 position, glm::vec3 scale) {
+Plane::Plane(glm::vec3 position, glm::vec3 scale, const char *texture_file_path) {
 		this->position = position;
 		this->scale = scale;
 
@@ -57,7 +57,7 @@ Plane::Plane(glm::vec3 position, glm::vec3 scale) {
 		// Get a handle for our Model Matrix uniform
 		modelMatrixID = glGetUniformLocation(programID, "modelMatrix");
 
-		textureID = LoadTextureTileBox("../final/assets/ground.jpg");
+		textureID = LoadTextureTileBox(texture_file_path);
 
 		// Get a handle for our "textureSampler" uniform
 		textureSamplerID = glGetUniformLocation(programID, "textureSampler");
