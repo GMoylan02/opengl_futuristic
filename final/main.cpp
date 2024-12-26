@@ -11,7 +11,7 @@
 #define TINYGLTF_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <tiny_gltf.h>
+//#include <tiny_gltf.h>
 
 #include <render/shader.h>
 
@@ -26,7 +26,7 @@
 #include <ground.h>
 
 #include "lighting.h"
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
+#include <MyBot.cpp>
 
 static GLFWwindow *window;
 static int windowWidth = 1024;
@@ -39,8 +39,8 @@ const glm::vec3 wave500(0.0f, 255.0f, 146.0f);
 const glm::vec3 wave600(255.0f, 190.0f, 0.0f);
 const glm::vec3 wave700(205.0f, 0.0f, 0.0f);
 //static glm::vec3 lightIntensity = 5.0f * (8.0f * wave500 + 15.6f * wave600 + 18.4f * wave700);
-static glm::vec3 lightIntensity = glm::vec3(0.2,0.2,0.2);
-static glm::vec3 lightPosition(-100.0f, 200.0f, -100.0f);
+//static glm::vec3 lightIntensity = glm::vec3(0.2,0.2,0.2);
+//static glm::vec3 lightPosition(-100.0f, 200.0f, -100.0f);
 static float exposure = 2.0f;
 
 // Shadow mapping
@@ -182,6 +182,9 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
+	MyBot bot;
+	bot.initialize();
+
 	Plane test(glm::vec3(0,0,0), glm::vec3(1024, 10, 1024));
 
     Asset tree;
@@ -193,9 +196,9 @@ int main(void)
 	Asset tree3;
 	tree3.initialize(test.programID, glm::vec3(-90, 0, 70), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 
-	Asset testShuttle;
-	testShuttle.initialize(test.programID, glm::vec3(10, 10, 10), glm::vec3(5, 5, 5),
-		"../final/assets/theta_class_shuttle/shuttle.gltf");
+	//Asset testShuttle;
+	//testShuttle.initialize(test.programID, glm::vec3(10, 10, 10), glm::vec3(5, 5, 5),
+	//	"../final/assets/theta_class_shuttle/shuttle.gltf");
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
@@ -266,8 +269,9 @@ int main(void)
         tree.render(vp);
 		tree2.render(vp);
 		tree3.render(vp);
+		bot.render(vp);
 
-		testShuttle.render(vp);
+		//testShuttle.render(vp);
 
 		frames++;
 		fTime += deltaTime;

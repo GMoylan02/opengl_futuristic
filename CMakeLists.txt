@@ -45,6 +45,7 @@ add_executable(opengl_futuristic
 		final/lighting.h
 		final/animatedModel.h
 		final/animatedModel.cpp
+		final/MyBot.cpp
 )
 
 # Link libraries to the executable
