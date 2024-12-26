@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: lab4
+# Project: final
 # Configurations: Debug
 # =============================================================================
 
@@ -41,134 +41,105 @@ include CMakeFiles\rules.ninja
 
 cmake_ninja_workdir = D$:\projects\opengl_futuristic\cmake-build-debug\
 # =============================================================================
-# Object build statements for EXECUTABLE target lab4_skeleton
+# Object build statements for EXECUTABLE target opengl_futuristic
 
 
 #############################################
-# Order-only phony target for lab4_skeleton
+# Order-only phony target for opengl_futuristic
 
-build cmake_object_order_depends_target_lab4_skeleton: phony || cmake_object_order_depends_target_glad cmake_object_order_depends_target_glfw
+build cmake_object_order_depends_target_opengl_futuristic: phony || cmake_object_order_depends_target_glad cmake_object_order_depends_target_glfw
 
-build CMakeFiles\lab4_skeleton.dir\lab4\render\shader.cpp.obj: CXX_COMPILER__lab4_skeleton_unscanned_Debug D$:\projects\opengl_futuristic\lab4\render\shader.cpp || cmake_object_order_depends_target_lab4_skeleton
+build CMakeFiles\opengl_futuristic.dir\final\main.cpp.obj: CXX_COMPILER__opengl_futuristic_unscanned_Debug D$:\projects\opengl_futuristic\final\main.cpp || cmake_object_order_depends_target_opengl_futuristic
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\lab4 -ID:\projects\opengl_futuristic\external\glad-3.3\include
-  OBJECT_DIR = CMakeFiles\lab4_skeleton.dir
-  OBJECT_FILE_DIR = CMakeFiles\lab4_skeleton.dir\lab4\render
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_skeleton.dir\
-  TARGET_PDB = lab4_skeleton.pdb
+  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\final -ID:\projects\opengl_futuristic\external\glad-3.3\include
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
+  OBJECT_FILE_DIR = CMakeFiles\opengl_futuristic.dir\final
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_PDB = opengl_futuristic.pdb
+
+build CMakeFiles\opengl_futuristic.dir\final\render\shader.cpp.obj: CXX_COMPILER__opengl_futuristic_unscanned_Debug D$:\projects\opengl_futuristic\final\render\shader.cpp || cmake_object_order_depends_target_opengl_futuristic
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\final -ID:\projects\opengl_futuristic\external\glad-3.3\include
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
+  OBJECT_FILE_DIR = CMakeFiles\opengl_futuristic.dir\final\render
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_PDB = opengl_futuristic.pdb
+
+build CMakeFiles\opengl_futuristic.dir\final\skybox.cpp.obj: CXX_COMPILER__opengl_futuristic_unscanned_Debug D$:\projects\opengl_futuristic\final\skybox.cpp || cmake_object_order_depends_target_opengl_futuristic
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\final -ID:\projects\opengl_futuristic\external\glad-3.3\include
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
+  OBJECT_FILE_DIR = CMakeFiles\opengl_futuristic.dir\final
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_PDB = opengl_futuristic.pdb
+
+build CMakeFiles\opengl_futuristic.dir\final\asset.cpp.obj: CXX_COMPILER__opengl_futuristic_unscanned_Debug D$:\projects\opengl_futuristic\final\asset.cpp || cmake_object_order_depends_target_opengl_futuristic
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\final -ID:\projects\opengl_futuristic\external\glad-3.3\include
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
+  OBJECT_FILE_DIR = CMakeFiles\opengl_futuristic.dir\final
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_PDB = opengl_futuristic.pdb
+
+build CMakeFiles\opengl_futuristic.dir\final\cube.cpp.obj: CXX_COMPILER__opengl_futuristic_unscanned_Debug D$:\projects\opengl_futuristic\final\cube.cpp || cmake_object_order_depends_target_opengl_futuristic
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\final -ID:\projects\opengl_futuristic\external\glad-3.3\include
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
+  OBJECT_FILE_DIR = CMakeFiles\opengl_futuristic.dir\final
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_PDB = opengl_futuristic.pdb
+
+build CMakeFiles\opengl_futuristic.dir\final\texture.cpp.obj: CXX_COMPILER__opengl_futuristic_unscanned_Debug D$:\projects\opengl_futuristic\final\texture.cpp || cmake_object_order_depends_target_opengl_futuristic
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\final -ID:\projects\opengl_futuristic\external\glad-3.3\include
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
+  OBJECT_FILE_DIR = CMakeFiles\opengl_futuristic.dir\final
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_PDB = opengl_futuristic.pdb
+
+build CMakeFiles\opengl_futuristic.dir\final\light.cpp.obj: CXX_COMPILER__opengl_futuristic_unscanned_Debug D$:\projects\opengl_futuristic\final\light.cpp || cmake_object_order_depends_target_opengl_futuristic
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\final -ID:\projects\opengl_futuristic\external\glad-3.3\include
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
+  OBJECT_FILE_DIR = CMakeFiles\opengl_futuristic.dir\final
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_PDB = opengl_futuristic.pdb
+
+build CMakeFiles\opengl_futuristic.dir\final\ground.cpp.obj: CXX_COMPILER__opengl_futuristic_unscanned_Debug D$:\projects\opengl_futuristic\final\ground.cpp || cmake_object_order_depends_target_opengl_futuristic
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\final -ID:\projects\opengl_futuristic\external\glad-3.3\include
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
+  OBJECT_FILE_DIR = CMakeFiles\opengl_futuristic.dir\final
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_PDB = opengl_futuristic.pdb
+
+build CMakeFiles\opengl_futuristic.dir\final\lighting.cpp.obj: CXX_COMPILER__opengl_futuristic_unscanned_Debug D$:\projects\opengl_futuristic\final\lighting.cpp || cmake_object_order_depends_target_opengl_futuristic
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\final -ID:\projects\opengl_futuristic\external\glad-3.3\include
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
+  OBJECT_FILE_DIR = CMakeFiles\opengl_futuristic.dir\final
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_PDB = opengl_futuristic.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target lab4_skeleton
+# Link build statements for EXECUTABLE target opengl_futuristic
 
 
 #############################################
-# Link the executable lab4_skeleton.exe
+# Link the executable opengl_futuristic.exe
 
-build lab4_skeleton.exe: CXX_EXECUTABLE_LINKER__lab4_skeleton_Debug CMakeFiles\lab4_skeleton.dir\lab4\render\shader.cpp.obj | glfw3dll.lib glad.lib || glad.dll glfw3.dll
+build opengl_futuristic.exe: CXX_EXECUTABLE_LINKER__opengl_futuristic_Debug CMakeFiles\opengl_futuristic.dir\final\main.cpp.obj CMakeFiles\opengl_futuristic.dir\final\render\shader.cpp.obj CMakeFiles\opengl_futuristic.dir\final\skybox.cpp.obj CMakeFiles\opengl_futuristic.dir\final\asset.cpp.obj CMakeFiles\opengl_futuristic.dir\final\cube.cpp.obj CMakeFiles\opengl_futuristic.dir\final\texture.cpp.obj CMakeFiles\opengl_futuristic.dir\final\light.cpp.obj CMakeFiles\opengl_futuristic.dir\final\ground.cpp.obj CMakeFiles\opengl_futuristic.dir\final\lighting.cpp.obj | glfw3dll.lib glad.lib || glad.dll glfw3.dll
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = opengl32.lib  glu32.lib  glfw3dll.lib  glad.lib  opengl32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = CMakeFiles\lab4_skeleton.dir
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_skeleton.dir\
-  TARGET_FILE = lab4_skeleton.exe
-  TARGET_IMPLIB = lab4_skeleton.lib
-  TARGET_PDB = lab4_skeleton.pdb
-
-# =============================================================================
-# Object build statements for EXECUTABLE target lab4_character
-
-
-#############################################
-# Order-only phony target for lab4_character
-
-build cmake_object_order_depends_target_lab4_character: phony || cmake_object_order_depends_target_glad cmake_object_order_depends_target_glfw
-
-build CMakeFiles\lab4_character.dir\lab4\lab4_character.cpp.obj: CXX_COMPILER__lab4_character_unscanned_Debug D$:\projects\opengl_futuristic\lab4\lab4_character.cpp || cmake_object_order_depends_target_lab4_character
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\lab4 -ID:\projects\opengl_futuristic\external\glad-3.3\include
-  OBJECT_DIR = CMakeFiles\lab4_character.dir
-  OBJECT_FILE_DIR = CMakeFiles\lab4_character.dir\lab4
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_character.dir\
-  TARGET_PDB = lab4_character.pdb
-
-build CMakeFiles\lab4_character.dir\lab4\render\shader.cpp.obj: CXX_COMPILER__lab4_character_unscanned_Debug D$:\projects\opengl_futuristic\lab4\render\shader.cpp || cmake_object_order_depends_target_lab4_character
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\lab4 -ID:\projects\opengl_futuristic\external\glad-3.3\include
-  OBJECT_DIR = CMakeFiles\lab4_character.dir
-  OBJECT_FILE_DIR = CMakeFiles\lab4_character.dir\lab4\render
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_character.dir\
-  TARGET_PDB = lab4_character.pdb
-
-build CMakeFiles\lab4_character.dir\lab4\skybox.cpp.obj: CXX_COMPILER__lab4_character_unscanned_Debug D$:\projects\opengl_futuristic\lab4\skybox.cpp || cmake_object_order_depends_target_lab4_character
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\lab4 -ID:\projects\opengl_futuristic\external\glad-3.3\include
-  OBJECT_DIR = CMakeFiles\lab4_character.dir
-  OBJECT_FILE_DIR = CMakeFiles\lab4_character.dir\lab4
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_character.dir\
-  TARGET_PDB = lab4_character.pdb
-
-build CMakeFiles\lab4_character.dir\lab4\asset.cpp.obj: CXX_COMPILER__lab4_character_unscanned_Debug D$:\projects\opengl_futuristic\lab4\asset.cpp || cmake_object_order_depends_target_lab4_character
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\lab4 -ID:\projects\opengl_futuristic\external\glad-3.3\include
-  OBJECT_DIR = CMakeFiles\lab4_character.dir
-  OBJECT_FILE_DIR = CMakeFiles\lab4_character.dir\lab4
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_character.dir\
-  TARGET_PDB = lab4_character.pdb
-
-build CMakeFiles\lab4_character.dir\lab4\cube.cpp.obj: CXX_COMPILER__lab4_character_unscanned_Debug D$:\projects\opengl_futuristic\lab4\cube.cpp || cmake_object_order_depends_target_lab4_character
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\lab4 -ID:\projects\opengl_futuristic\external\glad-3.3\include
-  OBJECT_DIR = CMakeFiles\lab4_character.dir
-  OBJECT_FILE_DIR = CMakeFiles\lab4_character.dir\lab4
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_character.dir\
-  TARGET_PDB = lab4_character.pdb
-
-build CMakeFiles\lab4_character.dir\lab4\texture.cpp.obj: CXX_COMPILER__lab4_character_unscanned_Debug D$:\projects\opengl_futuristic\lab4\texture.cpp || cmake_object_order_depends_target_lab4_character
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\lab4 -ID:\projects\opengl_futuristic\external\glad-3.3\include
-  OBJECT_DIR = CMakeFiles\lab4_character.dir
-  OBJECT_FILE_DIR = CMakeFiles\lab4_character.dir\lab4
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_character.dir\
-  TARGET_PDB = lab4_character.pdb
-
-build CMakeFiles\lab4_character.dir\lab4\light.cpp.obj: CXX_COMPILER__lab4_character_unscanned_Debug D$:\projects\opengl_futuristic\lab4\light.cpp || cmake_object_order_depends_target_lab4_character
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\lab4 -ID:\projects\opengl_futuristic\external\glad-3.3\include
-  OBJECT_DIR = CMakeFiles\lab4_character.dir
-  OBJECT_FILE_DIR = CMakeFiles\lab4_character.dir\lab4
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_character.dir\
-  TARGET_PDB = lab4_character.pdb
-
-build CMakeFiles\lab4_character.dir\lab4\ground.cpp.obj: CXX_COMPILER__lab4_character_unscanned_Debug D$:\projects\opengl_futuristic\lab4\ground.cpp || cmake_object_order_depends_target_lab4_character
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\lab4 -ID:\projects\opengl_futuristic\external\glad-3.3\include
-  OBJECT_DIR = CMakeFiles\lab4_character.dir
-  OBJECT_FILE_DIR = CMakeFiles\lab4_character.dir\lab4
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_character.dir\
-  TARGET_PDB = lab4_character.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target lab4_character
-
-
-#############################################
-# Link the executable lab4_character.exe
-
-build lab4_character.exe: CXX_EXECUTABLE_LINKER__lab4_character_Debug CMakeFiles\lab4_character.dir\lab4\lab4_character.cpp.obj CMakeFiles\lab4_character.dir\lab4\render\shader.cpp.obj CMakeFiles\lab4_character.dir\lab4\skybox.cpp.obj CMakeFiles\lab4_character.dir\lab4\asset.cpp.obj CMakeFiles\lab4_character.dir\lab4\cube.cpp.obj CMakeFiles\lab4_character.dir\lab4\texture.cpp.obj CMakeFiles\lab4_character.dir\lab4\light.cpp.obj CMakeFiles\lab4_character.dir\lab4\ground.cpp.obj | glfw3dll.lib glad.lib || glad.dll glfw3.dll
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
-  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = opengl32.lib  glu32.lib  glfw3dll.lib  glad.lib  opengl32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = CMakeFiles\lab4_character.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\lab4_character.dir\
-  TARGET_FILE = lab4_character.exe
-  TARGET_IMPLIB = lab4_character.lib
-  TARGET_PDB = lab4_character.pdb
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_FILE = opengl_futuristic.exe
+  TARGET_IMPLIB = opengl_futuristic.lib
+  TARGET_PDB = opengl_futuristic.pdb
 
 
 #############################################
@@ -489,9 +460,7 @@ build glad: phony glad.dll
 
 build glfw: phony glfw3.dll
 
-build lab4_character: phony lab4_character.exe
-
-build lab4_skeleton: phony lab4_skeleton.exe
+build opengl_futuristic: phony opengl_futuristic.exe
 
 # =============================================================================
 # Folder targets.
@@ -501,7 +470,7 @@ build lab4_skeleton: phony lab4_skeleton.exe
 #############################################
 # Folder: D:/projects/opengl_futuristic/cmake-build-debug
 
-build all: phony lab4_skeleton.exe lab4_character.exe external\all
+build all: phony opengl_futuristic.exe external\all
 
 # =============================================================================
 

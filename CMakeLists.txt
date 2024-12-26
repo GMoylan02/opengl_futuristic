@@ -1,52 +1,53 @@
 cmake_minimum_required(VERSION 3.0)
-project(lab4)
+project(final)
 
+# Find OpenGL
 find_package(OpenGL REQUIRED)
-set (CMAKE_CXX_STANDARD 11)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 11)
+
+# Output directories
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
+# Add external libraries
 add_subdirectory(external)
 
+# Include directories
 include_directories(
-	external/glfw-3.1.2/include/
-	external/glm-0.9.7.1/
-	external/glad-opengl-3.3/include/
-	external/tinygltf-2.9.3/
+		external/glfw-3.1.2/include/
+		external/glm-0.9.7.1/
+		external/glad-opengl-3.3/include/
+		external/tinygltf-2.9.3/
 		external/
-	lab4/
+		final/
 )
 
-add_executable(lab4_skeleton
-		lab4/render/shader.cpp
-)
-target_link_libraries(lab4_skeleton
-	${OPENGL_LIBRARY}
-	glfw
-	glad
+# Define the executable
+add_executable(opengl_futuristic
+		final/main.cpp
+		final/render/shader.cpp
+		final/skybox.cpp
+		final/skybox.h
+		final/asset.cpp
+		final/asset.h
+		final/cube.cpp
+		final/cube.h
+		final/light.h
+		final/texture.cpp
+		final/texture.h
+		final/light.cpp
+		final/ground.cpp
+		final/ground.h
+		final/lighting.cpp
+		final/lighting.h
 )
 
-add_executable(lab4_character
-	lab4/lab4_character.cpp
-	lab4/render/shader.cpp
-		lab4/skybox.cpp
-		lab4/skybox.h
-		lab4/asset.cpp
-		lab4/asset.h
-		lab4/cube.cpp
-		lab4/cube.h
-		lab4/light.h
-		lab4/texture.cpp
-		lab4/texture.h
-		lab4/light.cpp
-		lab4/ground.cpp
-		lab4/ground.h
-		lab4/lighting.cpp
-		lab4/lighting.h
-)
-target_link_libraries(lab4_character
-	${OPENGL_LIBRARY}
-	glfw
-	glad
+# Link libraries to the executable
+target_link_libraries(opengl_futuristic
+		${OPENGL_LIBRARY}
+		glfw
+		glad
 )

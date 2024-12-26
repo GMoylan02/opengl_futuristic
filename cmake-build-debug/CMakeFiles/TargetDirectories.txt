@@ -1,5 +1,4 @@
-D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/lab4_skeleton.dir
-D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/lab4_character.dir
+D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/opengl_futuristic.dir
 D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/edit_cache.dir
 D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 D:/projects/opengl_futuristic/cmake-build-debug/external/CMakeFiles/edit_cache.dir
