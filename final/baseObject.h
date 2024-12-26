@@ -8,6 +8,7 @@
 
 class BaseObject {
 public:
+    virtual ~BaseObject() = default;
     GLuint cameraMatrixID;
     GLuint transformMatrixID;
     GLuint programID;
@@ -18,7 +19,7 @@ public:
     glm::mat4 modelMatrix;
     GLuint cameraPosID;
     BaseObject(GLuint programID, glm::vec3 position, glm::vec3 scale);
-
+    virtual void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix) = 0;
 };
 
 #endif //BASEOBJECT_H

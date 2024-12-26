@@ -189,7 +189,7 @@ class Cube : public BaseObject {
 
     Cube(GLuint programID, glm::vec3 position, glm::vec3 scale, const char *texture_file_path);
     void render(glm::mat4 cameraMatrix);
-    void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix);
+    void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix) override;
     void cleanup();
 };
 

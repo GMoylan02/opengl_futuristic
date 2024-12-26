@@ -23,3 +23,6 @@ BaseObject::BaseObject(GLuint programID, glm::vec3 position, glm::vec3 scale) {
     cameraPosID = glGetUniformLocation(programID, "cameraPos");
     this->programID = programID;
 }
+
+
+

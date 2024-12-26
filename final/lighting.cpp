@@ -8,6 +8,7 @@
 #include <render/shader.h>
 
 
+
 lighting::lighting(GLuint programID, int shadowMapWidth, int shadowMapHeight) {
     // Set program IDs
         this->programID = programID;
@@ -62,16 +63,16 @@ void lighting::setLightPosition(glm::vec3 lightPosition, glm::vec3 lightIntensit
     //}
 }
 
-void lighting::shadowPass(glm::mat4 lightSpaceMatrix, std::vector<Asset> assets, std::vector<Plane> planes) {
+void lighting::shadowPass(glm::mat4 lightSpaceMatrix, std::vector<Asset> assets,  std::vector<Cube> cubes, std::vector<Plane> planes) {
     // Record Light Space Matrix
     this->lightSpaceMatrix = lightSpaceMatrix;
-
     // Perform Shadow pass
     glUseProgram(depthProgramID);
     glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
     glClear(GL_DEPTH_BUFFER_BIT);
 
-    for (auto& asset : assets) asset.renderDepth(depthProgramID, lightSpaceID, transformID, lightSpaceMatrix); //todo
+    for (auto& asset : assets) asset.renderDepth(depthProgramID, lightSpaceID, transformID, lightSpaceMatrix);
+    for (auto& cube : cubes) cube.renderDepth(depthProgramID, lightSpaceID, transformID, lightSpaceMatrix);
     for (auto& plane : planes) plane.renderDepth(depthProgramID, lightSpaceID, transformID, lightSpaceMatrix);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);

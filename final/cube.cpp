@@ -97,7 +97,7 @@ void Cube::render(glm::mat4 cameraMatrix) {
     glDisableVertexAttribArray(2);
 }
 
-void Cube::renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix) {
+void Cube::renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix){
     glUseProgram(programID);
 
     // Pass the MVP matrix to the shader

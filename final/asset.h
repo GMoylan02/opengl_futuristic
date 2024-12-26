@@ -45,7 +45,7 @@ public:
     std::vector<PrimitiveObject> bindModel(tinygltf::Model &model);
 
     void render(const glm::mat4& mvpMatrix/*, const glm::vec3& lightPosition, const glm::vec3& lightIntensity*/);
-    void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix);
+    void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix) override;
 };
 
 #endif //ASSET_H

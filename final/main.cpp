@@ -183,6 +183,7 @@ int main(void)
 	glEnable(GL_CULL_FACE);
 
 	std::vector<Asset> assets;
+	std::vector<Cube> cubes;
 
 	//MyBot bot;
 	//bot.initialize();
@@ -190,6 +191,7 @@ int main(void)
 	Plane test(glm::vec3(0,0,0), glm::vec3(512, 10, 512), "../final/assets/ground.jpg");
 
 	Cube cube(test.programID, glm::vec3(0,10,0), glm::vec3(10, 10, 10), "../final/assets/debug.png");
+	cubes.push_back(cube);
     Asset tree(test.programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 	assets.push_back(tree);
 	Asset tree2(test.programID, glm::vec3(-80, 0, 20), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
@@ -228,7 +230,7 @@ int main(void)
 	lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
 
 	glm::mat4 lightSpaceMatrix = lightProjection * lightView;
-	sceneLight.shadowPass(lightSpaceMatrix, assets, planes);
+	sceneLight.shadowPass(lightSpaceMatrix, assets, cubes, planes);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	sceneLight.prepareLighting();
 
