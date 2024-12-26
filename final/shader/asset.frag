@@ -59,6 +59,6 @@ void main()
 	diffuse *= shadow;
 	vec3 exposedColor = diffuse * exposure;
 	vec3 toneMappedColor = exposedColor / (exposedColor + vec3(1.0));
-	finalColor = texture(textureSampler, uv).rgba * baseColorFactor * vec4(pow(toneMappedColor, vec3(1.0 / 2.2)), 1.0);
+	finalColor = (texture(textureSampler, uv).rgba * baseColorFactor * vec4(pow(toneMappedColor, vec3(1.0 / 2.2)), 1.0));
 
 }

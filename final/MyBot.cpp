@@ -12,7 +12,7 @@
 
 // Lighting
 static glm::vec3 lightIntensity = glm::vec3(0.2,0.2,0.2);
-static glm::vec3 lightPosition(-100.0f, 200.0f, -100.0f);
+static glm::vec3 lightPosition(0.0f, 50.0f, 0.0f);
 
 struct MyBot {
 	// Shader variable IDs

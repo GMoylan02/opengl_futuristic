@@ -182,23 +182,22 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	MyBot bot;
-	bot.initialize();
+	std::vector<Asset> assets;
 
-	Plane test(glm::vec3(0,0,0), glm::vec3(1024, 10, 1024));
+	//MyBot bot;
+	//bot.initialize();
 
-    Asset tree;
-    tree.initialize(test.programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 
-	Asset tree2;
-	tree2.initialize(test.programID, glm::vec3(-80, 0, 20), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 
-	Asset tree3;
-	tree3.initialize(test.programID, glm::vec3(-90, 0, 70), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
+	Plane test(glm::vec3(0,0,0), glm::vec3(512, 10, 512), "../final/assets/ground.jpg");
 
-	//Asset testShuttle;
-	//testShuttle.initialize(test.programID, glm::vec3(10, 10, 10), glm::vec3(5, 5, 5),
-	//	"../final/assets/theta_class_shuttle/shuttle.gltf");
+	Cube cube(test.programID, glm::vec3(0,10,0), glm::vec3(10, 10, 10), "../final/assets/debug.png");
+    Asset tree(test.programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
+	assets.push_back(tree);
+	Asset tree2(test.programID, glm::vec3(-80, 0, 20), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
+	assets.push_back(tree2);
+	Asset tree3(test.programID, glm::vec3(-90, 0, 70), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
+	assets.push_back(tree3);
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
@@ -206,10 +205,6 @@ int main(void)
 	lighting sceneLight(test.programID, shadowMapWidth, shadowMapHeight);
 	sceneLight.setLightPosition(lightPosition, lightIntensity, 2.0f);
 
-	std::vector<Asset> assets;
-	assets.push_back(tree);
-	assets.push_back(tree2);
-	assets.push_back(tree3);
 
 	std::vector<Plane> planes;
 	planes.push_back(test);
@@ -269,9 +264,7 @@ int main(void)
         tree.render(vp);
 		tree2.render(vp);
 		tree3.render(vp);
-		bot.render(vp);
-
-		//testShuttle.render(vp);
+		cube.render(vp);
 
 		frames++;
 		fTime += deltaTime;

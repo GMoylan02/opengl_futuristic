@@ -68,7 +68,7 @@ GL_STATIC_DRAW);
     // TODO: Load a texture
     // --------------------
     // --------------------
-	textureID = LoadTextureTileBox("../final/assets/skybox.png");
+	textureID = LoadTextureTileBox("../final/skybox.png");
 
     // TODO: Get a handle to texture sampler
     // -------------------------------------

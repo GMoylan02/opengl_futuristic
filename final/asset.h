@@ -1,6 +1,7 @@
 #ifndef ASSET_H
 #define ASSET_H
 #include "glad/gl.h"
+#include "baseObject.h"
 //GLuint LoadTextureTileBox(const char *texture_file_path);
 extern glm::vec3 cameraPos;
 extern glm::mat4 projectionMatrix;
@@ -8,21 +9,9 @@ extern glm::mat4 projectionMatrix;
 #include "tiny_gltf.h"
 
 
-struct Asset {
-    // Shader variable IDs
-    GLuint cameraMatrixID;
-    GLuint transformMatrixID;
+class Asset : public BaseObject {
+public:
     GLuint jointMatricesID;
-    GLuint programID;
-    GLuint textureSamplerID;
-    GLuint modelMatrixID;
-    GLuint baseColorFactorID;
-    GLuint isLightID;
-    glm::mat4 modelMatrix;
-
-    GLuint cameraPosID;
-
-
     tinygltf::Model model;
 
     struct PrimitiveObject {
@@ -47,7 +36,7 @@ struct Asset {
 
     bool loadModel(tinygltf::Model &model, const char *filename);
 
-    void initialize(GLuint programID, glm::vec3 translation, glm::vec3 scale, const char * filepath);
+    Asset(GLuint programID, glm::vec3 translation, glm::vec3 scale, const char * filepath);
 
     void bindMesh(std::vector<PrimitiveObject> &primitiveObjects,
                   tinygltf::Model &model,

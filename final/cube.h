@@ -1,18 +1,18 @@
-//
-// Created by eyeba on 18/12/2024.
-//
 
 #ifndef CUBE_H
 #define CUBE_H
 #include <glm/detail/type_vec.hpp>
 #include <glm/detail/type_vec3.hpp>
+#include "baseObject.h"
 
 #include "glad/gl.h"
 
-class Cube {
+class Cube : public BaseObject {
     public:
-        glm::vec3 position;
-        glm::vec3 scale;
+    glm::vec3 position;
+    glm::vec3 scale;
+    GLuint viewMatrixID;
+    GLuint projectionMatrixID;
         GLfloat vertex_buffer_data[72] = {	// Vertex definition for a canonical box
             // Front face
             -1.0f, -1.0f, 1.0f,
@@ -178,27 +178,18 @@ class Cube {
         0.0f, -1.0f, 0.0f, // Normal for the third vertex
         0.0f, -1.0f, 0.0f  // Normal for the fourth vertex
     };
-        GLuint vertexArrayID;
-        GLuint vertexBufferID;
-        GLuint indexBufferID;
-        GLuint colorBufferID;
-    GLuint uvBufferID;
-        GLuint textureID;
-        //GLuint mvpMatrixID;
-    GLuint modelMatrixID;
-    GLuint viewMatrixID;
-    GLuint projectionMatrixID;
-        GLuint textureSamplerID;
-        GLuint programID;
-
+    // OpenGL buffers
+    GLuint vertexArrayID;
+    GLuint vertexBufferID;
+    GLuint indexBufferID;
     GLuint normalBufferID;
-    GLuint numLights;
+    GLuint uvBufferID;
+    GLuint textureID;
+    GLuint shininessID;
 
-    GLuint lightPositionID;
-    GLuint lightIntensityID;
-    glm::mat4 lightSpaceMatrix;
-    Cube(glm::vec3 position, glm::vec3 scale, const char *texture_file_path);
+    Cube(GLuint programID, glm::vec3 position, glm::vec3 scale, const char *texture_file_path);
     void render(glm::mat4 cameraMatrix);
+    void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix);
     void cleanup();
 };
 
