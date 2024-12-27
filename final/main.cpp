@@ -339,6 +339,17 @@ int main(void)
 			p8.render(vp);
 			p9.render(vp);
 
+			planeToCubes.at(p1)[0].render(vp);
+			planeToCubes.at(p2)[0].render(vp);
+			planeToCubes.at(p3)[0].render(vp);
+			planeToCubes.at(p4)[0].render(vp);
+			planeToCubes.at(p5)[0].render(vp);
+			planeToCubes.at(p6)[0].render(vp);
+			planeToCubes.at(p7)[0].render(vp);
+			planeToCubes.at(p8)[0].render(vp);
+			planeToCubes.at(p9)[0].render(vp);
+
+
 
 
 		} catch (const std::out_of_range& e) {
@@ -380,15 +391,19 @@ void onChunkChanged(int currentChunkX, int currentChunkZ) {
 			int chunkX = currentChunkX + i;
 			int chunkZ = currentChunkZ + j;
 
+			// if plane isnt in hashmap yet
 			if (pointToPlane.find(std::pair<int, int>(chunkX, chunkZ)) == pointToPlane.end()) {
 				Plane p(glm::vec3(chunkX*CHUNK_SIZE, 0, chunkZ*CHUNK_SIZE),
 					glm::vec3(CHUNK_SIZE, 0.0, CHUNK_SIZE), groundFilePath);
 
 				planes.push_back(p);
 				pointToPlane.emplace(std::pair<int, int>(chunkX, chunkZ), p);
+				Cube cube(p.programID, p.position + glm::vec3(0,50,0) , glm::vec3(20, 50, 20), "../final/assets/debug.png");
+				planeToCubes[p].push_back(cube);
 
 				lighting light(p.programID, shadowMapWidth, shadowMapHeight);
 				glm::vec3 lightPosition = p.position + glm::vec3(-100.0f, 200.0f, -100.0f);
+				std::cout << (p.position + glm::vec3(-100.0f, 200.0f, -100.0f)).y << std::endl;
 				light.setLightPosition(lightPosition, lightIntensity, 2.0f);
 				planeToLight.emplace(p, light);
 
@@ -397,7 +412,7 @@ void onChunkChanged(int currentChunkX, int currentChunkZ) {
 				lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
 
 				glm::mat4 lightSpaceMatrix = lightProjection * lightView;
-				light.shadowPass(lightSpaceMatrix, {}, {}, {p});
+				light.shadowPass(lightSpaceMatrix, {}, planeToCubes.at(p), {p});
 				glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 				light.prepareLighting();
 			}
