@@ -222,12 +222,14 @@ int main(void)
 
 	//Cube cube(start.programID, glm::vec3(0,200,0), glm::vec3(40, 200, 40), "../final/assets/debug.png");
 	//cubes.push_back(cube);
+
     Asset tree(start.programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 	assets.push_back(tree);
 	Asset tree2(start.programID, glm::vec3(-80, 0, 20), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 	assets.push_back(tree2);
 	Asset tree3(start.programID, glm::vec3(-180, 50, 70), glm::vec3(15, 15, 15), "../final/assets/car2/scene.gltf");
 	assets.push_back(tree3);
+
 
 
 
@@ -239,6 +241,8 @@ int main(void)
 
 
 	planes.push_back(start);
+
+	onChunkChanged(0,0);
 
 	eye_center.y = viewDistance * cos(viewPolar);
 	eye_center.x = viewDistance * cos(viewAzimuth);
@@ -306,11 +310,39 @@ int main(void)
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
 
 		//store planes in hashmap so you can easily render 9 adjacent planes without slow for loop
+		/*
 		start.render(vp);
         tree.render(vp);
 		tree2.render(vp);
 		tree3.render(vp);
+		*/
 		//cube.render(vp);
+		try {
+			Plane& p1 = pointToPlane.at(std::pair<int, int>(currentChunkX, currentChunkZ));   // Center
+			Plane& p2 = pointToPlane.at(std::pair<int, int>(currentChunkX-1, currentChunkZ));
+			Plane& p3 = pointToPlane.at(std::pair<int, int>(currentChunkX + 1, currentChunkZ));      // Right
+			Plane& p4 = pointToPlane.at(std::pair<int, int>(currentChunkX, currentChunkZ - 1));      // Front
+			Plane& p5 = pointToPlane.at(std::pair<int, int>(currentChunkX - 1, currentChunkZ - 1));  // Front-Left
+			Plane& p6 = pointToPlane.at(std::pair<int, int>(currentChunkX + 1, currentChunkZ - 1));  // Front-Right
+			Plane& p7 = pointToPlane.at(std::pair<int, int>(currentChunkX, currentChunkZ + 1));      // Back
+			Plane& p8 = pointToPlane.at(std::pair<int, int>(currentChunkX - 1, currentChunkZ + 1));  // Back-Left
+			Plane& p9 = pointToPlane.at(std::pair<int, int>(currentChunkX + 1, currentChunkZ + 1));  // Back-Right
+
+			p1.render(vp);
+			p2.render(vp);
+			p3.render(vp);
+			p4.render(vp);
+			p5.render(vp);
+			p6.render(vp);
+			p7.render(vp);
+			p8.render(vp);
+			p9.render(vp);
+
+
+
+		} catch (const std::out_of_range& e) {
+			std::cerr << "Key not found: " << e.what() << std::endl;
+		}
 
 		frames++;
 		fTime += deltaTime;
@@ -341,10 +373,18 @@ int main(void)
 }
 
 void onChunkChanged(int currentChunkX, int currentChunkZ) {
-	//todo
-	std::cout << currentChunkX << ", " << currentChunkZ << std::endl;
-	planes.emplace_back(glm::vec3(currentChunkX*CHUNK_SIZE, 0, currentChunkZ*CHUNK_SIZE),
-		glm::vec3(CHUNK_SIZE, 0.0, CHUNK_SIZE), groundFilePath);
+	for (int i = -1; i <= 1; i++) {
+		for (int j = -1; j <= 1; j++) {
+			int chunkX = currentChunkX + i;
+			int chunkZ = currentChunkZ + j;
+			if (pointToPlane.find(std::pair<int, int>(chunkX, chunkZ)) == pointToPlane.end()) {
+				Plane p(glm::vec3(chunkX*CHUNK_SIZE, 0, chunkZ*CHUNK_SIZE),
+					glm::vec3(CHUNK_SIZE, 0.0, CHUNK_SIZE), groundFilePath);
+				planes.push_back(p);
+				pointToPlane.emplace(std::pair<int, int>(chunkX, chunkZ), p);
+			}
+		}
+	}
 }
 
 double distance(const std::pair<int, int>& p1, const std::pair<int, int>& p2) {
