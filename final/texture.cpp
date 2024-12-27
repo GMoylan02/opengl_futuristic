@@ -1,7 +1,7 @@
 #include <cstdint>
 #include <iostream>
 #include <stb_image.h>
-#include <tiny_gltf.h>
+//#include <tiny_gltf.h>
 #include <texture.h>
 #include <vector>
 

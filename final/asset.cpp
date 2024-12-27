@@ -14,7 +14,6 @@
 #include <skybox.h>
 #include <iomanip>
 #include <math.h>
-#include <light.h>
 #include <asset.h>
 
 #include <cube.h>
@@ -80,39 +79,21 @@ bool Asset::loadModel(tinygltf::Model& model, const char* filename) {
     return res;
 }
 
-void Asset::initialize(GLuint programID, glm::vec3 position, glm::vec3 scale, const char* filename) {
+Asset::Asset(GLuint programID, glm::vec3 position, glm::vec3 scale, const char* filename): BaseObject(programID, position, scale) {
     // Modify your path if needed
     if (!loadModel(model, filename)) {
         return;
     }
-    // Scale and translate the model
-    modelMatrix = glm::mat4(1.0f);
-    modelMatrix = glm::translate(modelMatrix, position);
-    modelMatrix = glm::scale(modelMatrix, scale);
-
-    // Prepare buffers for rendering
     primitiveObjects = bindModel(model);
-
-    this->programID = programID;
-
-    // Get a handle for GLSL variables
-    cameraMatrixID = glGetUniformLocation(programID, "camera");
-    transformMatrixID = glGetUniformLocation(programID, "transform");
-    modelMatrixID = glGetUniformLocation(programID, "modelMatrix");
     textureSamplerID = glGetUniformLocation(programID, "textureSampler");
-    baseColorFactorID = glGetUniformLocation(programID, "baseColorFactor");
-    isLightID = glGetUniformLocation(programID, "isLight");
-    cameraPosID = glGetUniformLocation(programID, "cameraPos");
-
-    for (auto prim : primitiveObjects) {
+    for (auto prim: primitiveObjects) {
         prim.shininessID = glGetUniformLocation(programID, "shininess");
     }
-
 }
 
 void Asset::bindMesh(std::vector<PrimitiveObject>& primitiveObjects,
-              tinygltf::Model& model,
-              tinygltf::Mesh& mesh) {
+                     tinygltf::Model& model,
+                     tinygltf::Mesh& mesh) {
     std::map<int, GLuint> vbos;
     for (size_t i = 0; i < model.bufferViews.size(); ++i) {
         const tinygltf::BufferView& bufferView = model.bufferViews[i];

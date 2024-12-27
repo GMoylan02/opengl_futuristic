@@ -1,0 +1,11 @@
+Model Information:
+* title:	Flying car UAZ - Bukhanka
+* source:	https://sketchfab.com/3d-models/flying-car-uaz-bukhanka-a46fdf429dc4409bbf14acb8f5150d10
+* author:	_GStep_ (https://sketchfab.com/golovstepa)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Flying car UAZ - Bukhanka" (https://sketchfab.com/3d-models/flying-car-uaz-bukhanka-a46fdf429dc4409bbf14acb8f5150d10) by _GStep_ (https://sketchfab.com/golovstepa) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -14,7 +14,6 @@
 #include <skybox.h>
 #include <glm/gtc/type_ptr.inl>
 
-#include <light.h>
 #include <texture.h>
 
 #include "asset.h"
@@ -33,6 +32,10 @@ Cube::Cube(GLuint programID, glm::vec3 position, glm::vec3 scale, const char *te
     glGenBuffers(1, &normalBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, normalBufferID);
     glBufferData(GL_ARRAY_BUFFER, sizeof(normal_buffer_data), normal_buffer_data, GL_STATIC_DRAW);
+
+    for (int i = 0; i < 24; i++) {
+        uv_buffer_data[2*i+1] *= 5;
+    }
 
     // Create a vertex buffer object to store the UV data
     glGenBuffers(1, &uvBufferID);

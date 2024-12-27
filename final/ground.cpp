@@ -7,7 +7,6 @@
 #include <render/shader.h>
 
 #include "asset.h"
-#include "light.h"
 #include "texture.h"
 
 Plane::Plane(glm::vec3 position, glm::vec3 scale, const char *texture_file_path) {

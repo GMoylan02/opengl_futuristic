@@ -109,19 +109,19 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-7taef2"
-      binary: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-7taef2"
+      source: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-popvz1"
+      binary: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-popvz1"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
     buildResult:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-7taef2'
+        Change Dir: 'D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-popvz1'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -v cmTC_a55f4
-        [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_a55f4.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_a55f4.dir\\ /FS -c "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\share\\cmake-3.29\\Modules\\CMakeCCompilerABI.c"
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_a55f4.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_a55f4.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_a55f4.exe /implib:cmTC_a55f4.lib /pdb:cmTC_a55f4.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -v cmTC_dc382
+        [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_dc382.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_dc382.dir\\ /FS -c "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\share\\cmake-3.29\\Modules\\CMakeCCompilerABI.c"
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_dc382.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_dc382.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_dc382.exe /implib:cmTC_dc382.lib /pdb:cmTC_dc382.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -161,8 +161,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-2yaiu3"
-      binary: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-2yaiu3"
+      source: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-1m1k69"
+      binary: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-1m1k69"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
       CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
@@ -170,11 +170,11 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-2yaiu3'
+        Change Dir: 'D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-1m1k69'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -v cmTC_820d5
-        [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /W3 /GR /EHsc  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_820d5.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_820d5.dir\\ /FS -c "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\share\\cmake-3.29\\Modules\\CMakeCXXCompilerABI.cpp"
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_820d5.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_820d5.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_820d5.exe /implib:cmTC_820d5.lib /pdb:cmTC_820d5.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -v cmTC_dd414
+        [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /W3 /GR /EHsc  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_dd414.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_dd414.dir\\ /FS -c "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\share\\cmake-3.29\\Modules\\CMakeCXXCompilerABI.cpp"
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_dd414.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_dd414.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_dd414.exe /implib:cmTC_dd414.lib /pdb:cmTC_dd414.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
         
       exitCode: 0
   -
@@ -216,8 +216,8 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-nlis9p"
-      binary: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-nlis9p"
+      source: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-wcrina"
+      binary: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-wcrina"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_MODULE_PATH: "D:/projects/opengl_futuristic/external/glfw-3.1.2/CMake/modules"
@@ -225,13 +225,13 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: 'D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-nlis9p'
+        Change Dir: 'D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-wcrina'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -v cmTC_b761b
-        [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo -DCMAKE_HAVE_LIBC_PTHREAD  /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_b761b.dir\\src.c.obj /FdCMakeFiles\\cmTC_b761b.dir\\ /FS -c D:\\projects\\opengl_futuristic\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-nlis9p\\src.c
-        FAILED: CMakeFiles/cmTC_b761b.dir/src.c.obj 
-        C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo -DCMAKE_HAVE_LIBC_PTHREAD  /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_b761b.dir\\src.c.obj /FdCMakeFiles\\cmTC_b761b.dir\\ /FS -c D:\\projects\\opengl_futuristic\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-nlis9p\\src.c
-        D:\\projects\\opengl_futuristic\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-nlis9p\\src.c(1): fatal error C1083: Cannot open include file: 'pthread.h': No such file or directory
+        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -v cmTC_65262
+        [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo -DCMAKE_HAVE_LIBC_PTHREAD  /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_65262.dir\\src.c.obj /FdCMakeFiles\\cmTC_65262.dir\\ /FS -c D:\\projects\\opengl_futuristic\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-wcrina\\src.c
+        FAILED: CMakeFiles/cmTC_65262.dir/src.c.obj 
+        C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo -DCMAKE_HAVE_LIBC_PTHREAD  /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_65262.dir\\src.c.obj /FdCMakeFiles\\cmTC_65262.dir\\ /FS -c D:\\projects\\opengl_futuristic\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-wcrina\\src.c
+        D:\\projects\\opengl_futuristic\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-wcrina\\src.c(1): fatal error C1083: Cannot open include file: 'pthread.h': No such file or directory
         ninja: build stopped: subcommand failed.
         
       exitCode: 1
@@ -245,8 +245,8 @@ events:
     checks:
       - "Looking for pthread_create in pthreads"
     directories:
-      source: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-04v28i"
-      binary: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-04v28i"
+      source: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-7p17yd"
+      binary: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-7p17yd"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_MODULE_PATH: "D:/projects/opengl_futuristic/external/glfw-3.1.2/CMake/modules"
@@ -254,14 +254,14 @@ events:
       variable: "CMAKE_HAVE_PTHREADS_CREATE"
       cached: true
       stdout: |
-        Change Dir: 'D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-04v28i'
+        Change Dir: 'D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-7p17yd'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -v cmTC_32c56
-        [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -DCHECK_FUNCTION_EXISTS=pthread_create /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_32c56.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_32c56.dir\\ /FS -c D:\\projects\\opengl_futuristic\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-04v28i\\CheckFunctionExists.c
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_32c56.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_32c56.dir\\CheckFunctionExists.c.obj  /out:cmTC_32c56.exe /implib:cmTC_32c56.lib /pdb:cmTC_32c56.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        FAILED: cmTC_32c56.exe 
-        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_32c56.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_32c56.dir\\CheckFunctionExists.c.obj  /out:cmTC_32c56.exe /implib:cmTC_32c56.lib /pdb:cmTC_32c56.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        LINK Pass 1: command "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_32c56.dir\\CheckFunctionExists.c.obj /out:cmTC_32c56.exe /implib:cmTC_32c56.lib /pdb:cmTC_32c56.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_32c56.dir/intermediate.manifest CMakeFiles\\cmTC_32c56.dir/manifest.res" failed (exit code 1104) with the following output:
+        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -v cmTC_edb1e
+        [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -DCHECK_FUNCTION_EXISTS=pthread_create /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_edb1e.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_edb1e.dir\\ /FS -c D:\\projects\\opengl_futuristic\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-7p17yd\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_edb1e.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_edb1e.dir\\CheckFunctionExists.c.obj  /out:cmTC_edb1e.exe /implib:cmTC_edb1e.lib /pdb:cmTC_edb1e.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: cmTC_edb1e.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_edb1e.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_edb1e.dir\\CheckFunctionExists.c.obj  /out:cmTC_edb1e.exe /implib:cmTC_edb1e.lib /pdb:cmTC_edb1e.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthreads.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_edb1e.dir\\CheckFunctionExists.c.obj /out:cmTC_edb1e.exe /implib:cmTC_edb1e.lib /pdb:cmTC_edb1e.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_edb1e.dir/intermediate.manifest CMakeFiles\\cmTC_edb1e.dir/manifest.res" failed (exit code 1104) with the following output:
         LINK : fatal error LNK1104: cannot open file 'pthreads.lib'\x0d
         ninja: build stopped: subcommand failed.
         
@@ -276,8 +276,8 @@ events:
     checks:
       - "Looking for pthread_create in pthread"
     directories:
-      source: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-0ox69g"
-      binary: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-0ox69g"
+      source: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-9dfabo"
+      binary: "D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-9dfabo"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_MODULE_PATH: "D:/projects/opengl_futuristic/external/glfw-3.1.2/CMake/modules"
@@ -285,14 +285,14 @@ events:
       variable: "CMAKE_HAVE_PTHREAD_CREATE"
       cached: true
       stdout: |
-        Change Dir: 'D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-0ox69g'
+        Change Dir: 'D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-9dfabo'
         
-        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -v cmTC_7282c
-        [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -DCHECK_FUNCTION_EXISTS=pthread_create /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_7282c.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_7282c.dir\\ /FS -c D:\\projects\\opengl_futuristic\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-0ox69g\\CheckFunctionExists.c
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_7282c.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_7282c.dir\\CheckFunctionExists.c.obj  /out:cmTC_7282c.exe /implib:cmTC_7282c.lib /pdb:cmTC_7282c.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        FAILED: cmTC_7282c.exe 
-        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_7282c.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_7282c.dir\\CheckFunctionExists.c.obj  /out:cmTC_7282c.exe /implib:cmTC_7282c.lib /pdb:cmTC_7282c.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
-        LINK Pass 1: command "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_7282c.dir\\CheckFunctionExists.c.obj /out:cmTC_7282c.exe /implib:cmTC_7282c.lib /pdb:cmTC_7282c.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_7282c.dir/intermediate.manifest CMakeFiles\\cmTC_7282c.dir/manifest.res" failed (exit code 1104) with the following output:
+        Run Build Command(s): "C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" -v cmTC_915bf
+        [1/2] C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3 -DCHECK_FUNCTION_EXISTS=pthread_create /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_915bf.dir\\CheckFunctionExists.c.obj /FdCMakeFiles\\cmTC_915bf.dir\\ /FS -c D:\\projects\\opengl_futuristic\\cmake-build-debug\\CMakeFiles\\CMakeScratch\\TryCompile-9dfabo\\CheckFunctionExists.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_915bf.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_915bf.dir\\CheckFunctionExists.c.obj  /out:cmTC_915bf.exe /implib:cmTC_915bf.lib /pdb:cmTC_915bf.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        FAILED: cmTC_915bf.exe 
+        C:\\WINDOWS\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\JetBrains\\CLion 2024.2.2\\bin\\cmake\\win\\x64\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_915bf.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x64\\mt.exe --manifests  -- C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_915bf.dir\\CheckFunctionExists.c.obj  /out:cmTC_915bf.exe /implib:cmTC_915bf.lib /pdb:cmTC_915bf.pdb /version:0.0 /machine:x64  /debug /INCREMENTAL /subsystem:console  pthread.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        LINK Pass 1: command "C:\\PROGRA~1\\MIB055~1\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1441~1.341\\bin\\Hostx64\\x64\\link.exe /nologo CMakeFiles\\cmTC_915bf.dir\\CheckFunctionExists.c.obj /out:cmTC_915bf.exe /implib:cmTC_915bf.lib /pdb:cmTC_915bf.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\\cmTC_915bf.dir/intermediate.manifest CMakeFiles\\cmTC_915bf.dir/manifest.res" failed (exit code 1104) with the following output:
         LINK : fatal error LNK1104: cannot open file 'pthread.lib'\x0d
         ninja: build stopped: subcommand failed.
         

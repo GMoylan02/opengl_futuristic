@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low Poly Flying Car
+* source:	https://sketchfab.com/3d-models/low-poly-flying-car-31a96b6599a04e698d06cc88ce6f6b18
+* author:	Lee Alex Johansson (https://sketchfab.com/lee.johansson)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low Poly Flying Car" (https://sketchfab.com/3d-models/low-poly-flying-car-31a96b6599a04e698d06cc88ce6f6b18) by Lee Alex Johansson (https://sketchfab.com/lee.johansson) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

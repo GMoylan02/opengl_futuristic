@@ -1,7 +1,3 @@
-//
-// Created by eyeba on 23/12/2024.
-//
-
 #ifndef LIGHTING_H
 #define LIGHTING_H
 #include <memory>
@@ -12,6 +8,7 @@
 #include <glm/detail/type_vec3.hpp>
 
 #include "asset.h"
+#include "chunkLoader.h"
 #include "cube.h"
 #include "ground.h"
 
@@ -40,7 +37,7 @@ public:
     bool saveDepth = true;
     lighting(GLuint programID, int shadowMapWidth, int shadowMapHeight);
     void setLightPosition(glm::vec3 lightPosition, glm::vec3 lightIntensity, float exposure);
-    void shadowPass(glm::mat4 lightSpaceMatrix, std::vector<Asset> assets, std::vector<Cube> cubes, std::vector<Plane> planes);
+    void shadowPass(glm::mat4 lightSpaceMatrix, std::vector<Asset> assets,  std::vector<Cube> cubes, std::vector<Plane> planes);
     void prepareLighting();
     void cleanup();
 };

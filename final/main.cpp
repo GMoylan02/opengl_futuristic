@@ -11,22 +11,29 @@
 #define TINYGLTF_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-//#include <tiny_gltf.h>
+#include <tiny_gltf.h>
 
 #include <render/shader.h>
 
 #include <vector>
 #include <iostream>
 #define _USE_MATH_DEFINES
+#include <chrono>
 #include <iomanip>
 #include <math.h>
-#include <light.h>
 
 #include <cube.h>
 #include <ground.h>
-
+#include <sstream>
 #include "lighting.h"
-#include <MyBot.cpp>
+
+#define CHUNK_SIZE 512
+
+const char* groundFilePath = "../final/assets/ground.jpg";
+
+std::chrono::time_point<std::chrono::steady_clock> lastCheckTime = std::chrono::steady_clock::now();
+const std::chrono::milliseconds CHECK_INTERVAL(500); // 500ms
+
 
 static GLFWwindow *window;
 static int windowWidth = 1024;
@@ -39,8 +46,8 @@ const glm::vec3 wave500(0.0f, 255.0f, 146.0f);
 const glm::vec3 wave600(255.0f, 190.0f, 0.0f);
 const glm::vec3 wave700(205.0f, 0.0f, 0.0f);
 //static glm::vec3 lightIntensity = 5.0f * (8.0f * wave500 + 15.6f * wave600 + 18.4f * wave700);
-//static glm::vec3 lightIntensity = glm::vec3(0.2,0.2,0.2);
-//static glm::vec3 lightPosition(-100.0f, 200.0f, -100.0f);
+static glm::vec3 lightIntensity = glm::vec3(0.3,0.3,0.3);
+static glm::vec3 lightPosition(-100.0f, 200.0f, -100.0f);
 static float exposure = 2.0f;
 
 // Shadow mapping
@@ -78,11 +85,15 @@ static float viewAzimuth = 0.f;
 static float viewPolar = 0.f;
 static float viewDistance = 300.0f;
 
-std::vector<Light> lights;
+std::vector<Asset> assets;
+std::vector<Cube> cubes;
+std::vector<Plane> planes;
 
 // Animation 
 static bool playAnimation = true;
 static float playbackSpeed = 2.0f;
+
+void onChunkChanged(int currentChunkX, int currentChunkZ);
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 	if (firstMouse) {
@@ -173,6 +184,12 @@ int main(void)
 		return -1;
 	}
 
+	int currentChunkX = static_cast<int>(cameraPos.x) / CHUNK_SIZE;
+	int currentChunkZ = static_cast<int>(cameraPos.z) / CHUNK_SIZE;
+
+	int lastChunkX = currentChunkX;
+	int lastChunkZ = currentChunkZ;
+
 	// Prepare shadow map size for shadow mapping. Usually this is the size of the window itself, but on some platforms like Mac this can be 2x the size of the window. Use glfwGetFramebufferSize to get the shadow map size properly.
 	glfwGetFramebufferSize(window, &shadowMapWidth, &shadowMapHeight);
 
@@ -182,32 +199,31 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	std::vector<Asset> assets;
-	std::vector<Cube> cubes;
-
 	//MyBot bot;
 	//bot.initialize();
 
-	Plane test(glm::vec3(0,0,0), glm::vec3(512, 10, 512), "../final/assets/ground.jpg");
 
-	Cube cube(test.programID, glm::vec3(0,10,0), glm::vec3(10, 10, 10), "../final/assets/debug.png");
-	cubes.push_back(cube);
-    Asset tree(test.programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
+	Plane start(glm::vec3(0,0,0), glm::vec3(512, 10, 512), groundFilePath);
+
+	//Cube cube(start.programID, glm::vec3(0,200,0), glm::vec3(40, 200, 40), "../final/assets/debug.png");
+	//cubes.push_back(cube);
+    Asset tree(start.programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 	assets.push_back(tree);
-	Asset tree2(test.programID, glm::vec3(-80, 0, 20), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
+	Asset tree2(start.programID, glm::vec3(-80, 0, 20), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 	assets.push_back(tree2);
-	Asset tree3(test.programID, glm::vec3(-90, 0, 70), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
+	Asset tree3(start.programID, glm::vec3(-180, 50, 70), glm::vec3(15, 15, 15), "../final/assets/car2/scene.gltf");
 	assets.push_back(tree3);
+
+
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
 
-	lighting sceneLight(test.programID, shadowMapWidth, shadowMapHeight);
+	lighting sceneLight(start.programID, shadowMapWidth, shadowMapHeight);
 	sceneLight.setLightPosition(lightPosition, lightIntensity, 2.0f);
 
 
-	std::vector<Plane> planes;
-	planes.push_back(test);
+	planes.push_back(start);
 
 	eye_center.y = viewDistance * cos(viewPolar);
 	eye_center.x = viewDistance * cos(viewAzimuth);
@@ -245,10 +261,23 @@ int main(void)
 		if (deltaTime <= 0.0f) {
 			deltaTime = 0.01f;
 		}
+		auto currTime = std::chrono::steady_clock::now();
+		if (currTime - lastCheckTime >= CHECK_INTERVAL) {
+			currentChunkX = static_cast<int>(std::floor((cameraPos.x + CHUNK_SIZE / 2) / CHUNK_SIZE));
+			currentChunkZ = static_cast<int>(std::floor((cameraPos.z + CHUNK_SIZE / 2) / CHUNK_SIZE));
+
+			if (currentChunkX != lastChunkX || currentChunkZ != lastChunkZ) {
+				onChunkChanged(currentChunkX, currentChunkZ);
+				lastChunkX = currentChunkX;
+				lastChunkZ = currentChunkZ;
+			}
+			lastCheckTime = currTime;
+		}
 
 		if (playAnimation) {
 			time += deltaTime * playbackSpeed;
 		}
+
 
 		processInput(window, deltaTime);
 
@@ -260,11 +289,13 @@ int main(void)
 		glDepthMask(GL_FALSE); // Disable depth writes
 		skybox.render(vp);     // Render the skybox
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
-		test.render(vp);
+
+		//store planes in hashmap so you can easily render 9 adjacent planes without slow for loop
+		start.render(vp);
         tree.render(vp);
 		tree2.render(vp);
 		tree3.render(vp);
-		cube.render(vp);
+		//cube.render(vp);
 
 		frames++;
 		fTime += deltaTime;
@@ -292,6 +323,48 @@ int main(void)
 	glfwTerminate();
 
 	return 0;
+}
+
+void onChunkChanged(int currentChunkX, int currentChunkZ) {
+	//todo
+	std::cout << currentChunkX << ", " << currentChunkZ << std::endl;
+	planes.emplace_back(glm::vec3(currentChunkX*CHUNK_SIZE, 0, currentChunkZ*CHUNK_SIZE),
+		glm::vec3(CHUNK_SIZE, 0.0, CHUNK_SIZE), groundFilePath);
+}
+
+double distance(const std::pair<int, int>& p1, const std::pair<int, int>& p2) {
+	return std::sqrt((p1.first - p2.first) * (p1.first - p2.first) +
+					 (p1.second - p2.second) * (p1.second - p2.second));
+}
+
+std::vector<std::pair<int, int>> generateRandomPoints() {
+	const int LARGE_SQUARE_SIZE = 512;
+	const int SQUARE_SIZE = 40;
+	const int MIN_DISTANCE = 15 + SQUARE_SIZE;
+
+	std::vector<std::pair<int, int>> points;
+	std::srand(static_cast<unsigned>(std::time(nullptr)));
+
+	while (points.size() < 5) {
+		int x = std::rand() % (LARGE_SQUARE_SIZE - SQUARE_SIZE) + SQUARE_SIZE / 2;
+		int y = std::rand() % (LARGE_SQUARE_SIZE - SQUARE_SIZE) + SQUARE_SIZE / 2;
+
+		std::pair<int, int> candidate = {x, y};
+		bool valid = true;
+
+		for (const auto& p : points) {
+			if (distance(candidate, p) < MIN_DISTANCE) {
+				valid = false;
+				break;
+			}
+		}
+
+		if (valid) {
+			points.push_back(candidate);
+		}
+	}
+
+	return points;
 }
 
 

@@ -1,7 +1,3 @@
-//
-// Created by eyeba on 16/12/2024.
-//
-
 #ifndef SKYBOX_H
 #define SKYBOX_H
 #include <glm/detail/type_vec.hpp>

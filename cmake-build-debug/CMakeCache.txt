@@ -91,13 +91,13 @@ CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=D:/projects/opengl_futuristic/cmake-build-debug/CMakeFiles/pkgRedirects
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/lab4
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/final
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/link.exe
 
 //make program
-CMAKE_MAKE_PROGRAM:FILEPATH=C:/Program Files/JetBrains/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe
+CMAKE_MAKE_PROGRAM:FILEPATH=C:/PROGRA~1/JETBRA~1/CLION2~1.2/bin/ninja/win/x64/ninja.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -268,15 +268,6 @@ glad_SOURCE_DIR:STATIC=D:/projects/opengl_futuristic/external/glad-3.3
 
 //Dependencies for the target
 glfw_LIB_DEPENDS:STATIC=general;opengl32;
-
-//Value Computed by CMake
-lab4_BINARY_DIR:STATIC=D:/projects/opengl_futuristic/cmake-build-debug
-
-//Value Computed by CMake
-lab4_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-lab4_SOURCE_DIR:STATIC=D:/projects/opengl_futuristic
 
 
 ########################

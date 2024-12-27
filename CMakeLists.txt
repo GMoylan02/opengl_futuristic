@@ -35,17 +35,16 @@ add_executable(opengl_futuristic
 		final/asset.h
 		final/cube.cpp
 		final/cube.h
-		final/light.h
 		final/texture.cpp
 		final/texture.h
-		final/light.cpp
 		final/ground.cpp
 		final/ground.h
 		final/lighting.cpp
 		final/lighting.h
-		final/animatedModel.h
-		final/animatedModel.cpp
-		final/MyBot.cpp
+        final/baseObject.h
+		final/baseObject.cpp
+		final/chunkLoader.cpp
+		final/chunkLoader.h
 )
 
 # Link libraries to the executable

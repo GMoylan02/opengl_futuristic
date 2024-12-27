@@ -194,3 +194,4 @@ class Cube : public BaseObject {
 };
 
 #endif //CUBE_H
+
