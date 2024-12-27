@@ -26,9 +26,12 @@
 #include <ground.h>
 #include <random>
 #include <sstream>
+#include <thread>
+
+#include "instance.h"
 #include "lighting.h"
 
-#define CHUNK_SIZE 1024
+#define CHUNK_SIZE 512
 
 const char* groundFilePath = "../final/assets/ground.jpg";
 
@@ -102,6 +105,7 @@ std::unordered_map<Plane, std::vector<Cube>, PlaneHash> planeToCubes;
 std::unordered_map<Plane, lighting, PlaneHash> planeToLight;
 std::unordered_map<Plane, std::vector<Plane>, PlaneHash> adjacent;
 
+
 std::string texture_paths[] = {"../final/assets/building1.jpg","../final/assets/building2.jpg","../final/assets/building3.jpg",
 	"../final/assets/building4.jpg","../final/assets/building5.jpg",};
 
@@ -110,6 +114,8 @@ static bool playAnimation = true;
 static float playbackSpeed = 2.0f;
 
 void onChunkChanged(int currentChunkX, int currentChunkZ);
+std::vector<int> generateRandomHeights();
+std::vector<std::pair<int, int>> generateRandomPoints();
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 	if (firstMouse) {
@@ -225,6 +231,11 @@ int main(void)
 	//cubes.push_back(cube);
 	onChunkChanged(0,0);
 
+	std::vector<Instance> instances;
+	instances.emplace_back(glm::vec3(0.0f, 0.0f, -50.0f), glm::vec3(15), glm::vec3(0.0f));
+	instances.emplace_back(glm::vec3(20.0f, 0.0f, -5.0f), glm::vec3(15), glm::vec3(0.0f, glm::radians(45.0f), 0.0f));
+	instances.emplace_back(glm::vec3(-20.0f, 0.0f, -50.0f), glm::vec3(15), glm::vec3(glm::radians(30.0f), 0.0f, glm::radians(15.0f)));
+
 
     Asset tree(planes[0].programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 	assets.push_back(tree);
@@ -310,8 +321,11 @@ int main(void)
 		skybox.render(vp);     // Render the skybox
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
 
+		for (const auto& instance : instances) {
+			tree.renderInstance(instance.modelMatrix, vp);
+		}
+
 		//store planes in hashmap so you can easily render 9 adjacent planes without slow for loop
-		tree.render(vp);
 		/*
 		start.render(vp);
 		tree2.render(vp);
@@ -349,9 +363,19 @@ int main(void)
 			planeToCubes.at(p8)[0].render(vp);
 			planeToCubes.at(p9)[0].render(vp);
 
-
-
-
+			/*
+			for (int i = 0; i < 7; i++) {
+				planeToCubes.at(p1)[i].render(vp);
+				planeToCubes.at(p2)[i].render(vp);
+				planeToCubes.at(p3)[i].render(vp);
+				planeToCubes.at(p4)[i].render(vp);
+				planeToCubes.at(p5)[i].render(vp);
+				planeToCubes.at(p6)[i].render(vp);
+				planeToCubes.at(p7)[i].render(vp);
+				planeToCubes.at(p8)[i].render(vp);
+				planeToCubes.at(p9)[i].render(vp);
+			}
+*/
 		} catch (const std::out_of_range& e) {
 			std::cerr << "Key not found: " << e.what() << std::endl;
 		}
@@ -398,8 +422,30 @@ void onChunkChanged(int currentChunkX, int currentChunkZ) {
 
 				planes.push_back(p);
 				pointToPlane.emplace(std::pair<int, int>(chunkX, chunkZ), p);
-				Cube cube(p.programID, p.position + glm::vec3(0,50,0) , glm::vec3(20, 50, 20), "../final/assets/debug.png");
+				std::vector<int> heights = generateRandomHeights();
+
+				std::vector<std::pair<int,int>> positions = generateRandomPoints();
+
+				std::string texturePath = texture_paths[buildingTexture(gen)];
+				Cube cube(p.programID, p.position + glm::vec3(0,50,0),
+					glm::vec3(20, 50, 20), (texturePath.c_str()));
 				planeToCubes[p].push_back(cube);
+
+				/*
+
+				Asset tree(p.programID, p.position + glm::vec3(50,0,30),
+					glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
+				planeToAssets[p].push_back(tree);
+				*/
+
+				/*
+				for (int k = 0; k < 7; k++) {
+					std::string texturePath = texture_paths[buildingTexture(gen)];
+					Cube c(p.programID, p.position + glm::vec3(positions[k].first,heights[k],positions[k].second),
+					glm::vec3(40, heights[k], 40), (texturePath.c_str()));
+
+				}
+				*/
 
 				lighting light(p.programID, shadowMapWidth, shadowMapHeight);
 				glm::vec3 lightPosition = p.position + glm::vec3(-100.0f, 200.0f, -100.0f);
@@ -412,7 +458,7 @@ void onChunkChanged(int currentChunkX, int currentChunkZ) {
 				lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
 
 				glm::mat4 lightSpaceMatrix = lightProjection * lightView;
-				light.shadowPass(lightSpaceMatrix, {}, planeToCubes.at(p), {p});
+				light.shadowPass(lightSpaceMatrix, {}, {cube}, {p});
 				glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 				light.prepareLighting();
 			}
@@ -425,17 +471,25 @@ double distance(const std::pair<int, int>& p1, const std::pair<int, int>& p2) {
 					 (p1.second - p2.second) * (p1.second - p2.second));
 }
 
+std::vector<int> generateRandomHeights() {
+	std::vector<int> heights;
+	heights.reserve(7);
+for (int i = 0; i < 7; i++) {
+		heights.push_back(buildingHeight(gen));
+	}
+	return heights;
+}
+
 std::vector<std::pair<int, int>> generateRandomPoints() {
-	const int LARGE_SQUARE_SIZE = 512;
 	const int SQUARE_SIZE = 40;
 	const int MIN_DISTANCE = 15 + SQUARE_SIZE;
 
 	std::vector<std::pair<int, int>> points;
 	std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-	while (points.size() < 5) {
-		int x = std::rand() % (LARGE_SQUARE_SIZE - SQUARE_SIZE) + SQUARE_SIZE / 2;
-		int y = std::rand() % (LARGE_SQUARE_SIZE - SQUARE_SIZE) + SQUARE_SIZE / 2;
+	while (points.size() < 7) {
+		int x = std::rand() % (CHUNK_SIZE-100 - SQUARE_SIZE) + SQUARE_SIZE / 2;
+		int y = std::rand() % (CHUNK_SIZE-100 - SQUARE_SIZE) + SQUARE_SIZE / 2;
 
 		std::pair<int, int> candidate = {x, y};
 		bool valid = true;

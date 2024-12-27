@@ -44,8 +44,9 @@ public:
 
     std::vector<PrimitiveObject> bindModel(tinygltf::Model &model);
 
-    void render(const glm::mat4& mvpMatrix/*, const glm::vec3& lightPosition, const glm::vec3& lightIntensity*/);
+    void render(const glm::mat4& mvpMatrix/*, const glm::vec3& lightPosition, const glm::vec3& lightIntensity*/) const;
     void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix) override;
+    void renderInstance(const glm::mat4& modelMatrix, const glm::mat4& cameraMatrix) const;
 };
 
 #endif //ASSET_H

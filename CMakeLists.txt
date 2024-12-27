@@ -45,6 +45,7 @@ add_executable(opengl_futuristic
 		final/baseObject.cpp
 		final/chunkLoader.cpp
 		final/chunkLoader.h
+		final/instance.h
 )
 
 # Link libraries to the executable

@@ -280,7 +280,7 @@ std::vector<Asset::PrimitiveObject> Asset::bindModel(tinygltf::Model &model) {
     return primitives;
 }
 
-void Asset::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPosition, const glm::vec3& lightIntensity*/) {
+void Asset::render(const glm::mat4& cameraMatrix) const {
  glUseProgram(programID);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -351,6 +351,35 @@ void Asset::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPositi
         glUseProgram(0);
         glBindVertexArray(0);
 }
+
+void Asset::renderInstance(const glm::mat4& modelMatrix, const glm::mat4& cameraMatrix) const {
+    glUseProgram(programID);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Pass in model-view-projection matrix
+    glUniformMatrix4fv(cameraMatrixID, 1, GL_FALSE, &cameraMatrix[0][0]);
+    glUniformMatrix4fv(transformMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
+    glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
+
+    for (const auto& primitive : primitiveObjects) {
+        glBindVertexArray(primitive.vao);
+
+        if (primitive.textureID) {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, primitive.textureID);
+            glUniform1i(textureSamplerID, 0);
+        }
+
+        glUniform4fv(baseColorFactorID, 1, &primitive.baseColorFactor[0]);
+        glDrawElements(GL_TRIANGLES, primitive.indexCount, primitive.indexType, 0);
+    }
+
+    glDisable(GL_BLEND);
+    glBindVertexArray(0);
+    glUseProgram(0);
+}
+
 
 void Asset::renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix) {
     glUseProgram(programID);
