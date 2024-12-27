@@ -28,7 +28,7 @@
 #include <sstream>
 #include "lighting.h"
 
-#define CHUNK_SIZE 512
+#define CHUNK_SIZE 1024
 
 const char* groundFilePath = "../final/assets/ground.jpg";
 
@@ -55,7 +55,7 @@ const glm::vec3 wave600(255.0f, 190.0f, 0.0f);
 const glm::vec3 wave700(205.0f, 0.0f, 0.0f);
 //static glm::vec3 lightIntensity = 5.0f * (8.0f * wave500 + 15.6f * wave600 + 18.4f * wave700);
 static glm::vec3 lightIntensity = glm::vec3(0.3,0.3,0.3);
-static glm::vec3 lightPosition(-100.0f, 200.0f, -100.0f);
+//static glm::vec3 lightPosition(-100.0f, 200.0f, -100.0f);
 static float exposure = 2.0f;
 
 // Shadow mapping
@@ -100,6 +100,7 @@ std::unordered_map<std::pair<int, int>, Plane, PairHash> pointToPlane;
 std::unordered_map<Plane, std::vector<Asset>, PlaneHash> planeToAssets;
 std::unordered_map<Plane, std::vector<Cube>, PlaneHash> planeToCubes;
 std::unordered_map<Plane, lighting, PlaneHash> planeToLight;
+std::unordered_map<Plane, std::vector<Plane>, PlaneHash> adjacent;
 
 std::string texture_paths[] = {"../final/assets/building1.jpg","../final/assets/building2.jpg","../final/assets/building3.jpg",
 	"../final/assets/building4.jpg","../final/assets/building5.jpg",};
@@ -218,31 +219,31 @@ int main(void)
 	//bot.initialize();
 
 
-	Plane start(glm::vec3(0,0,0), glm::vec3(512, 10, 512), groundFilePath);
+	//Plane start(glm::vec3(0,0,0), glm::vec3(512, 10, 512), groundFilePath);
 
 	//Cube cube(start.programID, glm::vec3(0,200,0), glm::vec3(40, 200, 40), "../final/assets/debug.png");
 	//cubes.push_back(cube);
+	onChunkChanged(0,0);
 
-    Asset tree(start.programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
+
+    Asset tree(planes[0].programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 	assets.push_back(tree);
+	/*
 	Asset tree2(start.programID, glm::vec3(-80, 0, 20), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
 	assets.push_back(tree2);
 	Asset tree3(start.programID, glm::vec3(-180, 50, 70), glm::vec3(15, 15, 15), "../final/assets/car2/scene.gltf");
 	assets.push_back(tree3);
 
+*/
 
 
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
 
-	lighting sceneLight(start.programID, shadowMapWidth, shadowMapHeight);
-	sceneLight.setLightPosition(lightPosition, lightIntensity, 2.0f);
 
+	//planes.push_back(start);
 
-	planes.push_back(start);
-
-	onChunkChanged(0,0);
 
 	eye_center.y = viewDistance * cos(viewPolar);
 	eye_center.x = viewDistance * cos(viewAzimuth);
@@ -260,14 +261,14 @@ int main(void)
 	float fTime = 0.0f;			// Time for measuring fps
 	unsigned long frames = 0;
 
-	glm::mat4 lightView, lightProjection;
-	lightProjection = glm::perspective(glm::radians(depthFoV), static_cast<float>(shadowMapWidth) / static_cast<float>(shadowMapHeight), depthNear, depthFar);
-	lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
+	//glm::mat4 lightView, lightProjection;
+	//lightProjection = glm::perspective(glm::radians(depthFoV), static_cast<float>(shadowMapWidth) / static_cast<float>(shadowMapHeight), depthNear, depthFar);
+	//lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
 
-	glm::mat4 lightSpaceMatrix = lightProjection * lightView;
-	sceneLight.shadowPass(lightSpaceMatrix, assets, cubes, planes);
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-	sceneLight.prepareLighting();
+	//glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+	//sceneLight.shadowPass(lightSpaceMatrix, assets, cubes, planes);
+	//glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	//sceneLight.prepareLighting();
 
 	do
 	{
@@ -310,9 +311,9 @@ int main(void)
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
 
 		//store planes in hashmap so you can easily render 9 adjacent planes without slow for loop
+		tree.render(vp);
 		/*
 		start.render(vp);
-        tree.render(vp);
 		tree2.render(vp);
 		tree3.render(vp);
 		*/
@@ -375,13 +376,30 @@ int main(void)
 void onChunkChanged(int currentChunkX, int currentChunkZ) {
 	for (int i = -1; i <= 1; i++) {
 		for (int j = -1; j <= 1; j++) {
+
 			int chunkX = currentChunkX + i;
 			int chunkZ = currentChunkZ + j;
+
 			if (pointToPlane.find(std::pair<int, int>(chunkX, chunkZ)) == pointToPlane.end()) {
 				Plane p(glm::vec3(chunkX*CHUNK_SIZE, 0, chunkZ*CHUNK_SIZE),
 					glm::vec3(CHUNK_SIZE, 0.0, CHUNK_SIZE), groundFilePath);
+
 				planes.push_back(p);
 				pointToPlane.emplace(std::pair<int, int>(chunkX, chunkZ), p);
+
+				lighting light(p.programID, shadowMapWidth, shadowMapHeight);
+				glm::vec3 lightPosition = p.position + glm::vec3(-100.0f, 200.0f, -100.0f);
+				light.setLightPosition(lightPosition, lightIntensity, 2.0f);
+				planeToLight.emplace(p, light);
+
+				glm::mat4 lightView, lightProjection;
+				lightProjection = glm::perspective(glm::radians(depthFoV), static_cast<float>(shadowMapWidth) / static_cast<float>(shadowMapHeight), depthNear, depthFar);
+				lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
+
+				glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+				light.shadowPass(lightSpaceMatrix, {}, {}, {p});
+				glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+				light.prepareLighting();
 			}
 		}
 	}
