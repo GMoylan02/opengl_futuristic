@@ -31,6 +31,7 @@
 #include "instance.h"
 #include "lighting.h"
 
+#include <MyBot.cpp>
 #define CHUNK_SIZE 512
 
 const char* groundFilePath = "../final/assets/ground.jpg";
@@ -52,14 +53,6 @@ static int windowHeight = 768;
 
 glm::mat4 projectionMatrix;
 
-// Lighting control
-const glm::vec3 wave500(0.0f, 255.0f, 146.0f);
-const glm::vec3 wave600(255.0f, 190.0f, 0.0f);
-const glm::vec3 wave700(205.0f, 0.0f, 0.0f);
-//static glm::vec3 lightIntensity = 5.0f * (8.0f * wave500 + 15.6f * wave600 + 18.4f * wave700);
-static glm::vec3 lightIntensity = glm::vec3(0.3,0.3,0.3);
-//static glm::vec3 lightPosition(-100.0f, 200.0f, -100.0f);
-static float exposure = 2.0f;
 
 // Shadow mapping
 static glm::vec3 lightUp(0, 0, 1);
@@ -71,13 +64,6 @@ static float depthNear = 10.0f;
 static float depthFar = 4000.0f;
 
 
-// Camera
-static glm::vec3 eye_center(0.0f, 100.0f, 300.0f);
-static glm::vec3 lookat(0.0f, 0.0f, 0.0f);
-static glm::vec3 up(0.0f, 1.0f, 0.0f);
-static float FoV = 45.0f;
-static float zNear = 100.0f;
-static float zFar = 1500.0f;
 
 float yaw = -90.0f; // Horizontal angle
 float pitch = 0.0f; // Vertical angle
@@ -109,9 +95,6 @@ std::unordered_map<Plane, std::vector<Plane>, PlaneHash> adjacent;
 std::string texture_paths[] = {"../final/assets/building1.jpg","../final/assets/building2.jpg","../final/assets/building3.jpg",
 	"../final/assets/building4.jpg","../final/assets/building5.jpg",};
 
-// Animation 
-static bool playAnimation = true;
-static float playbackSpeed = 2.0f;
 
 void onChunkChanged(int currentChunkX, int currentChunkZ);
 std::vector<int> generateRandomHeights();
@@ -229,28 +212,24 @@ int main(void)
 
 	//Cube cube(start.programID, glm::vec3(0,200,0), glm::vec3(40, 200, 40), "../final/assets/debug.png");
 	//cubes.push_back(cube);
+	Asset car(0, glm::vec3(20, 40, -100), glm::vec3(15, 15, 15), "../final/assets/car2/scene.gltf");
+	assets.push_back(car);
 	onChunkChanged(0,0);
 
 	std::vector<Instance> instances;
-	instances.emplace_back(glm::vec3(0.0f, 0.0f, -50.0f), glm::vec3(15), glm::vec3(0.0f));
-	instances.emplace_back(glm::vec3(20.0f, 0.0f, -5.0f), glm::vec3(15), glm::vec3(0.0f, glm::radians(45.0f), 0.0f));
-	instances.emplace_back(glm::vec3(-20.0f, 0.0f, -50.0f), glm::vec3(15), glm::vec3(glm::radians(30.0f), 0.0f, glm::radians(15.0f)));
+	instances.emplace_back(glm::vec3(170.0f, 0.0f, -50.0f), glm::vec3(15), glm::vec3(0.0f));
+	instances.emplace_back(glm::vec3(80.0f, 0.0f, -130.0f), glm::vec3(15), glm::vec3(0.0f));
+	instances.emplace_back(glm::vec3(-120.0f, 0.0f, -50.0f), glm::vec3(15), glm::vec3(0.0f));
 
 
     Asset tree(planes[0].programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
-	assets.push_back(tree);
-	/*
-	Asset tree2(start.programID, glm::vec3(-80, 0, 20), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
-	assets.push_back(tree2);
-	Asset tree3(start.programID, glm::vec3(-180, 50, 70), glm::vec3(15, 15, 15), "../final/assets/car2/scene.gltf");
-	assets.push_back(tree3);
-
-*/
-
 
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
+
+	MyBot bot;
+	bot.initialize();
 
 
 	//planes.push_back(start);
@@ -280,6 +259,7 @@ int main(void)
 	//sceneLight.shadowPass(lightSpaceMatrix, assets, cubes, planes);
 	//glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	//sceneLight.prepareLighting();
+	onChunkChanged(1,0);
 
 	do
 	{
@@ -307,6 +287,7 @@ int main(void)
 
 		if (playAnimation) {
 			time += deltaTime * playbackSpeed;
+			bot.update(time);
 		}
 
 
@@ -321,17 +302,14 @@ int main(void)
 		skybox.render(vp);     // Render the skybox
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
 
+		// render instances
 		for (const auto& instance : instances) {
 			tree.renderInstance(instance.modelMatrix, vp);
 		}
+		assets[0].render(vp);
+		bot.render(vp);
 
 		//store planes in hashmap so you can easily render 9 adjacent planes without slow for loop
-		/*
-		start.render(vp);
-		tree2.render(vp);
-		tree3.render(vp);
-		*/
-		//cube.render(vp);
 		try {
 			Plane& p1 = pointToPlane.at(std::pair<int, int>(currentChunkX, currentChunkZ));   // Center
 			Plane& p2 = pointToPlane.at(std::pair<int, int>(currentChunkX-1, currentChunkZ));
@@ -363,19 +341,7 @@ int main(void)
 			planeToCubes.at(p8)[0].render(vp);
 			planeToCubes.at(p9)[0].render(vp);
 
-			/*
-			for (int i = 0; i < 7; i++) {
-				planeToCubes.at(p1)[i].render(vp);
-				planeToCubes.at(p2)[i].render(vp);
-				planeToCubes.at(p3)[i].render(vp);
-				planeToCubes.at(p4)[i].render(vp);
-				planeToCubes.at(p5)[i].render(vp);
-				planeToCubes.at(p6)[i].render(vp);
-				planeToCubes.at(p7)[i].render(vp);
-				planeToCubes.at(p8)[i].render(vp);
-				planeToCubes.at(p9)[i].render(vp);
-			}
-*/
+
 		} catch (const std::out_of_range& e) {
 			std::cerr << "Key not found: " << e.what() << std::endl;
 		}
@@ -419,7 +385,6 @@ void onChunkChanged(int currentChunkX, int currentChunkZ) {
 			if (pointToPlane.find(std::pair<int, int>(chunkX, chunkZ)) == pointToPlane.end()) {
 				Plane p(glm::vec3(chunkX*CHUNK_SIZE, 0, chunkZ*CHUNK_SIZE),
 					glm::vec3(CHUNK_SIZE, 0.0, CHUNK_SIZE), groundFilePath);
-
 				planes.push_back(p);
 				pointToPlane.emplace(std::pair<int, int>(chunkX, chunkZ), p);
 				std::vector<int> heights = generateRandomHeights();
@@ -427,8 +392,8 @@ void onChunkChanged(int currentChunkX, int currentChunkZ) {
 				std::vector<std::pair<int,int>> positions = generateRandomPoints();
 
 				std::string texturePath = texture_paths[buildingTexture(gen)];
-				Cube cube(p.programID, p.position + glm::vec3(0,50,0),
-					glm::vec3(20, 50, 20), (texturePath.c_str()));
+				Cube cube(p.programID, p.position + glm::vec3(0,heights[0],0),
+					glm::vec3(40, heights[0], 40), (texturePath.c_str()));
 				planeToCubes[p].push_back(cube);
 
 				/*
@@ -449,7 +414,6 @@ void onChunkChanged(int currentChunkX, int currentChunkZ) {
 
 				lighting light(p.programID, shadowMapWidth, shadowMapHeight);
 				glm::vec3 lightPosition = p.position + glm::vec3(-100.0f, 200.0f, -100.0f);
-				std::cout << (p.position + glm::vec3(-100.0f, 200.0f, -100.0f)).y << std::endl;
 				light.setLightPosition(lightPosition, lightIntensity, 2.0f);
 				planeToLight.emplace(p, light);
 
@@ -458,9 +422,32 @@ void onChunkChanged(int currentChunkX, int currentChunkZ) {
 				lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
 
 				glm::mat4 lightSpaceMatrix = lightProjection * lightView;
-				light.shadowPass(lightSpaceMatrix, {}, {cube}, {p});
-				glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-				light.prepareLighting();
+				if (chunkX == 0 && chunkZ == 0) {
+					//for demonstration purposes
+					assets[0].programID = p.programID;
+					assets[0].cameraMatrixID = glGetUniformLocation(assets[0].programID, "camera");
+					assets[0].transformMatrixID = glGetUniformLocation(assets[0].programID, "transform");
+
+					// Get a handle for our Model Matrix uniform
+					assets[0].modelMatrixID = glGetUniformLocation(assets[0].programID, "modelMatrix");
+					assets[0].textureSamplerID = glGetUniformLocation(assets[0].programID, "textureSampler");
+					assets[0].baseColorFactorID = glGetUniformLocation(assets[0].programID, "baseColorFactor");
+					assets[0].isLightID = glGetUniformLocation(assets[0].programID, "isLight");
+					assets[0].cameraPosID = glGetUniformLocation(assets[0].programID, "cameraPos");
+					assets[0].primitiveObjects = assets[0].bindModel(assets[0].model);
+					assets[0].textureSamplerID = glGetUniformLocation(assets[0].programID, "textureSampler");
+					for (auto prim: assets[0].primitiveObjects) {
+						prim.shininessID = glGetUniformLocation(assets[0].programID, "shininess");
+					}
+					light.shadowPass(lightSpaceMatrix, assets, {planeToCubes.at(p)}, {p});
+					glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+					light.prepareLighting();
+				}
+				else {
+					light.shadowPass(lightSpaceMatrix, {}, {planeToCubes.at(p)}, {p});
+					glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+					light.prepareLighting();
+				}
 			}
 		}
 	}

@@ -129,6 +129,14 @@ build CMakeFiles\opengl_futuristic.dir\final\chunkLoader.cpp.obj: CXX_COMPILER__
   TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
   TARGET_PDB = opengl_futuristic.pdb
 
+build CMakeFiles\opengl_futuristic.dir\final\MyBot.cpp.obj: CXX_COMPILER__opengl_futuristic_unscanned_Debug D$:\projects\opengl_futuristic\final\MyBot.cpp || cmake_object_order_depends_target_opengl_futuristic
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  INCLUDES = -ID:\projects\opengl_futuristic\external\glfw-3.1.2\include -ID:\projects\opengl_futuristic\external\glm-0.9.7.1 -ID:\projects\opengl_futuristic\external\glad-opengl-3.3\include -ID:\projects\opengl_futuristic\external\tinygltf-2.9.3 -ID:\projects\opengl_futuristic\external -ID:\projects\opengl_futuristic\final -ID:\projects\opengl_futuristic\external\glad-3.3\include
+  OBJECT_DIR = CMakeFiles\opengl_futuristic.dir
+  OBJECT_FILE_DIR = CMakeFiles\opengl_futuristic.dir\final
+  TARGET_COMPILE_PDB = CMakeFiles\opengl_futuristic.dir\
+  TARGET_PDB = opengl_futuristic.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target opengl_futuristic
@@ -137,7 +145,7 @@ build CMakeFiles\opengl_futuristic.dir\final\chunkLoader.cpp.obj: CXX_COMPILER__
 #############################################
 # Link the executable opengl_futuristic.exe
 
-build opengl_futuristic.exe: CXX_EXECUTABLE_LINKER__opengl_futuristic_Debug CMakeFiles\opengl_futuristic.dir\final\main.cpp.obj CMakeFiles\opengl_futuristic.dir\final\render\shader.cpp.obj CMakeFiles\opengl_futuristic.dir\final\skybox.cpp.obj CMakeFiles\opengl_futuristic.dir\final\asset.cpp.obj CMakeFiles\opengl_futuristic.dir\final\cube.cpp.obj CMakeFiles\opengl_futuristic.dir\final\texture.cpp.obj CMakeFiles\opengl_futuristic.dir\final\ground.cpp.obj CMakeFiles\opengl_futuristic.dir\final\lighting.cpp.obj CMakeFiles\opengl_futuristic.dir\final\baseObject.cpp.obj CMakeFiles\opengl_futuristic.dir\final\chunkLoader.cpp.obj | glfw3dll.lib glad.lib || glad.dll glfw3.dll
+build opengl_futuristic.exe: CXX_EXECUTABLE_LINKER__opengl_futuristic_Debug CMakeFiles\opengl_futuristic.dir\final\main.cpp.obj CMakeFiles\opengl_futuristic.dir\final\render\shader.cpp.obj CMakeFiles\opengl_futuristic.dir\final\skybox.cpp.obj CMakeFiles\opengl_futuristic.dir\final\asset.cpp.obj CMakeFiles\opengl_futuristic.dir\final\cube.cpp.obj CMakeFiles\opengl_futuristic.dir\final\texture.cpp.obj CMakeFiles\opengl_futuristic.dir\final\ground.cpp.obj CMakeFiles\opengl_futuristic.dir\final\lighting.cpp.obj CMakeFiles\opengl_futuristic.dir\final\baseObject.cpp.obj CMakeFiles\opengl_futuristic.dir\final\chunkLoader.cpp.obj CMakeFiles\opengl_futuristic.dir\final\MyBot.cpp.obj | glfw3dll.lib glad.lib || glad.dll glfw3.dll
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = opengl32.lib  glu32.lib  glfw3dll.lib  glad.lib  opengl32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
