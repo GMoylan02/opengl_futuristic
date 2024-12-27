@@ -3,16 +3,15 @@
 #define CUBE_H
 #include <glm/detail/type_vec.hpp>
 #include <glm/detail/type_vec3.hpp>
-#include "baseObject.h"
 
 #include "glad/gl.h"
 
-class Cube : public BaseObject {
+class Cube {
     public:
-    glm::vec3 position;
-    glm::vec3 scale;
-    GLuint viewMatrixID;
-    GLuint projectionMatrixID;
+    glm::mat4 modelMatrix;
+
+    GLuint instanceBufferID;
+    std::vector<glm::mat4> instanceTransforms;
         GLfloat vertex_buffer_data[72] = {	// Vertex definition for a canonical box
             // Front face
             -1.0f, -1.0f, 1.0f,
@@ -186,10 +185,16 @@ class Cube : public BaseObject {
     GLuint uvBufferID;
     GLuint textureID;
     GLuint shininessID;
+    GLuint cameraMatrixID;
+    GLuint baseColorFactorID;
+    GLuint isLightID;
+    GLuint textureSamplerID;
+    GLuint programID;
 
-    Cube(GLuint programID, glm::vec3 position, glm::vec3 scale, const char *texture_file_path);
+    Cube(GLuint programID, const std::vector<glm::mat4>& instanceTransforms, const char *texture_file_path);
     void render(glm::mat4 cameraMatrix);
-    void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix) override;
+    void renderDepth(GLuint programID, GLuint lightMatID, const glm::mat4& lightSpaceMatrix);
+    void updateInstances(const std::vector<glm::mat4>& instanceTransforms);
     void cleanup();
 };
 

@@ -11,33 +11,31 @@
 #include "chunkLoader.h"
 #include "cube.h"
 #include "ground.h"
+#define CHUNK_SIZE 512
 
 
+struct LightSource {
+    glm::vec3 position;
+    glm::vec3 intensity;
+    float exposure;
+    glm::mat4 lightSpaceMatrix;
+    GLuint shadowFBO;
+};
 
 class lighting {
 public:
-    glm::vec3 lightPosition, lightIntensity;
-    float lightExposure;
-
-    GLuint lightPositionID;
-    GLuint lightIntensityID;
-    GLuint lightSpaceMatrixID;
-    GLuint lightExposureID;
-    GLuint lightSpaceID;
-    GLuint transformID;
-    GLuint shadowFBO;
-    GLuint shadowTexture;
-
-    glm::mat4 lightSpaceMatrix;
+    std::vector<LightSource> lightSources;
+    GLuint shadowMapArray;
 
     int shadowMapWidth, shadowMapHeight;
 
     GLuint programID, depthProgramID;
 
-    bool saveDepth = true;
     lighting(GLuint programID, int shadowMapWidth, int shadowMapHeight);
     void setLightPosition(glm::vec3 lightPosition, glm::vec3 lightIntensity, float exposure);
-    void shadowPass(glm::mat4 lightSpaceMatrix, std::vector<Asset> assets,  std::vector<Cube> cubes, std::vector<Plane> planes);
+    void pruneLights(int chunkX, int chunkZ);
+    void add(glm::vec3 position, glm::vec3 intensity, float exposure);
+    void shadowPass(glm::mat4 lightProjection, std::vector<Asset> assets,  std::vector<Cube> cubes, std::vector<Plane> planes);
     void prepareLighting();
     void cleanup();
 };

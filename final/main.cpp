@@ -1,11 +1,9 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/string_cast.hpp>
+
 #include <skybox.h>
 #include <asset.h>
+#include <utility>
 
 // GLTF model loader
 #define TINYGLTF_IMPLEMENTATION
@@ -24,16 +22,24 @@
 
 #include <cube.h>
 #include <ground.h>
+#include <random>
 #include <sstream>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "lighting.h"
 
-#define CHUNK_SIZE 512
 
 const char* groundFilePath = "../final/assets/ground.jpg";
 
 std::chrono::time_point<std::chrono::steady_clock> lastCheckTime = std::chrono::steady_clock::now();
 const std::chrono::milliseconds CHECK_INTERVAL(500); // 500ms
 
+std::random_device rd{};
+std::mt19937 gen(rd());
+std::uniform_int_distribution<> numBuildingsRand(1, 3);
+std::uniform_int_distribution<> buildingTexture(0, 4);
+std::uniform_int_distribution<> buildingHeight(100, 300);
+std::uniform_int_distribution<> coinFlip(0,1);
 
 static GLFWwindow *window;
 static int windowWidth = 1024;
@@ -88,12 +94,21 @@ static float viewDistance = 300.0f;
 std::vector<Asset> assets;
 std::vector<Cube> cubes;
 std::vector<Plane> planes;
+std::unordered_map<std::pair<int, int>, Plane, PairHash> pointToPlane;
+std::unordered_map<Plane, std::vector<Asset>, PlaneHash> planeToAssets;
+std::unordered_map<Plane, std::vector<Cube>, PlaneHash> planeToCubes;
+std::unordered_map<Plane, lighting, PlaneHash> planeToLight;
+
+std::string texture_paths[] = {"../final/assets/building1.jpg","../final/assets/building2.jpg","../final/assets/building3.jpg",
+	"../final/assets/building4.jpg","../final/assets/building5.jpg",};
 
 // Animation 
 static bool playAnimation = true;
 static float playbackSpeed = 2.0f;
 
 void onChunkChanged(int currentChunkX, int currentChunkZ);
+void generateChunkStructures(Plane plane, std::vector<Cube>& buildings, std::vector<Asset>& assets);
+std::vector<std::pair<int, int>> generateRandomPoints();
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 	if (firstMouse) {
@@ -205,25 +220,23 @@ int main(void)
 
 	Plane start(glm::vec3(0,0,0), glm::vec3(512, 10, 512), groundFilePath);
 
-	//Cube cube(start.programID, glm::vec3(0,200,0), glm::vec3(40, 200, 40), "../final/assets/debug.png");
-	//cubes.push_back(cube);
-    Asset tree(start.programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
-	assets.push_back(tree);
-	Asset tree2(start.programID, glm::vec3(-80, 0, 20), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
-	assets.push_back(tree2);
-	Asset tree3(start.programID, glm::vec3(-180, 50, 70), glm::vec3(15, 15, 15), "../final/assets/car2/scene.gltf");
-	assets.push_back(tree3);
-
-
-
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
 
-	lighting sceneLight(start.programID, shadowMapWidth, shadowMapHeight);
-	sceneLight.setLightPosition(lightPosition, lightIntensity, 2.0f);
+	//lighting sceneLight(start.programID, shadowMapWidth, shadowMapHeight);
+	//sceneLight.setLightPosition(lightPosition, lightIntensity, 2.0f);
 
 
 	planes.push_back(start);
+
+	//load 3x3 grid of chunks around starting area
+	onChunkChanged(0,0);
+	for (const auto& pair : pointToPlane) {
+		const auto& key = pair.first;
+		const Plane& plane = pair.second;
+
+		std::cout << "Key: (" << key.first << ", " << key.second << ") - ";
+	}
 
 	eye_center.y = viewDistance * cos(viewPolar);
 	eye_center.x = viewDistance * cos(viewAzimuth);
@@ -246,9 +259,9 @@ int main(void)
 	lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
 
 	glm::mat4 lightSpaceMatrix = lightProjection * lightView;
-	sceneLight.shadowPass(lightSpaceMatrix, assets, cubes, planes);
+	//sceneLight.shadowPass(lightSpaceMatrix, assets, cubes, planes);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-	sceneLight.prepareLighting();
+	//sceneLight.prepareLighting();
 
 	do
 	{
@@ -278,7 +291,6 @@ int main(void)
 			time += deltaTime * playbackSpeed;
 		}
 
-
 		processInput(window, deltaTime);
 
 		// Rendering
@@ -291,11 +303,44 @@ int main(void)
 		glDepthMask(GL_TRUE);  // Re-enable depth writes
 
 		//store planes in hashmap so you can easily render 9 adjacent planes without slow for loop
-		start.render(vp);
-        tree.render(vp);
-		tree2.render(vp);
-		tree3.render(vp);
+		//start.render(vp);
+        //tree.render(vp);
+		//tree2.render(vp);
+		//tree3.render(vp);
 		//cube.render(vp);
+
+		/*
+		// unrolled loop for better locality and performance
+		try {
+			Plane& p1 = pointToPlane.at(std::pair<int, int>(currentChunkX, currentChunkZ));   // Center
+			Plane& p2 = pointToPlane.at(std::pair<int, int>(currentChunkX-1, currentChunkZ));
+			Plane& p3 = pointToPlane.at(std::pair<int, int>(currentChunkX + 1, currentChunkZ));      // Right
+			Plane& p4 = pointToPlane.at(std::pair<int, int>(currentChunkX, currentChunkZ - 1));      // Front
+			Plane& p5 = pointToPlane.at(std::pair<int, int>(currentChunkX - 1, currentChunkZ - 1));  // Front-Left
+			Plane& p6 = pointToPlane.at(std::pair<int, int>(currentChunkX + 1, currentChunkZ - 1));  // Front-Right
+			Plane& p7 = pointToPlane.at(std::pair<int, int>(currentChunkX, currentChunkZ + 1));      // Back
+			Plane& p8 = pointToPlane.at(std::pair<int, int>(currentChunkX - 1, currentChunkZ + 1));  // Back-Left
+			Plane& p9 = pointToPlane.at(std::pair<int, int>(currentChunkX + 1, currentChunkZ + 1));  // Back-Right
+
+			p1.render(vp);
+			p2.render(vp);
+			p3.render(vp);
+			p4.render(vp);
+			p5.render(vp);
+			p6.render(vp);
+			p7.render(vp);
+			p8.render(vp);
+			p9.render(vp);
+
+			//this may kill performance
+
+
+		} catch (const std::out_of_range& e) {
+			//std::cerr << "Key not found: " << e.what() << std::endl;
+		}
+		*/
+
+
 
 		frames++;
 		fTime += deltaTime;
@@ -319,19 +364,61 @@ int main(void)
 	// Clean up
 	skybox.cleanup();
 
+
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
 
 	return 0;
 }
-
-void onChunkChanged(int currentChunkX, int currentChunkZ) {
-	//todo
-	std::cout << currentChunkX << ", " << currentChunkZ << std::endl;
-	planes.emplace_back(glm::vec3(currentChunkX*CHUNK_SIZE, 0, currentChunkZ*CHUNK_SIZE),
+/*
+void onChunkChanged(int currentChunkX, int currentChunkZ, std::vector<glm::mat4>& planes,
+	std::vector<glm::mat4>& assets, std::vector<glm::mat4>& buildings, lighting& lights) {
+	planes.clear();
+	buildings.clear();
+	assets.clear();
+	lights.pruneLights(currentChunkX, currentChunkZ);
+	//todo add scenelight
+	for (int i = -1; i <= 1; i++) {
+		for (int j = -1; j <= 1; j++) {
+			int chunkX = currentChunkX + i;
+			int chunkZ = currentChunkZ + j;
+			Plane p(glm::vec3(chunkX*CHUNK_SIZE, 0, chunkZ*CHUNK_SIZE),
 		glm::vec3(CHUNK_SIZE, 0.0, CHUNK_SIZE), groundFilePath);
-}
 
+			// If chunk has not already been loaded (ie if plane not already in hashmap)
+
+
+		}
+	}
+}
+*/
+/*
+void generateChunkStructures(Plane plane, std::vector<Cube>& buildings, std::vector<Asset>& assets) {
+	int numBuildings = numBuildingsRand(gen);
+	std::vector<std::pair<int, int>> points = generateRandomPoints();
+	for (int i = 0; i < 5; i++) {
+		std::string texturePath = texture_paths[buildingTexture(gen)];
+		int height = buildingHeight(gen);
+		//todo 512 - x etc
+		if (i < numBuildings) {
+			buildings.emplace_back(plane.programID, glm::vec3(points[i].first, height, points[i].second),
+			glm::vec3(40, height, 40), texturePath.c_str());
+		}
+		else {
+			if (coinFlip(gen)) {
+				assets.emplace_back(plane.programID,
+					glm::vec3(points[i].first, 0, points[i].second), glm::vec3(15, 15, 15),
+					"../final/assets/tree_small_02/tree_small_02_1k.gltf");
+			}
+			else {
+				assets.emplace_back(plane.programID,
+					 glm::vec3(points[i].first, buildingHeight(gen)/4, points[i].second), glm::vec3(15, 15, 15),
+					 "../final/assets/car2/scene.gltf");
+			}
+		}
+	}
+}
+*/
 double distance(const std::pair<int, int>& p1, const std::pair<int, int>& p2) {
 	return std::sqrt((p1.first - p2.first) * (p1.first - p2.first) +
 					 (p1.second - p2.second) * (p1.second - p2.second));

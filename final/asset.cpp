@@ -79,15 +79,50 @@ bool Asset::loadModel(tinygltf::Model& model, const char* filename) {
     return res;
 }
 
-Asset::Asset(GLuint programID, glm::vec3 position, glm::vec3 scale, const char* filename): BaseObject(programID, position, scale) {
+Asset::Asset(GLuint programID, const std::vector<glm::mat4>& instanceTransforms, const char* filename) {
     // Modify your path if needed
     if (!loadModel(model, filename)) {
         return;
     }
     primitiveObjects = bindModel(model);
+    for (auto& primitive : primitiveObjects) {
+        setupInstance(primitive, instanceTransforms);
+    }
+    this->programID = programID;
+    cameraMatrixID = glGetUniformLocation(programID, "camera");
     textureSamplerID = glGetUniformLocation(programID, "textureSampler");
+    baseColorFactorID = glGetUniformLocation(programID, "baseColorFactor");
+    isLightID = glGetUniformLocation(programID, "isLight");
     for (auto prim: primitiveObjects) {
         prim.shininessID = glGetUniformLocation(programID, "shininess");
+    }
+}
+
+void Asset::setupInstance(PrimitiveObject& primitiveObject, const std::vector<glm::mat4>& instance) {
+    glGenBuffers(1, &primitiveObject.vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, primitiveObject.vbo);
+    glBufferData(GL_ARRAY_BUFFER, instance.size() * sizeof(glm::mat4), instance.data(), GL_STATIC_DRAW);
+    glBindVertexArray(primitiveObject.vao);
+    for (int i = 0; i < 4; i++) {
+        glEnableVertexAttribArray(3 + i);
+        glVertexAttribPointer(3 + i, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4) * i));
+        glVertexAttribDivisor(3 + i, 1);
+    }
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    primitiveObject.numInstances = instance.size();
+}
+
+void Asset::updateInstance(const std::vector<glm::mat4>& newInstance) {
+    for (auto& primitive : primitiveObjects) {
+        glBindBuffer(GL_ARRAY_BUFFER, primitive.vbo);
+        if (newInstance.size() <= primitive.numInstances) {
+            glBufferSubData(GL_ARRAY_BUFFER, 0, newInstance.size() * sizeof(glm::mat4), newInstance.data());
+        }
+        else {
+            glBufferData(GL_ARRAY_BUFFER, newInstance.size() * sizeof(glm::mat4), newInstance.data(), GL_DYNAMIC_DRAW);
+        }
+        primitive.numInstances = newInstance.size();
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 }
 
@@ -287,8 +322,6 @@ void Asset::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPositi
 
         // Pass in model-view-projection matrix
         glUniformMatrix4fv(cameraMatrixID, 1, GL_FALSE, &cameraMatrix[0][0]);
-        glUniformMatrix4fv(transformMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
-        glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
 
         // Separate opaque and transparent objects
         std::vector<const PrimitiveObject*> opaqueObjects;
@@ -315,7 +348,6 @@ void Asset::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPositi
 
             glUniform1i(isLightID, primitive->isLight ? 1 : 0);
             glUniform1i(primitive->shininessID, primitive->shininess);
-            glUniform3fv(cameraPosID, 1, &cameraPos[0]);
             glUniform4fv(baseColorFactorID, 1, &primitive->baseColorFactor[0]);
             glDrawElements(GL_TRIANGLES, primitive->indexCount, primitive->indexType, 0);
             glBindTexture(GL_TEXTURE_2D, 0);
@@ -340,7 +372,6 @@ void Asset::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPositi
             }
             glUniform1i(isLightID, primitive->isLight ? 1 : 0);
             glUniform1i(primitive->shininessID, primitive->shininess);
-            glUniform3fv(cameraPosID, 1, glm::value_ptr(cameraPos));
             glUniform4fv(baseColorFactorID, 1, &primitive->baseColorFactor[0]);
             glDrawElements(GL_TRIANGLES, primitive->indexCount, primitive->indexType, 0);
             glBindTexture(GL_TEXTURE_2D, 0);
@@ -352,20 +383,26 @@ void Asset::render(const glm::mat4& cameraMatrix/*, const glm::vec3& lightPositi
         glBindVertexArray(0);
 }
 
-void Asset::renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix) {
+void Asset::renderDepth(GLuint programID, GLuint lightMatID, const glm::mat4& lightSpaceMatrix) {
     glUseProgram(programID);
 
-    // Pass the MVP matrix to the shader
     glUniformMatrix4fv(lightMatID, 1, GL_FALSE, &lightSpaceMatrix[0][0]);
-    glUniformMatrix4fv(tranMatID, 1, GL_FALSE, &modelMatrix[0][0]);
 
     // Render each primitive
     for (const auto& primitive : primitiveObjects) {
         glBindVertexArray(primitive.vao);
-        glDrawElements(GL_TRIANGLES, primitive.indexCount, primitive.indexType, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, primitive.vbo);
+        for (int i = 0; i < 4; i++) {
+            glEnableVertexAttribArray(3 + i);
+            glVertexAttribPointer(3 + i, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4),
+                (void*)(i * sizeof(glm::vec4)));
+            glVertexAttribDivisor(3 + i, 1);
+        }
+        glDrawElementsInstanced(GL_TRIANGLES, primitive.indexCount, primitive.indexType, 0, primitive.numInstances);
     }
-
-    // Reset state
+    for (int i = 0; i < 4; i++) {
+        glDisableVertexAttribArray(3 + i);
+    }
     glBindVertexArray(0);
     glUseProgram(0);
 }
