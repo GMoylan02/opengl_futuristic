@@ -24,6 +24,7 @@
 
 #include <cube.h>
 #include <ground.h>
+#include <random>
 #include <sstream>
 #include "lighting.h"
 
@@ -33,6 +34,13 @@ const char* groundFilePath = "../final/assets/ground.jpg";
 
 std::chrono::time_point<std::chrono::steady_clock> lastCheckTime = std::chrono::steady_clock::now();
 const std::chrono::milliseconds CHECK_INTERVAL(500); // 500ms
+
+std::random_device rd{};
+std::mt19937 gen(rd());
+std::uniform_int_distribution<> numBuildingsRand(1, 3);
+std::uniform_int_distribution<> buildingTexture(0, 4);
+std::uniform_int_distribution<> buildingHeight(100, 300);
+std::uniform_int_distribution<> coinFlip(0,1);
 
 
 static GLFWwindow *window;
@@ -88,6 +96,13 @@ static float viewDistance = 300.0f;
 std::vector<Asset> assets;
 std::vector<Cube> cubes;
 std::vector<Plane> planes;
+std::unordered_map<std::pair<int, int>, Plane, PairHash> pointToPlane;
+std::unordered_map<Plane, std::vector<Asset>, PlaneHash> planeToAssets;
+std::unordered_map<Plane, std::vector<Cube>, PlaneHash> planeToCubes;
+std::unordered_map<Plane, lighting, PlaneHash> planeToLight;
+
+std::string texture_paths[] = {"../final/assets/building1.jpg","../final/assets/building2.jpg","../final/assets/building3.jpg",
+	"../final/assets/building4.jpg","../final/assets/building5.jpg",};
 
 // Animation 
 static bool playAnimation = true;

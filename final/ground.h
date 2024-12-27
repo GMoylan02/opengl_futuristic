@@ -2,6 +2,7 @@
 #ifndef GROUND_H
 #define GROUND_H
 
+#include <utility>
 #include <glm/detail/type_mat.hpp>
 #include <glm/detail/type_mat4x4.hpp>
 #include <glm/detail/type_vec.hpp>
@@ -67,6 +68,30 @@ public:
     void render(glm::mat4 cameraMatrix);
     void renderDepth(GLuint programID, GLuint lightMatID, GLuint tranMatID, const glm::mat4& lightSpaceMatrix);
     void cleanup();
+    bool operator==(const Plane& other) const {
+        return position == other.position && scale == other.scale;
+    }
+
+    // Friend declaration for PlaneHash
+    friend struct PlaneHash;
+};
+
+struct PlaneHash {
+    std::size_t operator()(const Plane& plane) const {
+        std::size_t h1 = std::hash<float>()(plane.position.x) ^ std::hash<float>()(plane.position.y) ^ std::hash<float>()(plane.position.z);
+        std::size_t h2 = std::hash<float>()(plane.scale.x) ^ std::hash<float>()(plane.scale.y) ^ std::hash<float>()(plane.scale.z);
+        return h1 ^ (h2 << 1);
+    }
+};
+
+struct PairHash {
+    template <typename T1, typename T2>
+    std::size_t operator()(const std::pair<T1, T2>& pair) const {
+        auto hash1 = std::hash<T1>{}(pair.first);
+        auto hash2 = std::hash<T2>{}(pair.second);
+        // Combine the two hashes
+        return hash1 ^ (hash2 << 1); // XOR with shifting
+    }
 };
 
 
