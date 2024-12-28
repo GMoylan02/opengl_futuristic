@@ -57,16 +57,10 @@ void lighting::setLightPosition(glm::vec3 lightPosition, glm::vec3 lightIntensit
     this->lightPosition = lightPosition;
     this->lightIntensity = lightIntensity;
     lightExposure = exposure;
-
-    //for (int i = 0; i < 125; i++) {
-        //this->lightIntensity /= 1.1f;
-    //}
 }
 
 void lighting::shadowPass(glm::mat4 lightSpaceMatrix, std::vector<Asset> assets,  std::vector<Cube> cubes, std::vector<Plane> planes) {
-    // Record Light Space Matrix
     this->lightSpaceMatrix = lightSpaceMatrix;
-    // Perform Shadow pass
     glUseProgram(depthProgramID);
     glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
     glClear(GL_DEPTH_BUFFER_BIT);
