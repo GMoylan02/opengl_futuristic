@@ -204,14 +204,6 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	//MyBot bot;
-	//bot.initialize();
-
-
-	//Plane start(glm::vec3(0,0,0), glm::vec3(512, 10, 512), groundFilePath);
-
-	//Cube cube(start.programID, glm::vec3(0,200,0), glm::vec3(40, 200, 40), "../final/assets/debug.png");
-	//cubes.push_back(cube);
 	Asset car(0, glm::vec3(20, 40, -100), glm::vec3(15, 15, 15), "../final/assets/car2/scene.gltf");
 	assets.push_back(car);
 	onChunkChanged(0,0);
@@ -221,19 +213,13 @@ int main(void)
 	instances.emplace_back(glm::vec3(80.0f, 0.0f, -130.0f), glm::vec3(15), glm::vec3(0.0f));
 	instances.emplace_back(glm::vec3(-120.0f, 0.0f, -50.0f), glm::vec3(15), glm::vec3(0.0f));
 
-
     Asset tree(planes[0].programID, glm::vec3(20, 0, 100), glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
-
 
 	SkyBox skybox;
 	skybox.initialize(glm::vec3(0,0,0), glm::vec3(1,1,1));
 
 	MyBot bot;
 	bot.initialize();
-
-
-	//planes.push_back(start);
-
 
 	eye_center.y = viewDistance * cos(viewPolar);
 	eye_center.x = viewDistance * cos(viewAzimuth);
@@ -251,14 +237,6 @@ int main(void)
 	float fTime = 0.0f;			// Time for measuring fps
 	unsigned long frames = 0;
 
-	//glm::mat4 lightView, lightProjection;
-	//lightProjection = glm::perspective(glm::radians(depthFoV), static_cast<float>(shadowMapWidth) / static_cast<float>(shadowMapHeight), depthNear, depthFar);
-	//lightView = glm::lookAt(lightPosition, glm::vec3(lightPosition.x, lightPosition.y - 1, lightPosition.z), lightUp);
-
-	//glm::mat4 lightSpaceMatrix = lightProjection * lightView;
-	//sceneLight.shadowPass(lightSpaceMatrix, assets, cubes, planes);
-	//glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-	//sceneLight.prepareLighting();
 	for (int i = -1; i < 1; i++) {
 		for (int j = -1; j < 1; j++) {
 			onChunkChanged(i, j);
@@ -292,8 +270,6 @@ int main(void)
 			time += deltaTime * playbackSpeed;
 			bot.update(time);
 		}
-
-
 		processInput(window, deltaTime);
 
 		// Rendering
@@ -312,24 +288,14 @@ int main(void)
 		assets[0].render(vp);
 		bot.render(vp);
 
-		//store planes in hashmap so you can easily render 9 adjacent planes without slow for loop
 		try {
-			// Loop through the 5x5 grid around the user
-			for (int dx = -2; dx <= 2; ++dx) {         // Offset in X direction (-2 to +2)
-				for (int dz = -2; dz <= 2; ++dz) {     // Offset in Z direction (-2 to +2)
-					// Get the corresponding plane at (currentChunkX + dx, currentChunkZ + dz)
+			for (int dx = -2; dx <= 2; ++dx) {
+				for (int dz = -2; dz <= 2; ++dz) {
 					Plane& plane = pointToPlane.at(std::pair<int, int>(currentChunkX + dx, currentChunkZ + dz));
-
-					// Render the plane
 					plane.render(vp);
-
-					// Render the first cube associated with this plane
 					planeToCubes.at(plane)[0].render(vp);
 				}
 			}
-
-
-
 		} catch (const std::out_of_range& e) {
 			std::cerr << "Key not found: " << e.what() << std::endl;
 		}
@@ -383,22 +349,6 @@ void onChunkChanged(int currentChunkX, int currentChunkZ) {
 				Cube cube(p.programID, p.position + glm::vec3(0,heights[0],0),
 					glm::vec3(40, heights[0], 40), (texturePath.c_str()));
 				planeToCubes[p].push_back(cube);
-
-				/*
-
-				Asset tree(p.programID, p.position + glm::vec3(50,0,30),
-					glm::vec3(15, 15, 15), "../final/assets/tree_small_02/tree_small_02_1k.gltf");
-				planeToAssets[p].push_back(tree);
-				*/
-
-				/*
-				for (int k = 0; k < 7; k++) {
-					std::string texturePath = texture_paths[buildingTexture(gen)];
-					Cube c(p.programID, p.position + glm::vec3(positions[k].first,heights[k],positions[k].second),
-					glm::vec3(40, heights[k], 40), (texturePath.c_str()));
-
-				}
-				*/
 
 				lighting light(p.programID, shadowMapWidth, shadowMapHeight);
 				glm::vec3 lightPosition = p.position + glm::vec3(-100.0f, 200.0f, -100.0f);
