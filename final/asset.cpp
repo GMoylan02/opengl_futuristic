@@ -281,75 +281,39 @@ std::vector<Asset::PrimitiveObject> Asset::bindModel(tinygltf::Model &model) {
 }
 
 void Asset::render(const glm::mat4& cameraMatrix) const {
- glUseProgram(programID);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glUseProgram(programID);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        // Pass in model-view-projection matrix
-        glUniformMatrix4fv(cameraMatrixID, 1, GL_FALSE, &cameraMatrix[0][0]);
-        glUniformMatrix4fv(transformMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
-        glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
+    // Pass in model-view-projection matrix
+    glUniformMatrix4fv(cameraMatrixID, 1, GL_FALSE, &cameraMatrix[0][0]);
+    glUniformMatrix4fv(transformMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
+    glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
 
-        // Separate opaque and transparent objects
-        std::vector<const PrimitiveObject*> opaqueObjects;
-        std::vector<const PrimitiveObject*> transparentObjects;
 
-        for (const auto& primitive : primitiveObjects) {
-            if (primitive.baseColorFactor.a < 1.0f) {
-                transparentObjects.push_back(&primitive);
-            }
-            else {
-                opaqueObjects.push_back(&primitive);
-            }
+    // Separate opaque and transparent objects
+    std::vector<const PrimitiveObject*> opaqueObjects;
+    std::vector<const PrimitiveObject*> transparentObjects;
+
+    for (PrimitiveObject primitive : primitiveObjects) {
+        glBindVertexArray(primitive.vao);
+        if (primitive.textureID) {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, primitive.textureID);
+            glUniform1i(textureSamplerID, 0);
         }
+        glUniform1i(isLightID, primitive.isLight ? 1 : 0);
+        glUniform1i(primitive.shininessID, primitive.shininess);
+        glUniform3fv(cameraPosID, 1, &cameraPos[0]);
+        glUniform4fv(baseColorFactorID, 1, &primitive.baseColorFactor[0]);
+        glDrawElements(GL_TRIANGLES, primitive.indexCount, primitive.indexType, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
-        // Render opaque objects first
-        for (const auto* primitive : opaqueObjects) {
-            glBindVertexArray(primitive->vao);
-
-            if (primitive->textureID) {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, primitive->textureID);
-                glUniform1i(textureSamplerID, 0);
-            }
-
-            glUniform1i(isLightID, primitive->isLight ? 1 : 0);
-            glUniform1i(primitive->shininessID, primitive->shininess);
-            glUniform3fv(cameraPosID, 1, &cameraPos[0]);
-            glUniform4fv(baseColorFactorID, 1, &primitive->baseColorFactor[0]);
-            glDrawElements(GL_TRIANGLES, primitive->indexCount, primitive->indexType, 0);
-            glBindTexture(GL_TEXTURE_2D, 0);
-        }
-
-        // Sort transparent objects by distance from the camera
-        std::sort(transparentObjects.begin(), transparentObjects.end(),
-            [&cameraMatrix](const PrimitiveObject* a, const PrimitiveObject* b) {
-                glm::vec3 aPos = glm::vec3(cameraMatrix * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Center of object A
-                glm::vec3 bPos = glm::vec3(cameraMatrix * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)); // Center of object B
-                return glm::length(aPos) > glm::length(bPos); // Sort back-to-front
-            });
-
-        // Render transparent objects
-        for (const auto* primitive : transparentObjects) {
-            glBindVertexArray(primitive->vao);
-
-            if (primitive->textureID) {
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, primitive->textureID);
-                glUniform1i(textureSamplerID, 0);
-            }
-            glUniform1i(isLightID, primitive->isLight ? 1 : 0);
-            glUniform1i(primitive->shininessID, primitive->shininess);
-            glUniform3fv(cameraPosID, 1, glm::value_ptr(cameraPos));
-            glUniform4fv(baseColorFactorID, 1, &primitive->baseColorFactor[0]);
-            glDrawElements(GL_TRIANGLES, primitive->indexCount, primitive->indexType, 0);
-            glBindTexture(GL_TEXTURE_2D, 0);
-        }
-
-        // Reset state
-        glDisable(GL_BLEND);
-        glUseProgram(0);
-        glBindVertexArray(0);
+    }
+    // Reset state
+    glDisable(GL_BLEND);
+    glUseProgram(0);
+    glBindVertexArray(0);
 }
 
 void Asset::renderInstance(const glm::mat4& modelMatrix, const glm::mat4& cameraMatrix) const {

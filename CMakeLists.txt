@@ -43,8 +43,6 @@ add_executable(opengl_futuristic
 		final/lighting.h
         final/baseObject.h
 		final/baseObject.cpp
-		final/chunkLoader.cpp
-		final/chunkLoader.h
 		final/instance.h
 		final/MyBot.cpp
 )

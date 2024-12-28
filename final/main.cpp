@@ -259,8 +259,11 @@ int main(void)
 	//sceneLight.shadowPass(lightSpaceMatrix, assets, cubes, planes);
 	//glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	//sceneLight.prepareLighting();
-	onChunkChanged(1,0);
-
+	for (int i = -1; i < 1; i++) {
+		for (int j = -1; j < 1; j++) {
+			onChunkChanged(i, j);
+		}
+	}
 	do
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -311,35 +314,20 @@ int main(void)
 
 		//store planes in hashmap so you can easily render 9 adjacent planes without slow for loop
 		try {
-			Plane& p1 = pointToPlane.at(std::pair<int, int>(currentChunkX, currentChunkZ));   // Center
-			Plane& p2 = pointToPlane.at(std::pair<int, int>(currentChunkX-1, currentChunkZ));
-			Plane& p3 = pointToPlane.at(std::pair<int, int>(currentChunkX + 1, currentChunkZ));      // Right
-			Plane& p4 = pointToPlane.at(std::pair<int, int>(currentChunkX, currentChunkZ - 1));      // Front
-			Plane& p5 = pointToPlane.at(std::pair<int, int>(currentChunkX - 1, currentChunkZ - 1));  // Front-Left
-			Plane& p6 = pointToPlane.at(std::pair<int, int>(currentChunkX + 1, currentChunkZ - 1));  // Front-Right
-			Plane& p7 = pointToPlane.at(std::pair<int, int>(currentChunkX, currentChunkZ + 1));      // Back
-			Plane& p8 = pointToPlane.at(std::pair<int, int>(currentChunkX - 1, currentChunkZ + 1));  // Back-Left
-			Plane& p9 = pointToPlane.at(std::pair<int, int>(currentChunkX + 1, currentChunkZ + 1));  // Back-Right
+			// Loop through the 5x5 grid around the user
+			for (int dx = -2; dx <= 2; ++dx) {         // Offset in X direction (-2 to +2)
+				for (int dz = -2; dz <= 2; ++dz) {     // Offset in Z direction (-2 to +2)
+					// Get the corresponding plane at (currentChunkX + dx, currentChunkZ + dz)
+					Plane& plane = pointToPlane.at(std::pair<int, int>(currentChunkX + dx, currentChunkZ + dz));
 
-			p1.render(vp);
-			p2.render(vp);
-			p3.render(vp);
-			p4.render(vp);
-			p5.render(vp);
-			p6.render(vp);
-			p7.render(vp);
-			p8.render(vp);
-			p9.render(vp);
+					// Render the plane
+					plane.render(vp);
 
-			planeToCubes.at(p1)[0].render(vp);
-			planeToCubes.at(p2)[0].render(vp);
-			planeToCubes.at(p3)[0].render(vp);
-			planeToCubes.at(p4)[0].render(vp);
-			planeToCubes.at(p5)[0].render(vp);
-			planeToCubes.at(p6)[0].render(vp);
-			planeToCubes.at(p7)[0].render(vp);
-			planeToCubes.at(p8)[0].render(vp);
-			planeToCubes.at(p9)[0].render(vp);
+					// Render the first cube associated with this plane
+					planeToCubes.at(plane)[0].render(vp);
+				}
+			}
+
 
 
 		} catch (const std::out_of_range& e) {
@@ -375,8 +363,8 @@ int main(void)
 }
 
 void onChunkChanged(int currentChunkX, int currentChunkZ) {
-	for (int i = -1; i <= 1; i++) {
-		for (int j = -1; j <= 1; j++) {
+	for (int i = -2; i <= 2; i++) {
+		for (int j = -2; j <= 2; j++) {
 
 			int chunkX = currentChunkX + i;
 			int chunkZ = currentChunkZ + j;

@@ -8,7 +8,6 @@
 #include <glm/detail/type_vec3.hpp>
 
 #include "asset.h"
-#include "chunkLoader.h"
 #include "cube.h"
 #include "ground.h"
 
