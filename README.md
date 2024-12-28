@@ -1,2 +1,2 @@
-# OpenGL_Animation
-Animation and skinning in openGL
+# Futuristic emerald isle
+Computer graphics final project
